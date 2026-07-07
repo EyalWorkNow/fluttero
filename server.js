@@ -1,8 +1,15 @@
-const express = require("express");
-const path = require("path");
-const fs = require("fs");
-const nodemailer = require("nodemailer");
-require("dotenv").config();
+import express from "express";
+import path from "path";
+import fs from "fs";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
+
+dotenv.config();
+
+// Resolve __dirname in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -100,8 +107,8 @@ app.get("/api/leads", (req, res) => {
   res.json(readLeads());
 });
 
-// Fallback to index.html for SPA routing
-app.get("*", (req, res) => {
+// Fallback to index.html for SPA routing (compatible with path-to-regexp v8+ / Express 5)
+app.get("/*splat", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
