@@ -111,7 +111,7 @@ export const Syllabus: React.FC = () => {
           <h3 style={{ fontSize: "28px", color: "#fff", margin: 0, letterSpacing: "-0.01em" }}>פירוט 24 המפגשים והנושאים הנלמדים</h3>
         </div>
 
-        <div className="syllabus-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: "20px" }}>
+        <div className="syllabus-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "20px" }}>
           {lessons.map((les, idx) => (
             <motion.div
               key={les.id}

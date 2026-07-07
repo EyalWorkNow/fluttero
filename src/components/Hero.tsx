@@ -212,7 +212,7 @@ export const Hero: React.FC = () => {
               </div>
 
               {!submitted ? (
-                <form onSubmit={handleSubmit} className="quick-form" style={{ display: "flex", gap: "12px", background: "rgba(255,255,255,0.06)", padding: "0 8px 0 12px", borderRadius: "99px", border: "1px solid rgba(255,255,255,0.15)", minWidth: "380px", maxWidth: "460px", boxShadow: "0 10px 30px rgba(0,0,0,0.3)", height: "80px", alignItems: "center" }}>
+                <form onSubmit={handleSubmit} className="quick-form" style={{ display: "flex", gap: "12px", background: "rgba(255,255,255,0.06)", padding: "0 8px 0 12px", borderRadius: "99px", border: "1px solid rgba(255,255,255,0.15)", width: "100%", maxWidth: "460px", boxShadow: "0 10px 30px rgba(0,0,0,0.3)", height: "80px", alignItems: "center" }}>
                   <input
                     type="tel"
                     placeholder="הזינו טלפון לקבלת סילבוס ותיאום ראיון קליטה"
@@ -227,7 +227,7 @@ export const Hero: React.FC = () => {
                   </button>
                 </form>
               ) : (
-                <div style={{ height: "80px", padding: "0 32px", background: "rgba(245,197,24,0.15)", border: "1px solid var(--gold-500)", borderRadius: "99px", color: "var(--gold-500)", fontWeight: 700, display: "flex", alignItems: "center", gap: "10px", fontSize: "15px" }}>
+                <div style={{ height: "80px", width: "100%", maxWidth: "460px", padding: "0 32px", background: "rgba(245,197,24,0.15)", border: "1px solid var(--gold-500)", borderRadius: "99px", color: "var(--gold-500)", fontWeight: 700, display: "flex", alignItems: "center", gap: "10px", fontSize: "15px", justifyContent: "center" }}>
                   <TickCircle size={22} variant="Bulk" color="var(--gold-500)" />
                   <span>מעולה! הפרטים התקבלו.</span>
                 </div>

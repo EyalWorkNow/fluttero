@@ -16,7 +16,7 @@ export const Mentors: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "40px", alignItems: "center", marginBottom: "60px" }}>
+        <div className="mentors-grid">
           {/* Main Mentor Card Eyal Atiya */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
