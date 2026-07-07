@@ -9,14 +9,15 @@ const PORT = process.env.PORT || 5001;
 const LEADS_FILE = path.join(__dirname, "leads.json");
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+// Serve production static assets from dist/ folder
+app.use(express.static(path.join(__dirname, "dist")));
 
 // Configure nodemailer transporter
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER, // e.g. eyalatiyawork@gmail.com
-    pass: process.env.EMAIL_PASS  // Gmail App Password
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 
@@ -97,6 +98,11 @@ app.post("/api/lead", (req, res) => {
 // Simple internal endpoint to eyeball collected leads while developing
 app.get("/api/leads", (req, res) => {
   res.json(readLeads());
+});
+
+// Fallback to index.html for SPA routing
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 app.listen(PORT, () => {
