@@ -55,44 +55,36 @@ export const Hero: React.FC = () => {
         <div style={{ position: 'absolute', top: '15%', left: '10%', width: '450px', height: '450px', background: 'radial-gradient(circle, rgba(124,77,255,0.18) 0%, transparent 70%)', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
         <div style={{ position: 'absolute', bottom: '10%', right: '5%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(245,197,24,0.12) 0%, transparent 70%)', filter: 'blur(70px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
-        {/* Floating Badges */}
-        <motion.div
-          animate={{ y: [0, -16, 0], rotate: [0, 3, 0] }}
-          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-          style={{
-            position: "absolute", top: "12%", left: "6%",
-            background: "rgba(26, 21, 48, 0.75)", border: "1px solid rgba(245,197,24,0.45)",
-            padding: "10px 20px", borderRadius: "99px", display: "flex", alignItems: "center", gap: "10px",
-            backdropFilter: "blur(20px)", boxShadow: "0 18px 45px rgba(0,0,0,0.65), 0 0 25px rgba(245,197,24,0.2)", zIndex: 10
-          }}
-        >
-          <div className="iconsax-box gold" style={{ width: "32px", height: "32px", borderRadius: "8px" }}>
-            <Mobile size={18} variant="Bulk" color="var(--gold-500)" />
-          </div>
-          <div>
-            <span style={{ fontWeight: 800, fontSize: "13px", color: "#fff", display: "block", lineHeight: 1.2 }}>Flutter 3.24 & Dart</span>
-            <span style={{ fontSize: "11px", color: "var(--gold-500)", fontWeight: 600 }}>קוד מובייל ו-Web אחיד</span>
-          </div>
-        </motion.div>
+        {/* Floating Responsive Badges Container */}
+        <div className="hero-badges-container">
+          <motion.div
+            animate={{ y: [0, -12, 0] }}
+            transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+            className="hero-badge-item badge-left liquid-glass-premium"
+          >
+            <div className="iconsax-box gold" style={{ width: "32px", height: "32px", borderRadius: "8px", position: "relative", zIndex: 2 }}>
+              <Mobile size={18} variant="Bulk" color="var(--gold-500)" />
+            </div>
+            <div style={{ position: "relative", zIndex: 2 }}>
+              <span style={{ fontWeight: 800, fontSize: "13px", color: "#fff", display: "block", lineHeight: 1.2 }}>Flutter 3.24 & Dart</span>
+              <span style={{ fontSize: "11px", color: "var(--gold-500)", fontWeight: 600 }}>קוד מובייל ו-Web אחיד</span>
+            </div>
+          </motion.div>
 
-        <motion.div
-          animate={{ y: [0, 16, 0], rotate: [0, -4, 0] }}
-          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          style={{
-            position: "absolute", top: "24%", right: "6%",
-            background: "rgba(18, 15, 36, 0.8)", border: "1px solid rgba(124,77,255,0.45)",
-            padding: "10px 20px", borderRadius: "99px", display: "flex", alignItems: "center", gap: "10px",
-            backdropFilter: "blur(20px)", boxShadow: "0 18px 45px rgba(0,0,0,0.65), 0 0 25px rgba(124,77,255,0.25)", zIndex: 10
-          }}
-        >
-          <div className="iconsax-box purple" style={{ width: "32px", height: "32px", borderRadius: "8px" }}>
-            <CpuCharge size={18} variant="Bulk" color="var(--purple-300)" />
-          </div>
-          <div>
-            <span style={{ fontWeight: 800, fontSize: "13px", color: "#fff", display: "block", lineHeight: 1.2 }}>GenAI Engineering</span>
-            <span style={{ fontSize: "11px", color: "var(--purple-300)", fontWeight: 600 }}>Cursor · Lovable · Claude</span>
-          </div>
-        </motion.div>
+          <motion.div
+            animate={{ y: [0, 12, 0] }}
+            transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="hero-badge-item badge-right liquid-glass-premium"
+          >
+            <div className="iconsax-box purple" style={{ width: "32px", height: "32px", borderRadius: "8px", position: "relative", zIndex: 2 }}>
+              <CpuCharge size={18} variant="Bulk" color="var(--purple-300)" />
+            </div>
+            <div style={{ position: "relative", zIndex: 2 }}>
+              <span style={{ fontWeight: 800, fontSize: "13px", color: "#fff", display: "block", lineHeight: 1.2 }}>GenAI Engineering</span>
+              <span style={{ fontSize: "11px", color: "var(--purple-300)", fontWeight: 600 }}>Cursor · Lovable · Claude</span>
+            </div>
+          </motion.div>
+        </div>
 
         <div className="container hero-grid" style={{ position: 'relative', zIndex: 2 }}>
           <div className="hero-content">
@@ -212,24 +204,24 @@ export const Hero: React.FC = () => {
               </div>
 
               {!submitted ? (
-                <form onSubmit={handleSubmit} className="quick-form" style={{ display: "flex", gap: "12px", background: "rgba(255,255,255,0.06)", padding: "0 8px 0 12px", borderRadius: "99px", border: "1px solid rgba(255,255,255,0.15)", width: "100%", maxWidth: "460px", boxShadow: "0 10px 30px rgba(0,0,0,0.3)", height: "80px", alignItems: "center" }}>
+                <form onSubmit={handleSubmit} className="quick-form liquid-glass-premium" style={{ display: "flex", gap: "12px", padding: "0 8px 0 12px", borderRadius: "99px", width: "100%", maxWidth: "460px", height: "80px", alignItems: "center" }}>
                   <input
                     type="tel"
                     placeholder="הזינו טלפון לקבלת סילבוס ותיאום ראיון קליטה"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    style={{ flex: 1, background: "transparent", border: "none", color: "#fff", padding: "0 16px", fontSize: "15px", outline: "none" }}
+                    style={{ flex: 1, background: "transparent", border: "none", color: "#fff", padding: "0 16px", fontSize: "15px", outline: "none", position: "relative", zIndex: 2 }}
                     required
                   />
-                  <button type="submit" className="btn btn-gold" style={{ height: "64px", padding: "0 28px", borderRadius: "99px", fontWeight: 800, fontSize: "15px", display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
+                  <button type="submit" className="btn btn-gold" style={{ height: "64px", padding: "0 28px", borderRadius: "99px", fontWeight: 800, fontSize: "15px", display: "flex", alignItems: "center", gap: "6px", flexShrink: 0, position: "relative", zIndex: 2 }}>
                     <span>קבלו סילבוס</span>
                     <ArrowLeft size={16} variant="Bold" color="#181108" />
                   </button>
                 </form>
               ) : (
-                <div style={{ height: "80px", width: "100%", maxWidth: "460px", padding: "0 32px", background: "rgba(245,197,24,0.15)", border: "1px solid var(--gold-500)", borderRadius: "99px", color: "var(--gold-500)", fontWeight: 700, display: "flex", alignItems: "center", gap: "10px", fontSize: "15px", justifyContent: "center" }}>
-                  <TickCircle size={22} variant="Bulk" color="var(--gold-500)" />
-                  <span>מעולה! הפרטים התקבלו.</span>
+                <div className="liquid-glass-premium" style={{ height: "80px", width: "100%", maxWidth: "460px", padding: "0 32px", borderRadius: "99px", color: "var(--gold-500)", fontWeight: 700, display: "flex", alignItems: "center", gap: "10px", fontSize: "15px", justifyContent: "center" }}>
+                  <TickCircle size={22} variant="Bulk" color="var(--gold-500)" style={{ position: "relative", zIndex: 2 }} />
+                  <span style={{ position: "relative", zIndex: 2 }}>מעולה! הפרטים התקבלו.</span>
                 </div>
               )}
             </motion.div>

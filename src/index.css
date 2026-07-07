@@ -704,14 +704,57 @@
     width:74px; height:74px; border-radius:20px; background:rgba(255,255,255,.1);
     display:flex; align-items:center; justify-content:center; font-size:30px; flex-shrink:0;
   }
-  .card{
-    background:var(--bg-surface);
-    border:1px solid var(--line);
-    border-radius:var(--radius-md);
-    padding:30px;
-    transition:transform .4s var(--ease), border-color .4s ease, background .4s ease;
+  .card {
+    position: relative;
+    border-radius: 24px;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(32px) saturate(220%);
+    -webkit-backdrop-filter: blur(32px) saturate(220%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 
+      0 20px 40px -10px rgba(0, 0, 0, 0.65),
+      inset 0 1px 2px rgba(255, 255, 255, 0.6),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+      inset 0 0 25px rgba(124, 77, 255, 0.08);
+    overflow: hidden;
+    transition: transform 0.4s var(--ease), border-color 0.4s ease, box-shadow 0.4s ease;
   }
-  .card:hover{ transform:translateY(-6px); border-color:rgba(245,197,24,.35); background:var(--bg-surface-2);}
+  .card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(0, 229, 255, 0.18) 0%, rgba(124, 77, 255, 0.12) 30%, rgba(245, 197, 24, 0.1) 60%, transparent 80%);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.4s ease;
+  }
+  .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), transparent 45%, transparent 65%, rgba(0, 229, 255, 0.4));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(245, 197, 24, 0.4);
+    box-shadow: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.8),
+      0 0 30px rgba(245, 197, 24, 0.25),
+      inset 0 1px 3px rgba(255, 255, 255, 0.8),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.6);
+  }
   .card .icon{
     width:48px; height:48px; border-radius:14px;
     background:rgba(124,77,255,.18);
@@ -1665,6 +1708,93 @@
     justify-content: center !important;
   }
 }
+
+/* =========================================================
+   LIQUID GLASS PREMIUM AND RESPONSIVE BADGES STYLING
+   ========================================================= */
+.liquid-glass-premium {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 50%, rgba(255, 255, 255, 0.04) 100%) !important;
+  backdrop-filter: blur(32px) saturate(220%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(220%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 
+    0 20px 40px -10px rgba(0, 0, 0, 0.65),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 0 25px rgba(0, 229, 255, 0.15) !important;
+  overflow: hidden;
+}
+
+.liquid-glass-premium::before {
+  content: "" !important;
+  position: absolute !important;
+  top: -50% !important;
+  left: -50% !important;
+  width: 200% !important;
+  height: 200% !important;
+  background: radial-gradient(circle at 30% 30%, rgba(0, 229, 255, 0.25) 0%, rgba(124, 77, 255, 0.2) 30%, rgba(245, 197, 24, 0.15) 60%, transparent 80%) !important;
+  opacity: 0.7 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+.liquid-glass-premium::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  padding: 1.5px !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), transparent 45%, transparent 65%, rgba(0, 229, 255, 0.5)) !important;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* Responsive badges grid/absolute system */
+.hero-badges-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  z-index: 10;
+  position: relative;
+  flex-wrap: wrap;
+  padding: 0 16px;
+}
+
+.hero-badge-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border-radius: 99px;
+  text-align: right;
+  direction: rtl;
+}
+
+@media (min-width: 981px) {
+  .hero-badges-container {
+    position: static;
+    display: block;
+    padding: 0;
+  }
+  .hero-badge-item {
+    position: absolute;
+  }
+  .hero-badge-item.badge-left {
+    top: 15%;
+    left: 6%;
+  }
+  .hero-badge-item.badge-right {
+    top: 25%;
+    right: 6%;
+  }
+}
+
 
 
 

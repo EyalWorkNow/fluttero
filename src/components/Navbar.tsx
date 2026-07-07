@@ -15,7 +15,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className={`site-header ${scrolled ? "scrolled" : ""}`}>
+      <header className={`site-header liquid-glass-premium ${scrolled ? "scrolled" : ""}`}>
         <div className="nav-wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%', width: '100%' }}>
           {/* לוגו בגדול */}
           <a href="#" className="brand" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
