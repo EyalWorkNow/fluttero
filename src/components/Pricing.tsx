@@ -22,11 +22,28 @@ export const Pricing: React.FC = () => {
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!phone) return;
-    setSubmitted(true);
-    confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
+
+    try {
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ phone, source: "pricing_registration" })
+      });
+      if (response.ok) {
+        setSubmitted(true);
+        confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
+      } else {
+        alert("שגיאה ברישום. אנא נסה שוב.");
+      }
+    } catch (error) {
+      console.error("Error submitting lead:", error);
+      alert("שגיאה בחיבור לשרת.");
+    }
   };
 
   return (

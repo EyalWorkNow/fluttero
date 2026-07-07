@@ -7,15 +7,32 @@ export const Hero: React.FC = () => {
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!phone) return;
-    setSubmitted(true);
-    confetti({
-      particleCount: 120,
-      spread: 80,
-      origin: { y: 0.6 }
-    });
+
+    try {
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ phone, source: "hero_quick_form" })
+      });
+      if (response.ok) {
+        setSubmitted(true);
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      } else {
+        alert("שגיאה ברישום. אנא נסה שוב.");
+      }
+    } catch (error) {
+      console.error("Error submitting lead:", error);
+      alert("שגיאה בחיבור לשרת.");
+    }
   };
 
   return (
