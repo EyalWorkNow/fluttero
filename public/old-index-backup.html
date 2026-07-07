@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fluttero — מרעיון לאפליקציה בחנויות, בלי רקע קודם</title>
+<meta name="description" content="קורס Flutter מקצועי בן 100 שעות: מרעיון ועיצוב ועד אפליקציה חיה ב-App Store וב-Google Play. ליווי אישי, פרויקט אמיתי אחד לאורך כל הדרך." />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg-void:#07060b;
+    --bg-deep:#0c0a15;
+    --bg-surface:#131022;
+    --bg-surface-2:#1a1530;
+    --purple-900:#2e1065;
+    --purple-700:#5b21b6;
+    --purple-500:#7c4dff;
+    --purple-300:#b39dff;
+    --gold-500:#f5c518;
+    --gold-400:#ffd94d;
+    --ink-0:#f8f6ff;
+    --ink-1:#cdc7e0;
+    --ink-2:#8d86a6;
+    --line:rgba(255,255,255,0.08);
+    --radius-lg:28px;
+    --radius-md:18px;
+    --radius-sm:12px;
+    --ease:cubic-bezier(.16,1,.3,1);
+    --container:1180px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--bg-void);
+    color:var(--ink-0);
+    font-family:'Heebo', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,h4, .display{
+    font-family:'Rubik', sans-serif;
+    font-weight:800;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none; margin:0; padding:0;}
+  img,svg{display:block; max-width:100%;}
+  button{font-family:inherit; cursor:pointer;}
+
+  .container{
+    width:100%;
+    max-width:var(--container);
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Rubik', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--gold-500);
+    text-transform:uppercase;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;
+    height:2px;
+    background:var(--gold-500);
+    display:inline-block;
+    border-radius:2px;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:16px 30px;
+    border-radius:999px;
+    font-family:'Rubik', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    border:none;
+    position:relative;
+    transition:transform .35s var(--ease), box-shadow .35s var(--ease);
+    white-space:nowrap;
+  }
+  .btn-gold{
+    background:linear-gradient(135deg,var(--gold-400),var(--gold-500));
+    color:#181108;
+    box-shadow:0 10px 30px -8px rgba(245,197,24,.55);
+  }
+  .btn-gold:hover{ transform:translateY(-3px); box-shadow:0 16px 36px -8px rgba(245,197,24,.7);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--ink-0);
+    border:1.5px solid rgba(255,255,255,.22);
+  }
+  .btn-ghost:hover{ border-color:rgba(255,255,255,.5); transform:translateY(-3px);}
+  .btn small-arrow{margin-inline-end:4px;}
+
+  /* ---------- Nav ---------- */
+  header{
+    position:fixed;
+    top:0; inset-inline:0;
+    z-index:100;
+    padding:18px 0;
+    transition:background .4s ease, padding .4s ease, border-color .4s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.scrolled{
+    background:rgba(7,6,11,.78);
+    backdrop-filter:blur(14px);
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{ display:flex; align-items:center; justify-content:space-between; gap:24px;}
+  .logo{ display:flex; align-items:center; gap:10px; font-family:'Rubik'; font-weight:800; font-size:20px; transition: transform 0.3s var(--ease), filter 0.3s var(--ease); }
+  .logo:hover{ transform: scale(1.04); filter: drop-shadow(0 0 15px rgba(245,197,24,0.5)); }
+  .logo-svg{ height: 38px; width: auto; display: block; }
+  .logo-mark{width:38px; height:38px;}
+
+  /* ================= SKIPER UI UNCOMMON COMPONENTS ================= */
+  /* 1. Skiper UI Spotlight Glow Card */
+  .skiper-spotlight {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  }
+  .skiper-spotlight::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(400px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(245, 197, 24, 0.18), rgba(124, 77, 255, 0.08) 50%, transparent 80%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .skiper-spotlight:hover::before {
+    opacity: 1;
+  }
+  .skiper-spotlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: radial-gradient(300px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(245, 197, 24, 0.85), rgba(124, 77, 255, 0.5), transparent 70%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .skiper-spotlight:hover::after {
+    opacity: 1;
+  }
+
+  /* 2. Skiper UI Dynamic Island */
+  .skiper-island-wrap {
+    position: fixed;
+    top: 82px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 90;
+    pointer-events: auto;
+  }
+  .skiper-island {
+    background: rgba(15, 12, 28, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(16px);
+    border-radius: 999px;
+    padding: 6px 6px 6px 18px;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.7), 0 0 20px rgba(124, 77, 255, 0.35);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .skiper-island:hover {
+    background: rgba(21, 17, 42, 0.96);
+    border-color: var(--gold-500);
+    box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.8), 0 0 35px rgba(245, 197, 24, 0.45);
+    transform: scale(1.03) translateY(-2px);
+  }
+  .island-pill {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13.5px;
+    color: var(--ink-0);
+    white-space: nowrap;
+  }
+  .island-icon {
+    font-size: 16px;
+    animation: animmasterFloat 3s ease-in-out infinite;
+  }
+  .island-label b {
+    color: var(--gold-500);
+    font-weight: 700;
+  }
+  .island-cta {
+    background: var(--gold-500);
+    color: #181108;
+    font-weight: 700;
+    font-size: 12.5px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    transition: transform 0.3s var(--ease), background 0.3s var(--ease);
+  }
+  .island-cta:hover {
+    background: #ffdb4d;
+    transform: scale(1.05);
+  }
+  @media (max-width: 768px) {
+    .skiper-island-wrap { top: 72px; width: 92%; }
+    .island-pill { font-size: 11.5px; gap: 8px; }
+    .island-cta { padding: 4px 10px; font-size: 11px; }
+  }
+  .nav-links{ display:flex; align-items:center; gap:32px; font-size:15px; color:var(--ink-1); font-weight:500;}
+  .nav-links a{ position:relative; padding:4px 0; transition:color .25s;}
+  .nav-links a:hover{ color:var(--ink-0);}
+  .nav-links a::after{
+    content:"";
+    position:absolute; right:0; bottom:-2px; width:0; height:2px;
+    background:var(--gold-500); transition:width .3s var(--ease);
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-cta{display:flex; align-items:center; gap:14px;}
+  .nav-cta .btn{padding:12px 22px; font-size:14px;}
+  .burger{display:none;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    padding:170px 0 120px;
+    overflow:hidden;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+  }
+  /* ---------- Animmaster Hero & Animations System ---------- */
+  @keyframes animmasterShine {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+  @keyframes animmasterFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(1.8deg); }
+  }
+  @keyframes animmasterFloatAlt {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(14px) rotate(-1.5deg); }
+  }
+  @keyframes animmasterPulse {
+    0%, 100% { box-shadow: 0 0 15px rgba(124,77,255,0.4); border-color: rgba(255,255,255,0.15); }
+    50% { box-shadow: 0 0 28px rgba(245,197,24,0.65); border-color: rgba(245,197,24,0.55); }
+  }
+  @keyframes animmasterRingPulse {
+    0%, 100% { transform: scale(1) rotate(0deg); box-shadow: 0 0 20px rgba(245,197,24,0.4); }
+    50% { transform: scale(1.08) rotate(5deg); box-shadow: 0 0 45px rgba(124,77,255,0.85); }
+  }
+
+  .hero{
+    position:relative;
+    padding:170px 0 120px;
+    overflow:hidden;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    perspective: 1200px;
+  }
+  .hero-glow{
+    position:absolute; inset:0; z-index:0; pointer-events:none; display:none;
+  }
+  .hero-canvas, .glow-a, .glow-b, .grain { display: none !important; }
+
+  /* ================= REAL SKIPER UI ANIMATION COMPONENTS ================= */
+  /* 1. Skiper UI Shiny Text / Text Shimmer Animation */
+  .skiper-shiny-text {
+    background: linear-gradient(120deg, #ffffff 0%, #ffffff 35%, var(--gold-500) 50%, #ffffff 65%, #ffffff 100%);
+    background-size: 250% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: skiperShimmer 3.5s linear infinite;
+    display: inline-block;
+  }
+  @keyframes skiperShimmer {
+    to { background-position: 250% center; }
+  }
+
+  /* 2. Skiper UI Vercel Tooltip (Animated Hover Badges) */
+  .skiper-tooltip-wrap {
+    position: relative;
+    cursor: pointer;
+  }
+  .skiper-tooltip {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(10px) scale(0.85);
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(21, 17, 42, 0.96);
+    border: 1px solid rgba(245, 197, 24, 0.45);
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 8px;
+    white-space: nowrap;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.7), 0 0 15px rgba(124, 77, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1000;
+  }
+  .skiper-tooltip-wrap:hover .skiper-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+
+  /* 3. Skiper UI Animated Border Glow Card */
+  @keyframes skiperSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .skiper-border-glow {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: none !important;
+  }
+  .skiper-border-glow::before {
+    content: "";
+    position: absolute;
+    top: -100%; left: -100%; width: 300%; height: 300%;
+    background: conic-gradient(from 0deg, transparent 0%, transparent 65%, var(--gold-500) 80%, #7c4dff 100%);
+    animation: skiperSpin 4s linear infinite;
+    z-index: -2;
+  }
+  .skiper-border-glow::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: var(--bg-surface-2);
+    border-radius: inherit;
+    z-index: -1;
+  }
+
+  /* 4. Skiper UI Hover Members / 3D Lift Cards */
+  .skiper-hover-lift {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease !important;
+  }
+  .skiper-hover-lift:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 197, 24, 0.25) !important;
+    border-color: var(--gold-500) !important;
+  }
+
+  /* ================= SKIPER 19 & SKIPER 31 SCROLL ANIMATION SHOWCASE ================= */
+  .skiper-showcase-section {
+    position: relative;
+    padding: 140px 0;
+    background: var(--bg-surface);
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .skiper19-container {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+    opacity: 0.4;
+    z-index: 0;
+  }
+  .skiper19-stroke-svg {
+    max-width: 1200px;
+    width: 90vw;
+    height: auto;
+  }
+  .skiper31-block {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .skiper31-sub {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 700; color: var(--purple-300);
+    letter-spacing: .08em; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 99px;
+    background: rgba(124, 77, 255, 0.12); border: 1px solid rgba(124, 77, 255, 0.3);
+    margin-bottom: 20px;
+  }
+  .skiper31-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(32px, 5.5vw, 68px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin: 0 0 16px;
+    perspective: 800px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px;
+  }
+  .skiper31-char {
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+  .skiper31-char.space { width: 0.3em; }
+  .skiper31-hint {
+    font-size: 16px; color: var(--ink-2); font-weight: 500;
+  }
+  .skiper31-bracket-header {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    margin-bottom: 40px;
+  }
+  .skiper31-bracket-header span {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(16px, 2.5vw, 26px);
+    font-weight: 700;
+    letter-spacing: .05em;
+    color: #fff;
+  }
+  .skiper-bracket { width: 22px; height: 44px; flex-shrink: 0; }
+  .skiper-bracket.flip { transform: scaleX(-1); }
+
+  .skiper31-icons-grid {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+    max-width: 1050px; margin: 0 auto;
+    perspective: 800px;
+  }
+  .skiper31-icon-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 24px;
+    background: var(--bg-surface-2);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px; font-weight: 700; color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    will-change: transform, opacity;
+    cursor: pointer;
+  }
+  .skiper31-icon-card .icon { font-size: 24px; }
+  .hero-grid{
+    position:relative; z-index:3;
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    gap:60px;
+    align-items:center;
+  }
+  .hero-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--line);
+    padding:8px 16px 8px 8px;
+    border-radius:999px;
+    font-size:13px;
+    color:var(--ink-0);
+    margin-bottom:26px;
+    animation: animmasterPulse 3.5s infinite ease-in-out;
+    transition: all 0.3s var(--ease);
+  }
+  .hero-badge:hover{
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 0 30px rgba(245,197,24,0.8);
+    border-color: var(--gold-500);
+  }
+  .hero-badge .dot{width:8px; height:8px; border-radius:50%; background:var(--gold-500); box-shadow:0 0 12px var(--gold-500);}
+  .hero h1{
+    font-size:clamp(38px, 5vw, 64px);
+    line-height:1.08;
+    color:var(--ink-0);
+    perspective: 1000px;
+  }
+  .hero h1 .word{ display:inline-block; overflow:visible; perspective: 800px; }
+  .hero h1 .word span{ display:inline-block; transform-style:preserve-3d; will-change:transform,opacity; }
+  .hl{
+    background:linear-gradient(120deg, var(--gold-400) 0%, #fff6b3 30%, var(--gold-500) 60%, var(--gold-400) 100%);
+    background-size:200% auto;
+    animation: animmasterShine 4s linear infinite;
+    color:#181108;
+    padding:4px 14px;
+    border-radius:12px;
+    display:inline-block;
+    transform:rotate(-1.5deg);
+    box-shadow: 0 6px 25px rgba(245,197,24,0.4);
+    transition: transform 0.3s var(--ease);
+  }
+  .hl:hover{
+    transform: rotate(0deg) scale(1.05);
+  }
+  .hero p.lead{
+    margin-top:24px;
+    font-size:19px;
+    line-height:1.7;
+    color:var(--ink-1);
+    max-width:560px;
+  }
+  .hero-actions{ display:flex; gap:16px; margin-top:38px; flex-wrap:wrap;}
+  .chip-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:36px;}
+  .chip{
+    font-size:13px; font-weight:600; font-family:'Rubik';
+    padding:8px 16px; border-radius:999px;
+    background:rgba(255,255,255,.05);
+    border:1px solid var(--line);
+    color:var(--ink-1);
+    display:flex; align-items:center; gap:6px;
+    transition: all 0.3s var(--ease);
+    cursor: default;
+  }
+  .chip:hover{
+    transform: translateY(-4px) scale(1.06);
+    border-color: var(--gold-500);
+    background: rgba(255,255,255,0.12);
+    color: var(--ink-0);
+    box-shadow: 0 8px 25px rgba(245,197,24,0.3);
+  }
+
+  .hero-stats{
+    display:flex; gap:36px; margin-top:52px; flex-wrap:wrap;
+  }
+  .stat b{
+    display:block; font-family:'Rubik'; font-weight:900; font-size:32px; color:var(--ink-0);
+  }
+  .stat span{ font-size:13px; color:var(--ink-2);}
+
+  /* ---------- Phone build visual (animmaster 3D interactive showcase) ---------- */
+  .hero-visual{ position:relative; display:flex; justify-content:center; perspective: 1000px; }
+  .stage-track{
+    display:flex; justify-content:center; gap:8px; margin-bottom:22px;
+  }
+  .stage-pill{
+    font-size:12px; font-family:'Rubik'; font-weight:700; color:var(--ink-2);
+    padding:6px 12px; border-radius:999px; border:1px solid var(--line);
+    transition:all .4s var(--ease);
+    cursor: pointer;
+  }
+  .stage-pill:hover{ border-color: rgba(255,255,255,0.4); transform: translateY(-2px); }
+  .stage-pill.active{ color:#181108; background:var(--gold-500); border-color:var(--gold-500); box-shadow: 0 4px 15px rgba(245,197,24,0.4); }
+
+  .phone{
+    position:relative;
+    width:290px; height:590px;
+    border-radius:44px;
+    background:linear-gradient(160deg,#1c1830,#0c0a15);
+    border:10px solid #201a35;
+    box-shadow:0 40px 90px -20px rgba(91,33,182,.7), 0 0 0 1px rgba(255,255,255,.08) inset;
+    overflow:hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: box-shadow 0.4s ease;
+  }
+  .phone:hover{
+    box-shadow: 0 50px 110px -15px rgba(124,77,255,.85), 0 0 35px rgba(245,197,24,.35);
+  }
+  .phone::before{
+    content:"";
+    position:absolute; top:0; inset-inline:0; height:26px;
+    display:flex; margin:0 auto; width:120px;
+    background:#0c0a15; border-radius:0 0 16px 16px;
+    left:50%; transform:translateX(-50%);
+    z-index:5;
+  }
+  .phone-screen{ position:absolute; inset:6px; border-radius:36px; overflow:hidden; background:#0f0c1c;}
+  .stage-layer{
+    position:absolute; inset:0; padding:44px 18px 18px;
+    opacity:0; transition:none;
+    display:none;
+  }
+  .stage-layer.visible{ opacity:1; display:block; }
+
+  /* wireframe stage */
+  .wf-line{ height:10px; background:rgba(255,255,255,.09); border-radius:6px; margin-bottom:12px;}
+  .wf-box{ height:120px; border:1.5px dashed rgba(255,255,255,.18); border-radius:14px; margin-bottom:16px;}
+  .wf-row{ display:flex; gap:10px; margin-bottom:16px;}
+  .wf-row .wf-line{flex:1;}
+
+  /* design stage */
+  .ui-card{ background:linear-gradient(135deg,var(--purple-700),var(--purple-500)); border-radius:16px; height:130px; margin-bottom:14px; position:relative; overflow:hidden;}
+  .ui-card::after{content:"";position:absolute; inset:14px auto auto 14px; width:60%; height:10px; background:rgba(255,255,255,.5); border-radius:6px;}
+  .ui-pill{ height:38px; border-radius:12px; background:rgba(255,255,255,.07); margin-bottom:10px;}
+  .ui-btn{ height:46px; border-radius:14px; background:var(--gold-500); margin-top:20px;}
+
+  /* code stage */
+  .code-line{ height:9px; border-radius:4px; margin-bottom:9px; background:rgba(124,77,255,.55);}
+  .code-line.c2{background:rgba(245,197,24,.55); width:70%;}
+  .code-line.c3{background:rgba(255,255,255,.15); width:85%;}
+  .code-line.c4{width:40%;}
+
+  /* launch stage */
+  .launch-badge{
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:14px;
+    height:100%;
+    text-align:center;
+  }
+  .launch-badge .ring{
+    width:88px; height:88px; border-radius:50%;
+    background:conic-gradient(var(--gold-500), var(--purple-500), var(--gold-500));
+    display:flex; align-items:center; justify-content:center;
+    animation: animmasterRingPulse 3.5s infinite ease-in-out;
+  }
+  .launch-badge .ring b{
+    width:70px; height:70px; border-radius:50%; background:#0f0c1c;
+    display:flex; align-items:center; justify-content:center; font-size:26px;
+  }
+  .launch-badge p{ font-size:13px; color:var(--ink-1); margin:0; font-family:'Rubik'; font-weight:600;}
+
+  .float-card{
+    position:absolute;
+    background:rgba(19,16,34,.92);
+    border:1px solid var(--line);
+    backdrop-filter:blur(12px);
+    border-radius:18px;
+    padding:12px 18px;
+    font-size:13px;
+    font-weight:700;
+    display:flex; align-items:center; gap:10px;
+    box-shadow:0 25px 50px -15px rgba(0,0,0,.7);
+    transition: transform 0.25s ease-out, border-color 0.3s ease;
+    will-change: transform;
+    z-index: 10;
+  }
+  .float-card:hover{
+    border-color: var(--gold-500);
+    box-shadow: 0 20px 40px rgba(245,197,24,0.3);
+  }
+  .fc-1{ top:12%; right:-64px; animation: animmasterFloat 5s ease-in-out infinite; }
+  .fc-2{ bottom:18%; left:-68px; animation: animmasterFloatAlt 6s ease-in-out infinite; }
+  .fc-3{ top:48%; left:-78px; animation: animmasterFloat 5.5s ease-in-out infinite -2s; }
+  .fc-dot{width:8px; height:8px; border-radius:50%;}
+
+  /* ---------- Section basics ---------- */
+  section{ position:relative; padding:120px 0; }
+  .section-head{ max-width:640px; margin-bottom:56px; }
+  .section-head h2{ font-size:clamp(28px,3.4vw,42px); margin-top:14px; line-height:1.2; }
+  .section-head p{ color:var(--ink-1); font-size:17px; line-height:1.7; margin-top:16px;}
+
+  /* ---------- Value grid ---------- */
+  .value-grid{ display:grid; grid-template-columns:1.1fr .9fr .9fr; gap:22px; }
+  .value-hero-card{
+    grid-column:1 / -1;
+    background:linear-gradient(120deg,var(--purple-900),var(--purple-700));
+    border-radius:var(--radius-lg);
+    padding:44px;
+    display:flex; align-items:center; justify-content:space-between; gap:30px;
+    flex-wrap:wrap;
+    border:1px solid rgba(255,255,255,.08);
+  }
+  .value-hero-card h3{ font-size:26px; }
+  .value-hero-card p{ color:rgba(255,255,255,.75); margin-top:10px; max-width:460px;}
+  .value-icon-lg{
+    width:74px; height:74px; border-radius:20px; background:rgba(255,255,255,.1);
+    display:flex; align-items:center; justify-content:center; font-size:30px; flex-shrink:0;
+  }
+  .card{
+    background:var(--bg-surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:30px;
+    transition:transform .4s var(--ease), border-color .4s ease, background .4s ease;
+  }
+  .card:hover{ transform:translateY(-6px); border-color:rgba(245,197,24,.35); background:var(--bg-surface-2);}
+  .card .icon{
+    width:48px; height:48px; border-radius:14px;
+    background:rgba(124,77,255,.18);
+    display:flex; align-items:center; justify-content:center;
+    font-size:20px; margin-bottom:18px; color:var(--purple-300);
+  }
+  .card h4{ font-size:18px; margin-bottom:8px;}
+  .card p{ color:var(--ink-2); font-size:14.5px; line-height:1.65; margin:0;}
+
+  /* ---------- For who ---------- */
+  .split{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;}
+  .check-list li{
+    display:flex; align-items:center; gap:12px;
+    padding:14px 18px;
+    background:var(--bg-surface);
+    border:1px solid var(--line);
+    border-radius:999px;
+    margin-bottom:12px;
+    font-weight:500;
+    font-size:15px;
+  }
+  .check-list .tick{
+    width:22px; height:22px; border-radius:50%; background:var(--gold-500);
+    color:#181108; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; font-weight:900;
+  }
+  .method-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .prereq-box{
+    margin-top:26px; padding:22px 26px; border-radius:18px;
+    background:rgba(245,197,24,.08); border:1px solid rgba(245,197,24,.3);
+    display:flex; gap:16px; align-items:flex-start;
+  }
+  .prereq-box b{color:var(--gold-500);}
+
+  /* ---------- Curriculum ---------- */
+  .curr-meta{ display:flex; gap:14px; margin-bottom:40px; flex-wrap:wrap;}
+  .meta-pill{
+    font-family:'Rubik'; font-weight:700; font-size:13px;
+    padding:10px 18px; border-radius:999px; background:var(--bg-surface); border:1px solid var(--line); color:var(--ink-1);
+  }
+  .module{
+    border:1px solid var(--line);
+    border-radius:22px;
+    margin-bottom:16px;
+    overflow:hidden;
+    background:var(--bg-surface);
+    transition:border-color .3s;
+  }
+  .module.open{ border-color:rgba(124,77,255,.5); }
+  .module-head{
+    display:flex; align-items:center; gap:20px; padding:26px 28px;
+    cursor:pointer;
+  }
+  .module-num{
+    width:52px; height:52px; border-radius:16px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Rubik'; font-weight:800; font-size:18px;
+    background:linear-gradient(135deg,var(--purple-700),var(--purple-500)); color:#fff;
+  }
+  .module-head .info{flex:1;}
+  .module-head .tag{ font-size:12px; color:var(--gold-500); font-weight:700; letter-spacing:.03em; text-transform:uppercase;}
+  .module-head h4{ font-size:19px; margin-top:4px;}
+  .module-head .hours{ font-size:13px; color:var(--ink-2); font-family:'Rubik'; font-weight:600; white-space:nowrap;}
+  .module-head .chevron{
+    width:34px; height:34px; border-radius:50%; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; transition:transform .4s var(--ease); flex-shrink:0;
+  }
+  .module.open .chevron{ transform:rotate(135deg); background:var(--gold-500); border-color:var(--gold-500); color:#181108;}
+  .module-body{ max-height:0; overflow:hidden; transition:max-height .5s var(--ease); }
+  .lesson{
+    display:flex; align-items:flex-start; gap:16px;
+    padding:16px 28px 16px 68px;
+    border-top:1px solid var(--line);
+  }
+  .lesson .lnum{
+    font-family:'Rubik'; font-weight:800; color:var(--purple-300); font-size:14px; width:26px; flex-shrink:0;
+  }
+  .lesson h5{ font-size:15px; font-weight:700; margin:0 0 4px;}
+  .lesson p{ font-size:13.5px; color:var(--ink-2); margin:0; line-height:1.6;}
+  .spotlight{
+    margin:18px 28px 24px; padding:20px 22px; border-radius:16px;
+    background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.15);
+    font-size:13.5px; color:var(--ink-1); line-height:1.7;
+  }
+  .spotlight b{ color:var(--gold-500);}
+
+  /* ---------- Stack marquee ---------- */
+  .marquee-wrap{ overflow:hidden; position:relative; padding:34px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .marquee-wrap::before, .marquee-wrap::after{
+    content:""; position:absolute; top:0; bottom:0; width:120px; z-index:2;
+  }
+  .marquee-wrap::before{ right:0; background:linear-gradient(to left, var(--bg-void), transparent);}
+  .marquee-wrap::after{ left:0; background:linear-gradient(to right, var(--bg-void), transparent);}
+  .marquee-track{ display:flex; gap:16px; width:max-content; animation:scroll-x 32s linear infinite;}
+  .marquee-wrap:hover .marquee-track{ animation-play-state:paused; }
+  @keyframes scroll-x{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+  .stack-badge{
+    display:flex; align-items:center; gap:10px;
+    padding:14px 24px; border-radius:16px;
+    background:var(--bg-surface); border:1px solid var(--line);
+    font-family:'Rubik'; font-weight:700; font-size:15px; color:var(--ink-1);
+    white-space:nowrap;
+  }
+
+  /* ---------- Mentors ---------- */
+  .mentor-lead{
+    display:flex; gap:34px; align-items:center;
+    background:var(--bg-surface); border:1px solid var(--line); border-radius:var(--radius-lg);
+    padding:40px; margin-bottom:24px; flex-wrap:wrap;
+  }
+  .mentor-avatar{
+    width:120px; height:120px; border-radius:28px; flex-shrink:0;
+    background:linear-gradient(135deg,var(--purple-700),var(--gold-500));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Rubik'; font-weight:900; font-size:40px; color:#fff;
+  }
+  .mentor-lead .role{ color:var(--gold-500); font-family:'Rubik'; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.03em;}
+  .mentor-lead h3{ font-size:24px; margin-top:6px;}
+  .mentor-lead p{ color:var(--ink-1); margin-top:10px; max-width:560px; line-height:1.7;}
+  .mentor-tags{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;}
+  .skill-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:24px;}
+  .skill-item{
+    background:var(--bg-surface); border:1px solid var(--line); border-radius:16px; padding:22px;
+    display:flex; align-items:flex-start; gap:14px;
+  }
+  .skill-item .icon{ font-size:22px; }
+  .skill-item h5{ font-size:14.5px; margin:0 0 4px; font-family:'Rubik'; font-weight:700;}
+  .skill-item p{ font-size:12.5px; color:var(--ink-2); margin:0; line-height:1.5;}
+  .guest-banner{
+    margin-top:24px; padding:22px 28px; border-radius:18px;
+    background:linear-gradient(120deg,var(--purple-900),var(--purple-700));
+    display:flex; align-items:center; gap:16px; font-size:14.5px; color:rgba(255,255,255,.85);
+  }
+
+  /* ---------- Pricing ---------- */
+  .price-wrap{ display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:stretch;}
+  .price-copy h2{ font-size:clamp(28px,3.4vw,40px); line-height:1.2;}
+  .price-copy p{ color:var(--ink-1); margin-top:18px; line-height:1.75; font-size:16.5px; max-width:460px;}
+  .price-card{
+    background:linear-gradient(160deg,var(--bg-surface-2), var(--bg-surface));
+    border:1px solid rgba(245,197,24,.35);
+    border-radius:var(--radius-lg);
+    padding:40px;
+    position:relative;
+    box-shadow:0 40px 90px -40px rgba(124,77,255,.5);
+    transition:transform .25s var(--ease);
+    transform-style:preserve-3d;
+    will-change:transform;
+  }
+  .price-tag{ font-family:'Rubik'; font-weight:700; font-size:13px; color:var(--gold-500); text-transform:uppercase; letter-spacing:.04em;}
+  .price-amount{ display:flex; align-items:baseline; gap:8px; margin:14px 0 4px;}
+  .price-amount b{ font-family:'Rubik'; font-weight:900; font-size:56px;}
+  .price-amount span{ font-size:16px; color:var(--ink-2);}
+  .price-sub{ font-size:13px; color:var(--ink-2); margin-bottom:26px;}
+  .price-list li{ display:flex; align-items:center; gap:12px; margin-bottom:14px; font-size:14.5px; }
+  .price-list .tick{ width:20px; height:20px; border-radius:50%; background:rgba(245,197,24,.15); color:var(--gold-500); display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; font-weight:900;}
+  .price-card .btn{ width:100%; margin-top:22px; }
+  .price-note{ text-align:center; font-size:12.5px; color:var(--ink-2); margin-top:14px;}
+  .perk-strip{ display:flex; gap:14px; margin-top:26px; flex-wrap:wrap;}
+  .perk{ display:flex; align-items:center; gap:10px; background:var(--bg-surface); border:1px solid var(--line); padding:12px 18px; border-radius:14px; font-size:13.5px; font-weight:600;}
+
+  /* ---------- FAQ ---------- */
+  .faq-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px 20px;}
+  details.faq{
+    background:var(--bg-surface); border:1px solid var(--line); border-radius:16px;
+    padding:20px 24px;
+  }
+  details.faq summary{
+    cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:14px;
+    font-family:'Rubik'; font-weight:700; font-size:15.5px;
+  }
+  details.faq summary::-webkit-details-marker{ display:none;}
+  details.faq summary::after{
+    content:"+"; font-size:22px; color:var(--gold-500); transition:transform .3s var(--ease); flex-shrink:0;
+  }
+  details.faq[open] summary::after{ content:"–"; }
+  details.faq p{ color:var(--ink-1); font-size:14.5px; line-height:1.7; margin-top:14px;}
+  .faq-cta{
+    grid-column:1/-1; margin-top:10px; padding:30px; border-radius:20px;
+    background:linear-gradient(120deg,var(--purple-900),var(--purple-700));
+    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  }
+
+  /* ---------- Contact / lead capture ---------- */
+  .contact-wrap{
+    background:linear-gradient(160deg,var(--bg-surface-2),var(--bg-void));
+    border:1px solid var(--line);
+    border-radius:36px;
+    padding:64px;
+    display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center;
+    position:relative; overflow:hidden;
+  }
+  .contact-wrap .glow-b{ opacity:.5; }
+  .contact-copy h2{ font-size:clamp(28px,3.6vw,44px); line-height:1.15;}
+  .contact-copy p{ color:var(--ink-1); margin-top:18px; line-height:1.75; font-size:16px; max-width:440px;}
+  .contact-points li{ display:flex; align-items:center; gap:10px; margin-top:14px; font-size:14px; color:var(--ink-1);}
+  .form-card{
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:32px;
+    position:relative; z-index:2;
+  }
+  .field{ margin-bottom:16px;}
+  .field label{ display:block; font-size:13px; font-weight:600; color:var(--ink-1); margin-bottom:8px;}
+  .field input, .field textarea{
+    width:100%; padding:14px 16px; border-radius:12px;
+    background:rgba(255,255,255,.04); border:1px solid var(--line); color:var(--ink-0);
+    font-family:'Heebo'; font-size:15px; outline:none; transition:border-color .25s;
+  }
+  .field input:focus, .field textarea:focus{ border-color:var(--gold-500); }
+  .form-card .btn{ width:100%; margin-top:8px;}
+  .form-note{ font-size:12px; color:var(--ink-2); text-align:center; margin-top:12px;}
+  .form-success{ display:none; text-align:center; padding:30px 10px;}
+  .form-success .check{
+    width:60px; height:60px; border-radius:50%; background:var(--gold-500); color:#181108;
+    display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 16px; font-weight:900;
+  }
+  .form-success h4{ font-size:19px; margin-bottom:8px;}
+  .form-success p{ color:var(--ink-1); font-size:14px;}
+
+  /* ---------- Hero quick form ---------- */
+  .quick-form{
+    margin-top:30px; display:flex; gap:10px; max-width:420px; flex-wrap:wrap;
+    background:rgba(255,255,255,.04); border:1px solid var(--line); padding:8px; border-radius:16px;
+  }
+  .quick-form input{
+    flex:1; min-width:160px; background:transparent; border:none; outline:none;
+    color:var(--ink-0); font-family:'Heebo'; font-size:14.5px; padding:12px 14px;
+  }
+  .quick-form .btn{ padding:12px 22px; font-size:14px;}
+
+  /* ---------- Sticky bottom bar ---------- */
+  .sticky-cta{
+    position:fixed; bottom:0; inset-inline:0; z-index:90;
+    background:rgba(12,10,21,.92); backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);
+    padding:14px 0;
+    transform:translateY(120%);
+    transition:transform .5s var(--ease);
+  }
+  .sticky-cta.show{ transform:translateY(0); }
+  .sticky-row{ display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;}
+  .sticky-row .txt b{ display:block; font-family:'Rubik'; font-size:15px;}
+  .sticky-row .txt span{ font-size:12.5px; color:var(--ink-2);}
+  .sticky-row .btn{ padding:12px 26px; font-size:14px;}
+
+  /* ---------- Footer ---------- */
+  footer{ padding:70px 0 30px; border-top:1px solid var(--line);}
+  .foot-grid{ display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap; padding-bottom:40px;}
+  .foot-brand p{ color:var(--ink-2); font-size:13.5px; margin-top:14px; max-width:280px; line-height:1.6;}
+  .foot-links{ display:flex; gap:70px; flex-wrap:wrap;}
+  .foot-col h6{ font-family:'Rubik'; font-size:13px; color:var(--ink-2); text-transform:uppercase; letter-spacing:.04em; margin-bottom:14px;}
+  .foot-col a{ display:block; font-size:14px; color:var(--ink-1); margin-bottom:10px;}
+  .foot-bottom{ display:flex; justify-content:space-between; padding-top:24px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-2); flex-wrap:wrap; gap:10px;}
+
+  [data-reveal]{ opacity:0; transform:translateY(28px); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 980px){
+    .nav-links{ display:none; }
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-visual{ order:-1; margin-bottom:20px; }
+    .phone{ width:230px; height:470px;}
+    .fc-1, .fc-2{ display:none;}
+    .value-grid{ grid-template-columns:1fr;}
+    .split{ grid-template-columns:1fr; gap:36px;}
+    .method-grid{ grid-template-columns:1fr;}
+    .price-wrap{ grid-template-columns:1fr;}
+    .contact-wrap{ grid-template-columns:1fr; padding:36px 24px;}
+    .faq-grid{ grid-template-columns:1fr;}
+    .skill-grid{ grid-template-columns:1fr 1fr;}
+    .lesson{ padding-inline-start:28px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header id="siteHeader">
+  <div class="container nav-row">
+    <a href="#home" class="logo">
+      <img src="FLUTTERO.svg" alt="Fluttero" class="logo-svg" />
+    </a>
+    <nav class="nav-links">
+      <a href="#value">על הקורס</a>
+      <a href="#curriculum">תוכנית לימודים</a>
+      <a href="#mentors">מי מלווה אתכם</a>
+      <a href="#pricing">מחיר</a>
+      <a href="#faq">שאלות</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-ghost" style="padding:10px 18px; font-size:14px;">דברו איתי</a>
+      <a href="#pricing" class="btn btn-gold">הרשמה לקורס</a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= SKIPER UI DYNAMIC ISLAND ================= -->
+<div class="skiper-island-wrap" id="skiperIslandWrap">
+  <div class="skiper-island" id="skiperIsland">
+    <div class="island-pill">
+      <span class="island-icon">⚡️</span>
+      <span class="island-label">הרשמה למחזור הקרוב נפתחה — <b>נותרו מקומות אחרונים</b></span>
+      <a href="#pricing" class="island-cta">להרשמה <span>›</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="hero-badge skiper-shiny-text" data-reveal>
+        <span class="dot"></span> סילבוס קורס · 2026 · Flutter מקצועי
+      </div>
+      <h1 data-hero-title>
+        <span class="word"><span>מרעיון</span></span> <span class="word"><span>לאפליקציה</span></span> <span class="word"><span>אמיתית</span></span><br/>
+        <span class="word"><span>שחיה</span></span> <span class="hl">בחנויות</span> <span class="word"><span>—</span></span> <span class="word"><span>בלי</span></span> <span class="word"><span>רקע</span></span> <span class="word"><span>קודם</span></span>
+      </h1>
+      <p class="lead" data-reveal>
+        100 שעות לימוד חי, פרויקט אמיתי אחד לאורך כל הדרך וליווי אישי בקבוצה קטנה —
+        עד לאפליקציה משלכם, באמת פעילה וזמינה להורדה ב-App Store וב-Google Play.
+      </p>
+      <div class="hero-actions" data-reveal>
+        <a href="#pricing" class="btn btn-gold">להרשמה לקורס <span>›</span></a>
+        <a href="#curriculum" class="btn btn-ghost">לתוכנית הלימודים המלאה</a>
+      </div>
+
+      <form class="quick-form" id="quickForm" data-reveal>
+        <input type="tel" required placeholder="השאירו מספר טלפון ונחזור אליכם" id="quickPhone" />
+        <button class="btn btn-gold" type="submit">שריינו לי מקום</button>
+      </form>
+
+      <div class="chip-row" data-reveal>
+        <span class="chip">☁️ Cloud</span>
+        <span class="chip">🔥 Firebase</span>
+        <span class="chip">✨ AI</span>
+        <span class="chip">🎨 UX/UI</span>
+        <span class="chip">🧩 Figma</span>
+        <span class="chip">🎯 Dart</span>
+        <span class="chip">📱 Flutter</span>
+        <span class="chip">🍎 App Store</span>
+        <span class="chip">🧠 Architecture</span>
+      </div>
+
+      <div class="hero-stats" data-reveal>
+        <div class="stat"><b data-count="5">0</b><span>שלבים מובנים</span></div>
+        <div class="stat"><b data-count="24">0</b><span>מפגשים חיים</span></div>
+        <div class="stat"><b data-count="100">0</b><span>שעות לימוד</span></div>
+        <div class="stat"><b data-count="3">0</b><span>חודשים + הקלטות</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual" data-reveal>
+      <div>
+        <div class="stage-track" id="stageTrack">
+          <span class="stage-pill" data-stage="0">רעיון</span>
+          <span class="stage-pill" data-stage="1">עיצוב</span>
+          <span class="stage-pill" data-stage="2">קוד</span>
+          <span class="stage-pill" data-stage="3">בחנויות</span>
+        </div>
+        <div style="position:relative;">
+          <div class="phone" id="heroPhone">
+            <div class="phone-screen">
+              <div class="stage-layer" data-layer="0">
+                <div class="wf-line" style="width:60%"></div>
+                <div class="wf-box"></div>
+                <div class="wf-row"><div class="wf-line"></div><div class="wf-line"></div></div>
+                <div class="wf-line" style="width:80%"></div>
+                <div class="wf-line" style="width:45%"></div>
+              </div>
+              <div class="stage-layer" data-layer="1">
+                <div class="ui-card"></div>
+                <div class="ui-pill"></div>
+                <div class="ui-pill" style="width:70%"></div>
+                <div class="ui-btn"></div>
+              </div>
+              <div class="stage-layer" data-layer="2">
+                <div class="code-line" style="width:55%"></div>
+                <div class="code-line c2"></div>
+                <div class="code-line c3"></div>
+                <div class="code-line c4"></div>
+                <div class="code-line" style="width:60%; margin-top:22px;"></div>
+                <div class="code-line c2" style="width:35%"></div>
+                <div class="code-line c3"></div>
+              </div>
+              <div class="stage-layer" data-layer="3">
+                <div class="launch-badge">
+                  <div class="ring"><b>🚀</b></div>
+                  <p>האפליקציה בחנויות,<br/>מוכנה להורדה</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="float-card fc-1"><span class="fc-dot" style="background:var(--gold-500)"></span> Live on App Store</div>
+          <div class="float-card fc-2"><span class="fc-dot" style="background:var(--purple-500)"></span> ליווי אישי 1:1</div>
+          <div class="float-card fc-3"><span class="fc-dot" style="background:#00e676"></span> ⭐️ 4.9 דירוג בוגרים</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VALUE ================= -->
+<section id="value">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">01 · על הקורס</span>
+      <h2>תוצרים אמיתיים, לא רק תיאוריה</h2>
+      <p>הקורס לוקח אתכם מאפס מוחלט ועד אפליקציה אמיתית בחנויות. לומדים ובונים יחד: אפיון, Figma, Flutter, ארכיטקטורת יצירה — ומסיימים עם מוצר חי, תיק עבודות ותעודה.</p>
+    </div>
+
+    <div class="value-grid">
+      <div class="value-hero-card" data-reveal>
+        <div style="display:flex; gap:22px; align-items:center;">
+          <div class="value-icon-lg">📱</div>
+          <div>
+            <span class="eyebrow" style="color:var(--gold-500)">התוצר המרכזי</span>
+            <h3>אפליקציה חיה בחנויות</h3>
+            <p>מוצר אמיתי שלכם — פעיל וזמין להורדה ב-App Store וב-Google Play, לא רק תרגיל.</p>
+          </div>
+        </div>
+        <a href="#curriculum" class="btn btn-ghost" style="border-color:rgba(255,255,255,.3)">איך בונים את זה ›</a>
+      </div>
+
+      <div class="card" data-reveal>
+        <div class="icon">🧠</div>
+        <h4>חשיבה ארכיטקטונית</h4>
+        <p>מבינים מה זו ארכיטקטורת נתונים ובונים אפליקציה שמחזיקה מעמד ומתאימה לגדילה.</p>
+      </div>
+      <div class="card" data-reveal>
+        <div class="icon">⚡</div>
+        <h4>עבודה בקצב AI</h4>
+        <p>כלי Vibecoding שהופכים אתכם למפתחים מהירים פי כמה, בלי לוותר על הבנה אמיתית.</p>
+      </div>
+      <div class="card" data-reveal>
+        <div class="icon">🔀</div>
+        <h4>שליטה מלאה ב-Flutter</h4>
+        <p>מ-Dart ועד מסכים מורכבים — יודעים לבנות לבד מקצה לקצה, ל-iOS ולאנדרואיד גם יחד.</p>
+      </div>
+      <div class="card" data-reveal>
+        <div class="icon">📁</div>
+        <h4>תיק עבודות ופרויקט גמר</h4>
+        <p>פרויקט מלא שמדגים יכולת מקצה-לקצה, נכס אמיתי לכל ראיון עבודה.</p>
+      </div>
+      <div class="card" data-reveal>
+        <div class="icon">🎓</div>
+        <h4>תעודת סיום</h4>
+        <p>תעודה רשמית המעידה על השלמת הקורס והכישורים שנרכשו לאורך הדרך.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOR WHO ================= -->
+<section id="for-who" style="background:var(--bg-deep);">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">02 · למי מתאים</span>
+      <h2>בנוי למתחילים מאפס</h2>
+      <p>אין צורך בשום רקע מוקדם בתכנות. הקורס בנוי כך שמתחילים מוחלט יתקדמו צעד אחר צעד עד לרמת פיתוח אמיתית.</p>
+    </div>
+
+    <div class="split">
+      <div data-reveal>
+        <ul class="check-list">
+          <li><span class="tick">✓</span> מתחילים מאפס — בלי רקע בתכנות</li>
+          <li><span class="tick">✓</span> בעלי רעיון לאפליקציה</li>
+          <li><span class="tick">✓</span> מעצבים שרוצים ללמוד לפתח</li>
+          <li><span class="tick">✓</span> יזמים ואנשי מוצר</li>
+          <li><span class="tick">✓</span> מפתחי Web שעוברים למובייל</li>
+          <li><span class="tick">✓</span> כל מי שרוצה מקצוע דיגיטלי מבוקש</li>
+        </ul>
+        <div class="prereq-box">
+          <span style="font-size:20px;">⚠️</span>
+          <div><b>דרישות קדם:</b> מחשב נייד (Windows / Mac), חיבור יציב לאינטרנט ורצון ללמוד. אין צורך בשום רקע מוקדם בתכנות.</div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <div class="method-grid">
+          <div class="card">
+            <div class="icon">📦</div>
+            <h4>פרויקט אמיתי אחד</h4>
+            <p>בונים לאורך הקורס אפליקציה אחת שלכם — לא תרגילים נטושים.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🎥</div>
+            <h4>לייב בזום</h4>
+            <p>מפגשים חיים ואינטראקטיביים, עם זמן לשאלות ותרגול מודרך.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🎓</div>
+            <h4>ליווי אישי</h4>
+            <p>קבוצה קטנה, משוב צמוד וזמינות לאורך כל הדרך.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🛠️</div>
+            <h4>שיטת מעצב-מהנדס</h4>
+            <p>חושבים עיצוב וחושבים ארכיטקטורה יחד — בדיוק כמו בתעשייה.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CURRICULUM ================= -->
+<section id="curriculum">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">03 · תוכנית הלימודים</span>
+      <h2>חמישה שלבים, מסע אחד — מרעיון עד חנויות</h2>
+      <p>כל שלב נבנה על הקודם: מהיסודות ועד לאפליקציה חיה בחנויות, שיעור אחר שיעור.</p>
+    </div>
+
+    <div class="curr-meta" data-reveal>
+      <span class="meta-pill">24 מפגשים</span>
+      <span class="meta-pill">100 שעות</span>
+      <span class="meta-pill">5 מודולים</span>
+      <span class="meta-pill">3 חודשים + הקלטות מלאות</span>
+    </div>
+
+    <div id="modules-wrap" data-reveal>
+      <!-- Module 1 -->
+      <div class="module open">
+        <div class="module-head" data-toggle>
+          <div class="module-num">01</div>
+          <div class="info">
+            <span class="tag">Foundations · 12 שעות</span>
+            <h4>מבוא ויסודות</h4>
+          </div>
+          <span class="hours">3 שיעורים</span>
+          <div class="chevron">+</div>
+        </div>
+        <div class="module-body">
+          <div class="lesson"><span class="lnum">01</span><div><h5>עולם המובייל וסביבת הפיתוח</h5><p>איך אפליקציות נבנות בעולם האמיתי, סקירת המסע שנעבור: Flutter, IDE ואמולטור.</p></div></div>
+          <div class="lesson"><span class="lnum">02</span><div><h5>תכנות מאפס עם Dart</h5><p>משתנים, טיפוסים, פונקציות וחשיבה לוגית — גם בלי שום רקע קודם בתכנות.</p></div></div>
+          <div class="lesson"><span class="lnum">03</span><div><h5>Dart מתקדם ותכנות מונחה עצמים</h5><p>תנאים, לולאות ו-OOP — אבני הבניין של כל אפליקציה.</p></div></div>
+        </div>
+      </div>
+
+      <!-- Module 2 -->
+      <div class="module">
+        <div class="module-head" data-toggle>
+          <div class="module-num">02</div>
+          <div class="info">
+            <span class="tag">Design · Frontend · 26 שעות</span>
+            <h4>עיצוב ו-Frontend</h4>
+          </div>
+          <span class="hours">6 שיעורים</span>
+          <div class="chevron">+</div>
+        </div>
+        <div class="module-body">
+          <div class="lesson"><span class="lnum">04</span><div><h5>אפיון וחשיבה מוצרית</h5><p>מחקר משתמשים, פרסונות, מסעות משתמש (User Flows) והגדרת ה-MVP.</p></div></div>
+          <div class="lesson"><span class="lnum">05</span><div><h5>עיצוב ב-Figma ו-Design System</h5><p>ממשק, Auto-Layout, קומפוננטות ובניית שפת עיצוב עקבית.</p></div></div>
+          <div class="lesson"><span class="lnum">06</span><div><h5>פרוטוטייפ ומסירה לפיתוח</h5><p>אינטראקציות, אנימציות ו-Handoff מסודר מהעיצוב למפתח.</p></div></div>
+          <div class="lesson"><span class="lnum">07</span><div><h5>Widgets ופריסה — הבסיס של Flutter</h5><p>עץ הרכיבים, בניית Row/Column/Stack ומסכים רספונסיביים.</p></div></div>
+          <div class="lesson"><span class="lnum">08</span><div><h5>עיצוב וניווט ב-Flutter</h5><p>התאמת Themes ישר לקוד, Navigation וניהול מצב בסיסי.</p></div></div>
+          <div class="lesson"><span class="lnum">09</span><div><h5>Vibecoding — בניית ממשקים עם AI</h5><p>מרעיון למסך עובד תוך דקות עם Claude Code, v0 ו-Lovable.</p></div></div>
+        </div>
+      </div>
+
+      <!-- Module 3 -->
+      <div class="module">
+        <div class="module-head" data-toggle>
+          <div class="module-num">03</div>
+          <div class="info">
+            <span class="tag">Backend · Architecture · 22 שעות</span>
+            <h4>ארכיטקטורה ו-Backend</h4>
+          </div>
+          <span class="hours">5 שיעורים</span>
+          <div class="chevron">+</div>
+        </div>
+        <div class="module-body">
+          <div class="lesson"><span class="lnum">10</span><div><h5>ארכיטקטורת נתונים — מה זה ואיך בונים</h5><p>שכבות, גבולות אחריות ועקרונות Clean Architecture, בליווי מרצה אורח.</p></div></div>
+          <div class="lesson"><span class="lnum">11</span><div><h5>מבנה פרויקט ותחזוקתיות</h5><p>ארגון קוד ומודולריות שקל לתחזק, לבדוק ולהרחיב.</p></div></div>
+          <div class="lesson"><span class="lnum">12</span><div><h5>ניהול מצב מתקדם</h5><p>Provider / Riverpod וזרימת נתונים מסודרת לאורך האפליקציה.</p></div></div>
+          <div class="lesson"><span class="lnum">13</span><div><h5>נתונים, מודלים ו-API</h5><p>קריאות אסינכרוניות (async/await), מודלים ועבודה מול שרת.</p></div></div>
+          <div class="lesson"><span class="lnum">14</span><div><h5>Firebase כ-Backend</h5><p>Authentication, בסיס נתונים בענן (Firestore) ו-CRUD בזמן אמת.</p></div></div>
+          <div class="spotlight"><b>Spotlight · ארכיטקטורת נתונים —</b> מרצה אורח, מומחה ארכיטקטורת נתונים, ילמד את הצד ההנדסי של בניית אפליקציה: ארכיטקטורה, חלוקה לשכבות, גבולות אחריות ומבנה פרויקט שמחזיק לאורך זמן וגדל יחד אתכם — כדי שתבנו נכון מההתחלה.</div>
+        </div>
+      </div>
+
+      <!-- Module 4 -->
+      <div class="module">
+        <div class="module-head" data-toggle>
+          <div class="module-num">04</div>
+          <div class="info">
+            <span class="tag">Deployment · 16 שעות</span>
+            <h4>העלאה לשרתים</h4>
+          </div>
+          <span class="hours">4 שיעורים</span>
+          <div class="chevron">+</div>
+        </div>
+        <div class="module-body">
+          <div class="lesson"><span class="lnum">15</span><div><h5>סביבות ותצורות</h5><p>ניהול סביבה נכונה: Dev / Staging / Production ומעברים בין סודות.</p></div></div>
+          <div class="lesson"><span class="lnum">16</span><div><h5>שירותי ענן ו-Cloud Functions</h5><p>לוגיקת שרת, אחסון קבצים ו-Push Notifications.</p></div></div>
+          <div class="lesson"><span class="lnum">17</span><div><h5>אבטחה וחוקי גישה</h5><p>Security Rules, הרשאות והגנה על נתוני המשתמשים.</p></div></div>
+          <div class="lesson"><span class="lnum">18</span><div><h5>ביצועים, ניטור ועלות</h5><p>Monitoring, אופטימיזציה והיערכות נכונה לעומסים.</p></div></div>
+        </div>
+      </div>
+
+      <!-- Module 5 -->
+      <div class="module">
+        <div class="module-head" data-toggle>
+          <div class="module-num">05</div>
+          <div class="info">
+            <span class="tag">Production · Launch · 24 שעות</span>
+            <h4>Production והשקה</h4>
+          </div>
+          <span class="hours">6 שיעורים</span>
+          <div class="chevron">+</div>
+        </div>
+        <div class="module-body">
+          <div class="lesson"><span class="lnum">19</span><div><h5>ליטוש המוצר</h5><p>אנימציות, ביצועים ותיקון QA על מכשיר אמיתי.</p></div></div>
+          <div class="lesson"><span class="lnum">20</span><div><h5>גרסאות בטא</h5><p>הפצה דרך TestFlight ל-iOS ו-Google Play (Closed / Internal Testing).</p></div></div>
+          <div class="lesson"><span class="lnum">21</span><div><h5>הכנת נכסים לחנויות</h5><p>אייקונים, מסך Splash וצילומי מסך ותיאורי חנות מנצחים.</p></div></div>
+          <div class="lesson"><span class="lnum">22</span><div><h5>בנייה והגשה</h5><p>בניית גרסאות iOS ו-Android והגשה לבדיקה בחנויות.</p></div></div>
+          <div class="lesson"><span class="lnum">23</span><div><h5>עלייה לאוויר</h5><p>פרסום בפועל ב-App Store וב-Google Play ותהליך הביקורת.</p></div></div>
+          <div class="lesson"><span class="lnum">24</span><div><h5>פרויקט גמר ותעודה</h5><p>הצגת הפרויקט, סיכום המסע וקבלת תעודת סיום.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKIPER UI SCROLL ANIMATIONS (SKIPER 19 + SKIPER 31) ================= -->
+<section id="skiperShowcase" class="skiper-showcase-section">
+  <!-- Skiper 19: The Stroke That Follows Scroll Progress -->
+  <div class="skiper19-container">
+    <svg class="skiper19-stroke-svg" width="1278" height="1800" viewBox="0 0 1278 1800" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="skiper19Path"
+        d="M876.605 394.131C788.982 335.917 696.198 358.139 691.836 416.303C685.453 501.424 853.722 498.43 941.95 409.714C1016.1 335.156 1008.64 186.907 906.167 142.846C807.014 100.212 712.699 198.494 789.049 245.127C889.053 306.207 986.062 116.979 840.548 43.3233C743.932 -5.58141 678.027 57.1682 672.279 112.188C666.53 167.208 712.538 172.943 736.353 163.088C760.167 153.234 764.14 120.924 746.651 93.3868C717.461 47.4252 638.894 77.8642 601.018 116.979C568.164 150.908 557 201.079 576.467 246.924C593.342 286.664 630.24 310.55 671.68 302.614C756.114 286.446 729.747 206.546 681.86 186.442C630.54 164.898 492 209.318 495.026 287.644C496.837 334.494 518.402 366.466 582.455 367.287C680.013 368.538 771.538 299.456 898.634 292.434C1007.02 286.446 1192.67 309.384 1242.36 382.258C1266.99 418.39 1273.65 443.108 1247.75 474.477C1217.32 511.33 1149.4 511.259 1096.84 466.093C1044.29 420.928 1029.14 380.576 1033.97 324.172C1038.31 273.428 1069.55 228.986 1117.2 216.384C1152.2 207.128 1188.29 213.629 1194.45 245.127C1201.49 281.062 1132.22 280.104 1100.44 272.673C1065.32 264.464 1044.22 234.837 1032.77 201.413C1019.29 162.061 1029.71 131.126 1056.44 100.965C1086.19 67.4032 1143.96 54.5526 1175.78 86.1513C1207.02 117.17 1186.81 143.379 1156.22 166.691C1112.57 199.959 1052.57 186.238 999.784 155.164C957.312 130.164 899.171 63.7054 931.284 26.3214C952.068 2.12513 996.288 3.87363 1007.22 43.58C1018.15 83.2749 1003.56 122.644 975.969 163.376C948.377 204.107 907.272 255.122 913.558 321.045C919.727 385.734 990.968 497.068 1063.84 503.35C1111.46 507.456 1166.79 511.984 1175.68 464.527C1191.52 379.956 1101.26 334.985 1030.29 377.017C971.109 412.064 956.297 483.647 953.797 561.655C947.587 755.413 1197.56 941.828 936.039 1140.66C745.771 1285.32 321.926 950.737 134.536 1202.19C-6.68295 1391.68 -53.4837 1655.38 131.935 1760.5C478.381 1956.91 1124.19 1515 1201.28 1997.83C1273.66 2451.23 100.805 1864.7 303.794 2668.89"
+        stroke="url(#skiperGradient)" stroke-width="18" stroke-linecap="round" />
+      <defs>
+        <linearGradient id="skiperGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f5c518" />
+          <stop offset="50%" stop-color="#7c4dff" />
+          <stop offset="100%" stop-color="#00e5ff" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="container relative z-10">
+    <!-- Skiper 31 Section 1: CharacterV1 (Text Center-Spread Reveal) -->
+    <div class="skiper31-block" id="skiper31TextWrap">
+      <div class="skiper31-sub">
+        <span class="dot"></span> SKIPER UI SCROLL ANIMATION 002
+      </div>
+      <h2 class="skiper31-title" id="skiper31Title">
+        THE STROKE THAT FOLLOWS SCROLL
+      </h2>
+      <p class="skiper31-hint">גללו למטה כדי לחוות את פריסת התלת-ממד והקו העוקב · Scroll down to see the effect</p>
+    </div>
+
+    <!-- Skiper 31 Section 2: CharacterV2 (Icon Center-Spread Reveal with Brackets) -->
+    <div class="skiper31-block" id="skiper31IconsWrap" style="margin-top: 100px;">
+      <div class="skiper31-bracket-header">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 27 78" class="skiper-bracket"><path fill="var(--gold-500)" d="M26.52 77.21h-5.75c-6.83 0-12.38-5.56-12.38-12.38V48.38C8.39 43.76 4.63 40 .01 40v-4c4.62 0 8.38-3.76 8.38-8.38V12.4C8.38 5.56 13.94 0 20.77 0h5.75v4h-5.75c-4.62 0-8.38 3.76-8.38 8.38V27.6c0 4.34-2.25 8.17-5.64 10.38 3.39 2.21 5.64 6.04 5.64 10.38v16.45c0 4.62 3.76 8.38 8.38 8.38h5.75v4.02Z"></path></svg>
+        <span>INTEGRATE WITH YOUR FAV TECH STACK</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 27 78" class="skiper-bracket flip"><path fill="var(--gold-500)" d="M26.52 77.21h-5.75c-6.83 0-12.38-5.56-12.38-12.38V48.38C8.39 43.76 4.63 40 .01 40v-4c4.62 0 8.38-3.76 8.38-8.38V12.4C8.38 5.56 13.94 0 20.77 0h5.75v4h-5.75c-4.62 0-8.38 3.76-8.38 8.38V27.6c0 4.34-2.25 8.17-5.64 10.38 3.39 2.21 5.64 6.04 5.64 10.38v16.45c0 4.62 3.76 8.38 8.38 8.38h5.75v4.02Z"></path></svg>
+      </div>
+
+      <div class="skiper31-icons-grid" id="skiper31Icons">
+        <div class="skiper31-icon-card skiper-hover-lift"><span class="icon">💻</span><b>Cursor</b></div>
+        <div class="skiper31-icon-card skiper-hover-lift"><span class="icon">🎯</span><b>Dart</b></div>
+        <div class="skiper31-icon-card skiper-hover-lift"><span class="icon">📱</span><b>Flutter</b></div>
+        <div class="skiper31-icon-card skiper-hover-lift"><span class="icon">🎨</span><b>Figma</b></div>
+        <div class="skiper31-icon-card skiper-hover-lift"><span class="icon">🔥</span><b>Firebase</b></div>
+        <div class="skiper31-icon-card skiper-hover-lift"><span class="icon">❤️</span><b>Lovable</b></div>
+        <div class="skiper31-icon-card skiper-hover-lift"><span class="icon">⚡️</span><b>v0</b></div>
+        <div class="skiper31-icon-card skiper-hover-lift"><span class="icon">🤖</span><b>Claude</b></div>
+        <div class="skiper31-icon-card skiper-hover-lift"><span class="icon">▶️</span><b>Google Play</b></div>
+        <div class="skiper31-icon-card skiper-hover-lift"><span class="icon">🍏</span><b>App Store</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STACK MARQUEE ================= -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <!-- duplicated in JS -->
+  </div>
+</div>
+
+<!-- ================= MENTORS ================= -->
+<section id="mentors" style="background:var(--bg-deep);">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">06 · הצוות</span>
+      <h2>מי מלווה אתכם</h2>
+      <p>סגל המרצים הם אנשים עם ניסיון עשיר מהתעשייה, רקע בבניית אפליקציות מקצה-לקצה, ליווי סטארטאפים ומומחיות עמוקה בתחומי הליבה של הקורס.</p>
+    </div>
+
+    <div class="mentor-lead skiper-hover-lift" data-reveal>
+      <div class="mentor-avatar">א.ע</div>
+      <div>
+        <span class="role">מנחה ראשי</span>
+        <h3>אייל עטייה</h3>
+        <p>פיתוח והעלאה של אפליקציות מובייל אמיתיות מקצה-לקצה, ליווי סטארטאפים וכיום בונה סטארטאפים משלו. מלווה אתכם מהרעיון ועד החנות.</p>
+        <div class="mentor-tags">
+          <span class="chip">📱 אפליקציות בחנויות</span>
+          <span class="chip">🎓 ליווי סטארטאפים</span>
+          <span class="chip">✨ ניסיון הדרכה</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-grid" data-reveal>
+      <div class="skill-item skiper-hover-lift"><span class="icon">⚡</span><div><h5>Vibecoding ו-AI</h5><p>פיתוח מואץ עם כלי AI מתקדמים</p></div></div>
+      <div class="skill-item skiper-hover-lift"><span class="icon">🎨</span><div><h5>Figma ועיצוב UX/UI</h5><p>אפיון, עיצוב ממשק ובניית Design System</p></div></div>
+      <div class="skill-item skiper-hover-lift"><span class="icon">📱</span><div><h5>פיתוח Flutter ו-Dart</h5><p>אפליקציות מובייל ל-iOS ואנדרואיד מקוד אחד</p></div></div>
+      <div class="skill-item skiper-hover-lift"><span class="icon">🚀</span><div><h5>ניהול מוצר ו-Startups</h5><p>מרעיון ל-MVP ועד שוק בפועל</p></div></div>
+      <div class="skill-item skiper-hover-lift"><span class="icon">🔥</span><div><h5>Firebase ו-Backend</h5><p>שרת, בסיס נתונים בענן והעלאה לפרודקשן</p></div></div>
+      <div class="skill-item skiper-hover-lift"><span class="icon">🧩</span><div><h5>ארכיטקטורת נתונים</h5><p>מבנה נכון, שכבות וקוד שמחזיק זמן</p></div></div>
+    </div>
+
+    <div class="guest-banner" data-reveal>
+      <span style="font-size:24px;">🎓</span>
+      <div>מרצים אורחים לאורך הקורס — מומחים נוספים מהתעשייה כמצטרפים אורחים ל-Flutter מתקדם, AI, עיצוב, ארכיטקטורה ו-Production.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICING ================= -->
+<section id="pricing">
+  <div class="container">
+    <div class="price-wrap">
+      <div class="price-copy" data-reveal>
+        <span class="eyebrow">07 · השקעה בקורס</span>
+        <h2 style="margin-top:14px;">השקעה אחת, מקצוע לכל החיים</h2>
+        <p>100 שעות לימוד חי, ליווי אישי בקבוצה קטנה, ותוצר אמיתי שאפשר להוריד ולהראות. אתם יוצאים עם אפליקציה בחנויות ויכולת לבנות את הבאה לבד.</p>
+        <div class="perk-strip">
+          <div class="perk">💳 אפשרות לתשלומים</div>
+          <div class="perk">🎥 הקלטות מלאות</div>
+          <div class="perk">🎓 ליווי אישי</div>
+        </div>
+      </div>
+
+      <div class="price-card skiper-border-glow" id="priceCard" data-reveal>
+        <span class="price-tag">מחיר הקורס</span>
+        <div class="price-amount"><b>7,000</b><span>₪ · השקעה חד-פעמית</span></div>
+        <div class="price-sub">כולל הכל · ללא עלויות נסתרות</div>
+        <ul class="price-list">
+          <li><span class="tick">✓</span> 24 מפגשים חיים בזום · 100 שעות</li>
+          <li><span class="tick">✓</span> חומרי תרגול ותבניות מוכנות</li>
+          <li><span class="tick">✓</span> מרצים אורחים מומחים</li>
+          <li><span class="tick">✓</span> פרסום בפועל ב-App Store וב-Google Play</li>
+          <li><span class="tick">✓</span> הקלטות מלאות של כל המפגשים</li>
+          <li><span class="tick">✓</span> ליווי אישי ומשוב לאורך הקורס</li>
+          <li><span class="tick">✓</span> פרויקט גמר — אפליקציה אמיתית</li>
+          <li><span class="tick">✓</span> תעודת סיום</li>
+        </ul>
+        <a href="#contact" class="btn btn-gold">להרשמה לקורס ›</a>
+        <div class="price-note">מקומות מוגבלים לקבוצה · ניתן לפרוס לתשלומים</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" style="background:var(--bg-deep);">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">08 · שאלות נפוצות</span>
+      <h2>כל מה שרציתם לדעת</h2>
+    </div>
+
+    <div class="faq-grid" data-reveal>
+      <details class="faq" open>
+        <summary>איזה ציוד צריך?</summary>
+        <p>מחשב נייד (Windows / Mac), חיבור יציב לאינטרנט ותוכנת זום.</p>
+      </details>
+      <details class="faq">
+        <summary>צריך רקע בתכנות?</summary>
+        <p>לא. הקורס בנוי למתחילים מאפס מוחלט ומתקדם צעד אחר צעד.</p>
+      </details>
+      <details class="faq">
+        <summary>מה אם פספסתי מפגש?</summary>
+        <p>צופים בהקלטה ומתעדכנים בליווי האישי — לא נשארים מאחור.</p>
+      </details>
+      <details class="faq">
+        <summary>המפגשים מוקלטים?</summary>
+        <p>כן. מקבלים הקלטות מלאות של כל המפגשים לצפייה חוזרת בכל שלב.</p>
+      </details>
+      <details class="faq">
+        <summary>מה מקבלים בסיום?</summary>
+        <p>אפליקציה חיה, תיק עבודות עם פרויקט גמר, ותעודת סיום רשמית.</p>
+      </details>
+      <details class="faq">
+        <summary>באמת מעלים אפליקציה לחנות?</summary>
+        <p>כן. פרסום בפועל ב-App Store וב-Google Play הוא היעד והתוצר של הקורס.</p>
+      </details>
+      <details class="faq">
+        <summary>יש אפשרות לפרוס תשלומים?</summary>
+        <p>כן. ניתן לפרוס את עלות הקורס למספר תשלומים — נבנה יחד תוכנית שמתאימה לכם.</p>
+      </details>
+      <details class="faq">
+        <summary>כמה זמן צריך להשקיע בשבוע?</summary>
+        <p>מעבר למפגשים החיים — כ-3 עד 5 שעות שבועיות לתרגול עצמאי על הפרויקט שלכם.</p>
+      </details>
+    </div>
+
+    <div class="faq-cta" data-reveal>
+      <div>
+        <h4 style="font-size:19px; color:#fff;">יש לכם עוד שאלה? אני כאן</h4>
+        <p style="color:rgba(255,255,255,.75); margin-top:6px; font-size:14px;">אשמח לענות על כל שאלה ולעזור לכם להחליט אם הקורס מתאים בדיוק לכם.</p>
+      </div>
+      <a href="#contact" class="btn btn-gold">דברו איתי ›</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT / LEAD ================= -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-wrap" data-reveal>
+      <div class="contact-copy">
+        <span class="eyebrow">JOIN · 2026</span>
+        <h2 style="margin-top:14px;">בעוד 3 חודשים — האפליקציה שלכם <span class="hl">בחנויות</span>.</h2>
+        <p>קבוצה קטנה, ליווי אישי ותוצר אמיתי שאפשר להוריד ולהראות. אתם יוצאים גאים ולהיות בו. מצטרפים?</p>
+        <ul class="contact-points">
+          <li>🎓 תעודת סיום — הסמכה רשמית בתום הקורס</li>
+          <li>📁 תיק עבודות — פרויקט גמר שמדגים יכולת מלאה</li>
+          <li>📱 אפליקציה בחנויות — מוצר חי ב-App Store וב-Google Play</li>
+        </ul>
+        <div style="margin-top:28px; font-size:14px; color:var(--ink-1);">
+          📧 eyal@kalimo-tech.com &nbsp; · &nbsp; 📞 052-595-5501
+        </div>
+      </div>
+
+      <div class="form-card">
+        <form id="leadForm">
+          <div class="field">
+            <label for="fName">שם מלא</label>
+            <input type="text" id="fName" name="name" placeholder="איך קוראים לך?" required />
+          </div>
+          <div class="field">
+            <label for="fPhone">טלפון</label>
+            <input type="tel" id="fPhone" name="phone" placeholder="050-0000000" required />
+          </div>
+          <div class="field">
+            <label for="fEmail">אימייל (אופציונלי)</label>
+            <input type="email" id="fEmail" name="email" placeholder="name@email.com" />
+          </div>
+          <div class="field">
+            <label for="fMsg">רוצים לספר לנו על הרעיון שלכם?</label>
+            <textarea id="fMsg" name="message" rows="3" placeholder="ספרו לנו בקצרה..."></textarea>
+          </div>
+          <button class="btn btn-gold" type="submit">לפרטים והרשמה לקורס</button>
+          <div class="form-note">נחזור אליכם תוך יום עסקים אחד. ללא התחייבות.</div>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="check">✓</div>
+          <h4>הפרטים התקבלו!</h4>
+          <p>ניצור איתכם קשר בהקדם כדי לספר הכל על הקורס ולראות שהוא מתאים לכם.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#home" class="logo">
+          <img src="FLUTTERO.svg" alt="Fluttero" class="logo-svg" />
+        </a>
+        <p>קורס Flutter מקצועי מקצה-לקצה — מרעיון לאפליקציה בחנויות. מבית Kalimo Tech.</p>
+      </div>
+      <div class="foot-links">
+        <div class="foot-col">
+          <h6>הקורס</h6>
+          <a href="#value">על הקורס</a>
+          <a href="#curriculum">תוכנית לימודים</a>
+          <a href="#pricing">מחיר והרשמה</a>
+        </div>
+        <div class="foot-col">
+          <h6>מידע</h6>
+          <a href="#mentors">הצוות</a>
+          <a href="#faq">שאלות נפוצות</a>
+          <a href="#contact">יצירת קשר</a>
+        </div>
+        <div class="foot-col">
+          <h6>צור קשר</h6>
+          <a href="mailto:eyal@kalimo-tech.com">eyal@kalimo-tech.com</a>
+          <a href="tel:0525955501">052-595-5501</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Fluttero · Kalimo Tech. כל הזכויות שמורות.</span>
+      <span>נבנה באהבה ל-Flutter 💜</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= STICKY CTA ================= -->
+<div class="sticky-cta" id="stickyCta">
+  <div class="container sticky-row">
+    <div class="txt"><b>מוכנים להתחיל לבנות?</b><span>7,000 ₪ · אפשרות לתשלומים · מקומות מוגבלים</span></div>
+    <a href="#pricing" class="btn btn-gold">הרשמה לקורס</a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------- Nav scroll state ---------- */
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  /* ---------- Split hero title words for stagger reveal ---------- */
+  const wordSpans = document.querySelectorAll('.hero h1 .word span');
+
+  /* ---------- Animmaster Kinetic 3D Hero Timeline ---------- */
+  if (window.gsap){
+    const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+    tl.set('.hero h1 .word span', { yPercent: 130, rotateX: 65, scale: 0.85, opacity: 0 })
+      .set('.hero-badge', { opacity: 0, scale: 0.8, y: -20 })
+      .set('.hero p.lead, .hero-actions, .quick-form, .chip-row, .hero-stats', { opacity: 0, y: 35 })
+      .set('.hero-visual', { opacity: 0, scale: 0.85, rotateY: 18 })
+      .to('.hero-badge', { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'back.out(1.7)' }, 0.1)
+      .to('.hero h1 .word span', { yPercent: 0, rotateX: 0, scale: 1, opacity: 1, duration: 1.1, stagger: 0.05, ease: 'power4.out' }, 0.2)
+      .to('.hero p.lead', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.5)
+      .to('.hero-actions', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.65)
+      .to('.quick-form', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.75)
+      .to('.chip-row', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.85)
+      .to('.hero-stats', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.95)
+      .to('.hero-visual', { opacity: 1, scale: 1, rotateY: 0, duration: 1.2, ease: 'power4.out' }, 0.35);
+
+    /* Count-up stats with glow effect */
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseInt(el.getAttribute('data-count'), 10);
+      const counter = { val: 0 };
+      tl.to(counter, {
+        val: target, duration: 1.6, ease:'power3.out',
+        onUpdate(){ el.textContent = Math.round(counter.val); }
+      }, 1.0);
+    });
+  } else {
+    document.querySelectorAll('[data-reveal], .hero h1 .word span').forEach(el=>{ el.style.opacity=1; el.style.transform='none';});
+  }
+
+  /* Removed noisy canvas particle background */
+
+  /* ---------- Animmaster 3D Mouse Parallax Tilt ---------- */
+  const heroEl = document.querySelector('.hero');
+  const phoneEl = document.getElementById('heroPhone');
+  const fc1 = document.querySelector('.fc-1');
+  const fc2 = document.querySelector('.fc-2');
+  const fc3 = document.querySelector('.fc-3');
+  if (heroEl && phoneEl && !reduceMotion && window.gsap) {
+    heroEl.addEventListener('mousemove', (e) => {
+      const rect = heroEl.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      gsap.to(phoneEl, { rotateY: x * 20, rotateX: -y * 20, duration: 0.8, ease: 'power2.out' });
+      if (fc1) gsap.to(fc1, { x: x * 40, y: y * 30, duration: 1, ease: 'power2.out' });
+      if (fc2) gsap.to(fc2, { x: -x * 40, y: -y * 30, duration: 1, ease: 'power2.out' });
+      if (fc3) gsap.to(fc3, { x: x * 25, y: -y * 35, duration: 1, ease: 'power2.out' });
+    });
+    heroEl.addEventListener('mouseleave', () => {
+      gsap.to(phoneEl, { rotateY: 0, rotateX: 0, duration: 1.2, ease: 'power3.out' });
+      if (fc1) gsap.to(fc1, { x: 0, y: 0, duration: 1.2, ease: 'power3.out' });
+      if (fc2) gsap.to(fc2, { x: 0, y: 0, duration: 1.2, ease: 'power3.out' });
+      if (fc3) gsap.to(fc3, { x: 0, y: 0, duration: 1.2, ease: 'power3.out' });
+    });
+  }
+
+  /* ---------- Scroll reveal for sections ---------- */
+  if (window.gsap && window.ScrollTrigger){
+    gsap.utils.toArray('[data-reveal]').forEach((el)=>{
+      gsap.fromTo(el, { opacity:0, y: reduceMotion?0:35, filter: reduceMotion?'blur(0px)':'blur(4px)' }, {
+        opacity:1, y:0, filter:'blur(0px)', duration:1, ease:'power3.out',
+        scrollTrigger:{ trigger: el, start:'top 88%' }
+      });
+    });
+
+    /* sticky bottom cta */
+    ScrollTrigger.create({
+      trigger: '#value',
+      start: 'top top',
+      onEnter: () => document.getElementById('stickyCta').classList.add('show'),
+      onLeaveBack: () => document.getElementById('stickyCta').classList.remove('show'),
+    });
+    ScrollTrigger.create({
+      trigger: '#contact',
+      start: 'top bottom',
+      end: 'bottom bottom',
+      onEnter: () => document.getElementById('stickyCta').classList.remove('show'),
+      onLeaveBack: () => document.getElementById('stickyCta').classList.add('show'),
+    });
+  }
+
+  /* ---------- Animmaster Enhanced Stage Switcher ---------- */
+  const layers = document.querySelectorAll('.stage-layer');
+  const pills = document.querySelectorAll('.stage-pill');
+  let stage = 0;
+  function setStage(i){
+    if (window.gsap && !reduceMotion) {
+      layers.forEach((l, idx) => {
+        if (idx === i) {
+          l.style.display = 'block';
+          gsap.fromTo(l, { opacity: 0, scale: 0.92, filter: 'blur(6px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.7, ease: 'power3.out', onStart: () => l.classList.add('visible') });
+        } else if (l.classList.contains('visible')) {
+          gsap.to(l, { opacity: 0, scale: 1.05, filter: 'blur(4px)', duration: 0.45, ease: 'power2.in', onComplete: () => { l.classList.remove('visible'); l.style.display = 'none'; } });
+        }
+      });
+    } else {
+      layers.forEach((l, idx) => l.classList.toggle('visible', idx === i));
+    }
+    pills.forEach((p, idx) => p.classList.toggle('active', idx === i));
+    stage = i;
+  }
+  setStage(0);
+  if (!reduceMotion){
+    setInterval(()=> setStage((stage+1)%4), 3200);
+  }
+  pills.forEach(p => p.addEventListener('click', ()=> setStage(+p.dataset.stage)));
+
+  /* ---------- Curriculum accordion ---------- */
+  document.querySelectorAll('.module-head').forEach(head=>{
+    const mod = head.closest('.module');
+    const body = mod.querySelector('.module-body');
+    function sync(){
+      body.style.maxHeight = mod.classList.contains('open') ? body.scrollHeight + 'px' : '0px';
+    }
+    sync();
+    head.addEventListener('click', ()=>{
+      const willOpen = !mod.classList.contains('open');
+      document.querySelectorAll('.module.open').forEach(m=>{
+        m.classList.remove('open');
+        m.querySelector('.module-body').style.maxHeight = '0px';
+      });
+      if (willOpen){ mod.classList.add('open'); sync(); }
+    });
+    window.addEventListener('resize', ()=>{ if (mod.classList.contains('open')) sync(); });
+  });
+
+  /* ---------- Stack marquee with Skiper UI Vercel Tooltips ---------- */
+  const stack = [
+    {name: 'Cursor', desc: 'AI Code Editor'},
+    {name: 'Dart', desc: 'Core Language'},
+    {name: 'Flutter', desc: 'Cross-Platform UI'},
+    {name: 'Figma', desc: 'UI/UX Design'},
+    {name: 'Firebase', desc: 'Cloud Backend'},
+    {name: 'Lovable', desc: 'AI Web Apps'},
+    {name: 'v0', desc: 'Generative UI'},
+    {name: 'Claude Code', desc: 'Agentic Coding'},
+    {name: 'Google Play', desc: 'Android Store'},
+    {name: 'App Store', desc: 'Apple iOS'}
+  ];
+  const track = document.getElementById('marqueeTrack');
+  if (track) {
+    const html = stack.map(s => `
+      <div class="stack-badge skiper-tooltip-wrap">
+        <span>${s.name}</span>
+        <div class="skiper-tooltip">⚡️ ${s.desc}</div>
+      </div>
+    `).join('');
+    track.innerHTML = html + html;
+  }
+
+  /* ---------- Price card tilt ---------- */
+  const priceCard = document.getElementById('priceCard');
+  if (priceCard && !reduceMotion){
+    priceCard.addEventListener('mousemove', (e)=>{
+      const r = priceCard.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      priceCard.style.transform = `perspective(900px) rotateY(${x*6}deg) rotateX(${-y*6}deg) translateY(-4px)`;
+    });
+    priceCard.addEventListener('mouseleave', ()=>{ priceCard.style.transform = 'none'; });
+  }
+
+  /* ---------- Skiper UI Hover Spotlight Cards ---------- */
+  document.querySelectorAll('.card, .value-hero-card, .price-card, .form-card, .module').forEach(el => {
+    el.classList.add('skiper-spotlight');
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+      el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+    });
+  });
+
+  /* ---------- Skiper UI Dynamic Island Interactive Bounce ---------- */
+  const island = document.getElementById('skiperIsland');
+  if (island) {
+    island.addEventListener('click', () => {
+      if (window.gsap) {
+        gsap.fromTo(island, { scale: 0.95 }, { scale: 1.05, duration: 0.3, ease: 'back.out(2)', onComplete: () => gsap.to(island, { scale: 1, duration: 0.3 }) });
+      }
+    });
+  }
+
+  /* ---------- Skiper 19 & Skiper 31 Scroll-Driven Animations ---------- */
+  if (window.gsap && window.ScrollTrigger && !reduceMotion) {
+    // Skiper 19: The Stroke That Follows Scroll Progress
+    const skiper19Path = document.getElementById('skiper19Path');
+    if (skiper19Path) {
+      const length = skiper19Path.getTotalLength() || 3000;
+      skiper19Path.style.strokeDasharray = length;
+      skiper19Path.style.strokeDashoffset = length;
+      gsap.to(skiper19Path, {
+        strokeDashoffset: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#skiperShowcase",
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true
+        }
+      });
+    }
+
+    // Skiper 31 CharacterV1: 3D Text Center-Spread Reveal
+    const titleEl = document.getElementById('skiper31Title');
+    if (titleEl) {
+      const text = titleEl.textContent.trim();
+      titleEl.innerHTML = '';
+      const chars = text.split('');
+      const centerIndex = Math.floor(chars.length / 2);
+
+      const charSpans = chars.map((char) => {
+        const span = document.createElement('span');
+        span.className = 'skiper31-char' + (char === ' ' ? ' space' : '');
+        span.textContent = char === ' ' ? '\u00A0' : char;
+        titleEl.appendChild(span);
+        return span;
+      });
+
+      charSpans.forEach((span, index) => {
+        const dist = index - centerIndex;
+        gsap.fromTo(span, {
+          x: dist * 45,
+          rotateX: dist * 40,
+          opacity: 0.15,
+          scale: 0.75
+        }, {
+          x: 0,
+          rotateX: 0,
+          opacity: 1,
+          scale: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#skiper31TextWrap",
+            start: "top 85%",
+            end: "center center",
+            scrub: 1
+          }
+        });
+      });
+    }
+
+    // Skiper 31 CharacterV2/V3: Tech Icons Center-Spread Reveal
+    const iconCards = document.querySelectorAll('#skiper31Icons .skiper31-icon-card');
+    if (iconCards.length > 0) {
+      const centerIndex = Math.floor(iconCards.length / 2);
+      iconCards.forEach((card, index) => {
+        const dist = index - centerIndex;
+        gsap.fromTo(card, {
+          x: dist * 60,
+          y: Math.abs(dist) * 35,
+          rotate: dist * 10,
+          scale: 0.75,
+          opacity: 0.2
+        }, {
+          x: 0,
+          y: 0,
+          rotate: 0,
+          scale: 1,
+          opacity: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#skiper31IconsWrap",
+            start: "top 85%",
+            end: "center center",
+            scrub: 1
+          }
+        });
+      });
+    }
+  }
+
+  /* ---------- Lead capture: shared submit handler ---------- */
+  async function sendLead(payload){
+    try{
+      const res = await fetch('/api/lead', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      });
+      return res.ok;
+    }catch(err){
+      console.error('Lead submit failed', err);
+      return false;
+    }
+  }
+
+  const leadForm = document.getElementById('leadForm');
+  leadForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(leadForm);
+    const ok = await sendLead({
+      name: fd.get('name'), phone: fd.get('phone'), email: fd.get('email'),
+      message: fd.get('message'), source: 'contact-section'
+    });
+    leadForm.style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  });
+
+  const quickForm = document.getElementById('quickForm');
+  quickForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const phone = document.getElementById('quickPhone').value;
+    await sendLead({ phone, source:'hero-quick-form' });
+    quickForm.innerHTML = '<div style="padding:12px 16px; font-weight:600; color:var(--gold-500);">✓ קיבלנו! ניצור קשר בהקדם</div>';
+  });
+});
+</script>
+</body>
+</html>
