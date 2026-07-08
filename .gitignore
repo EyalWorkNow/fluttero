@@ -30,3 +30,9 @@ dist-ssr
 # Local DB leads file
 leads.json
 
+
+# Local Netlify folder
+.netlify
+
+# Firebase cache
+.firebase/
