@@ -71,6 +71,9 @@ export const SkiperShowcase: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [containerCenter, setContainerCenter] = useState(0);
   const [cardPositions, setCardPositions] = useState<{ [key: number]: number }>({});
+  const [isPaused, setIsPaused] = useState(false);
+  const rafRef = useRef<number | null>(null);
+  const isPausedRef = useRef(false);
 
   const updatePositions = () => {
     if (scrollContainerRef.current) {
@@ -90,13 +93,44 @@ export const SkiperShowcase: React.FC = () => {
     }
   };
 
+  // Continuous auto-scroll loop
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    // scroll speed in px/frame (at 60fps ~0.5px/frame = ~30px/sec)
+    const speed = 0.6;
+
+    const autoScroll = () => {
+      if (!isPausedRef.current && el) {
+        // Scroll in RTL direction — scrollLeft is negative in RTL, we go more negative
+        el.scrollLeft -= speed;
+        // When we hit the leftmost position, jump back to the middle (seamless loop)
+        // We doubled the content via duplication so we can loop
+        if (el.scrollLeft <= 0) {
+          // Jump silently to the middle (half the scroll width)
+          el.scrollLeft = el.scrollWidth / 2;
+        }
+        updatePositions();
+      }
+      rafRef.current = requestAnimationFrame(autoScroll);
+    };
+
+    // Start in middle so we can scroll both ways
+    el.scrollLeft = -(el.scrollWidth / 2);
+    rafRef.current = requestAnimationFrame(autoScroll);
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
       updatePositions();
     };
     window.addEventListener("resize", handleResize);
-    // Delay initial position check slightly to ensure layout is fully rendered
     const timer = setTimeout(updatePositions, 100);
 
     return () => {
@@ -116,7 +150,6 @@ export const SkiperShowcase: React.FC = () => {
         left: offset,
         behavior: "smooth"
       });
-      // Trigger updates during scroll animation
       setTimeout(updatePositions, 50);
       setTimeout(updatePositions, 150);
       setTimeout(updatePositions, 300);
@@ -125,6 +158,16 @@ export const SkiperShowcase: React.FC = () => {
 
   const handleScrollEvent = () => {
     updatePositions();
+  };
+
+  const pauseScroll = () => {
+    isPausedRef.current = true;
+    setIsPaused(true);
+  };
+
+  const resumeScroll = () => {
+    isPausedRef.current = false;
+    setIsPaused(false);
   };
 
   const text = "FLUTTER & AI ARCHITECTURE";
@@ -185,6 +228,9 @@ export const SkiperShowcase: React.FC = () => {
       desc: "תהליך הפריסה המלא, העלאת האפליקציות לחנויות של Apple ו-Google והכנה לפרודקשן מסחרי."
     },
   ];
+
+  // Duplicate cards for seamless infinite loop
+  const loopingStack = [...techStack, ...techStack];
 
 
   return (
@@ -268,34 +314,34 @@ export const SkiperShowcase: React.FC = () => {
             </div>
           </div>
 
-          <div className="relative" style={{ 
+          <div style={{ 
             marginTop: "50px",
+            position: "relative",
             width: "100vw",
             marginLeft: "calc(-50vw + 50%)",
             marginRight: "calc(-50vw + 50%)",
-            overflow: "hidden"
           }}>
-            {/* Left Fade Gradient Overlay */}
+            {/* Left Fade Gradient — fixed to viewport left edge */}
             <div style={{
               position: "absolute",
               top: 0,
               bottom: 0,
               left: 0,
-              width: "18%",
-              background: "linear-gradient(to right, #07060b 0%, rgba(7, 6, 11, 0) 100%)",
-              zIndex: 10,
+              width: "clamp(80px, 15vw, 220px)",
+              background: "linear-gradient(to right, #07060b 0%, rgba(7, 6, 11, 0.7) 50%, transparent 100%)",
+              zIndex: 20,
               pointerEvents: "none"
             }} />
 
-            {/* Right Fade Gradient Overlay */}
+            {/* Right Fade Gradient — fixed to viewport right edge */}
             <div style={{
               position: "absolute",
               top: 0,
               bottom: 0,
               right: 0,
-              width: "18%",
-              background: "linear-gradient(to left, #07060b 0%, rgba(7, 6, 11, 0) 100%)",
-              zIndex: 10,
+              width: "clamp(80px, 15vw, 220px)",
+              background: "linear-gradient(to left, #07060b 0%, rgba(7, 6, 11, 0.7) 50%, transparent 100%)",
+              zIndex: 20,
               pointerEvents: "none"
             }} />
 
@@ -304,20 +350,22 @@ export const SkiperShowcase: React.FC = () => {
               ref={scrollContainerRef}
               className="hide-scrollbar"
               onScroll={handleScrollEvent}
+              onMouseEnter={pauseScroll}
+              onMouseLeave={resumeScroll}
+              onTouchStart={pauseScroll}
+              onTouchEnd={resumeScroll}
               style={{
                 display: "flex",
                 overflowX: "auto",
-                scrollBehavior: "smooth",
                 gap: "24px",
                 padding: "40px 0",
-                paddingLeft: isMobile ? "calc(50vw - 140px)" : "calc(50vw - 160px)",
-                paddingRight: isMobile ? "calc(50vw - 140px)" : "calc(50vw - 160px)",
                 direction: "rtl",
                 width: "100%",
-                WebkitOverflowScrolling: "touch"
+                WebkitOverflowScrolling: "touch",
+                cursor: isPaused ? "grab" : "default"
               }}
             >
-              {techStack.map((item, index) => {
+              {loopingStack.map((item, index) => {
                 const cardCenter = cardPositions[index] || 0;
                 const distance = Math.abs(cardCenter - containerCenter);
                 const maxDistance = isMobile ? 320 : 600;
