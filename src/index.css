@@ -2059,13 +2059,20 @@ header.liquid-glass-premium.scrolled {
 
 .carousel-marquee-track {
   display: flex;
-  gap: 24px;
+  /* NO gap here — each card handles its own right margin so that
+     the total width of ONE set = N * (cardWidth + margin).
+     translateX(-50%) then lands exactly at the start of the second copy. */
   width: max-content;
-  animation: carousel-scroll 40s linear infinite;
+  animation: carousel-scroll 45s linear infinite;
   will-change: transform;
   padding: 16px 0;
 }
 
 .carousel-marquee-track:hover {
   animation-play-state: paused;
+}
+
+/* Each card in the marquee gets its own right margin (replaces gap) */
+.carousel-marquee-track > div {
+  margin-right: 24px;
 }
