@@ -269,7 +269,7 @@
     position: relative;
     width: 100%;
     min-height: 90vh;
-    border-radius: 48px; /* Fixed rounded corners to avoid warping */
+    border-radius: 60px; /* Fixed rounded corners to avoid warping */
     overflow: hidden;
     display: flex;
     align-items: flex-end; /* Bottom alignment as in reference */
@@ -1658,7 +1658,7 @@
     .hero {
       padding: 130px 16px 60px !important;
       min-height: 80vh !important;
-      border-radius: 40px !important;
+      border-radius: 48px !important;
     }
     .hero p.lead {
       font-size: 16px !important;

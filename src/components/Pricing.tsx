@@ -71,9 +71,9 @@ export const Pricing: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className="card skiper-hover-lift"
-                style={{ padding: "34px", borderRadius: "30px" }}
+                style={{ padding: "40px 34px", borderRadius: "42px" }}
               >
-                <div className="iconsax-box gold" style={{ width: "56px", height: "56px", borderRadius: "18px", marginBottom: "22px" }}>
+                <div className="iconsax-box gold" style={{ width: "56px", height: "56px", borderRadius: "24px", marginBottom: "22px" }}>
                   {feat.icon}
                 </div>
                 <h3 style={{ fontSize: "21px", color: "#fff", marginBottom: "12px", fontWeight: 700 }}>{feat.title}</h3>
@@ -101,7 +101,7 @@ export const Pricing: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="skiper-border-glow card"
             style={{
-              padding: "50px", borderRadius: "39px",
+              padding: "60px 50px", borderRadius: "52px",
               boxShadow: "0 35px 90px rgba(0,0,0,0.85)", position: "relative", overflow: "hidden",
               background: "linear-gradient(155deg, rgba(26, 21, 48, 0.9) 0%, rgba(13, 11, 24, 0.95) 100%)"
             }}
@@ -167,7 +167,7 @@ export const Pricing: React.FC = () => {
                 </button>
               </form>
             ) : (
-              <div style={{ padding: "22px", background: "rgba(245,197,24,0.12)", border: "1px solid var(--gold-500)", borderRadius: "25px", color: "var(--gold-500)", fontWeight: 700, textAlign: "center", fontSize: "18px", display: "flex", alignItems: "center", justifyContent: "center", gap: "12px" }}>
+              <div style={{ padding: "26px", background: "rgba(245,197,24,0.12)", border: "1px solid var(--gold-500)", borderRadius: "35px", color: "var(--gold-500)", fontWeight: 700, textAlign: "center", fontSize: "18px", display: "flex", alignItems: "center", justifyContent: "center", gap: "12px" }}>
                 <TickCircle size={28} variant="Bulk" color="var(--gold-500)" />
                 <span>מעולה! רשמנו את פרטיך. צוות הרישום ייצור איתך קשר בהקדם לשיחת התאמה וקליטה!</span>
               </div>
@@ -177,7 +177,7 @@ export const Pricing: React.FC = () => {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" style={{ padding: "120px 0", borderTop: "none" }}>
+      <section id="faq" style={{ padding: "160px 0", borderTop: "none" }}>
         <div className="container" style={{ maxWidth: "800px" }}>
           <div className="section-head" style={{ textAlign: "center", marginBottom: "60px" }}>
             <span className="eyebrow">07 · שאלות ותשובות</span>
@@ -195,7 +195,7 @@ export const Pricing: React.FC = () => {
                   onClick={() => setOpenFaq(isOpen ? null : index)}
                   className="card"
                   style={{
-                    padding: "26px 32px", borderRadius: "25px",
+                    padding: "30px 38px", borderRadius: "35px",
                     cursor: "pointer", transition: "all 0.3s ease",
                     border: isOpen ? "1px solid rgba(245,197,24,0.4)" : "1px solid var(--line)"
                   }}

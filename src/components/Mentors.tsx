@@ -4,7 +4,7 @@ import { Code, CpuCharge, ShieldSecurity, MedalStar, Verify } from "iconsax-reac
 
 export const Mentors: React.FC = () => {
   return (
-    <section id="mentors" style={{ padding: "120px 0", background: "transparent" }}>
+    <section id="mentors" style={{ padding: "160px 0", background: "transparent" }}>
       <div className="container">
         <div className="section-head" style={{ textAlign: "center", maxWidth: "700px", margin: "0 auto 60px" }}>
           <span className="eyebrow">06 · הצוות והמנחים</span>
@@ -25,13 +25,14 @@ export const Mentors: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="card skiper-hover-lift"
             style={{
-              padding: "40px", borderRadius: "37px",
+              padding: "50px", borderRadius: "48px",
               border: "1px solid rgba(245,197,24,0.35)", position: "relative",
-              boxShadow: "0 25px 60px rgba(0,0,0,0.6)", background: "linear-gradient(150deg, rgba(26, 21, 48, 0.8) 0%, rgba(15, 12, 28, 0.9) 100%)"
+              boxShadow: "0 25px 60px rgba(0,0,0,0.6)", background: "linear-gradient(150deg, rgba(26, 21, 48, 0.8) 0%, rgba(15, 12, 28, 0.9) 100%)",
+              marginBottom: "50px"
             }}
           >
             <div style={{ display: "flex", gap: "24px", alignItems: "center", marginBottom: "28px", borderBottom: "1px solid var(--line)", paddingBottom: "24px" }}>
-              <div style={{ width: "90px", height: "90px", borderRadius: "28px", background: "linear-gradient(135deg, var(--gold-500), var(--purple-500))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "38px", color: "#000", fontWeight: 900, boxShadow: "0 10px 25px rgba(245,197,24,0.3)" }}>
+              <div style={{ width: "90px", height: "90px", borderRadius: "36px", background: "linear-gradient(135deg, var(--gold-500), var(--purple-500))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "38px", color: "#000", fontWeight: 900, boxShadow: "0 10px 25px rgba(245,197,24,0.3)" }}>
                 א.ע
               </div>
               <div>
@@ -68,7 +69,7 @@ export const Mentors: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
               className="card skiper-hover-lift"
-              style={{ padding: "26px", borderRadius: "28px" }}
+              style={{ padding: "36px 30px", borderRadius: "38px" }}
             >
               <div className="iconsax-box gold" style={{ width: "48px", height: "48px", borderRadius: "16px", marginBottom: "16px" }}>
                 <Code size={26} variant="Bulk" color="var(--gold-500)" />
@@ -85,7 +86,7 @@ export const Mentors: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.1 }}
               className="card skiper-hover-lift"
-              style={{ padding: "26px", borderRadius: "28px" }}
+              style={{ padding: "36px 30px", borderRadius: "38px" }}
             >
               <div className="iconsax-box purple" style={{ width: "48px", height: "48px", borderRadius: "16px", marginBottom: "16px" }}>
                 <CpuCharge size={26} variant="Bulk" color="var(--purple-300)" />
@@ -102,7 +103,7 @@ export const Mentors: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.2 }}
               className="card skiper-hover-lift"
-              style={{ padding: "26px", borderRadius: "28px" }}
+              style={{ padding: "36px 30px", borderRadius: "38px" }}
             >
               <div className="iconsax-box cyan" style={{ width: "48px", height: "48px", borderRadius: "16px", marginBottom: "16px" }}>
                 <ShieldSecurity size={26} variant="Bulk" color="#00e5ff" />
@@ -119,7 +120,7 @@ export const Mentors: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.3 }}
               className="card skiper-hover-lift"
-              style={{ padding: "26px", borderRadius: "28px" }}
+              style={{ padding: "36px 30px", borderRadius: "38px" }}
             >
               <div className="iconsax-box gold" style={{ width: "48px", height: "48px", borderRadius: "16px", marginBottom: "16px" }}>
                 <MedalStar size={26} variant="Bulk" color="var(--gold-500)" />

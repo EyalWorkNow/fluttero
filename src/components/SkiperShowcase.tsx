@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Code, Direct, Mobile, Chart, Flash, MagicStar, CpuCharge, TaskSquare, Award, Verify, Star1 } from "iconsax-react";
 import { cn } from "../lib/utils";
@@ -39,53 +39,7 @@ const CharacterV1: React.FC<CharacterProps> = ({
   );
 };
 
-type LiquidCardProps = {
-  icon: React.ReactNode;
-  label: string;
-  desc: string;
-  index: number;
-  centerIndex: number;
-  scrollYProgress: any;
-};
 
-const LiquidGlassCard: React.FC<LiquidCardProps> = ({
-  icon,
-  label,
-  desc,
-  index,
-  centerIndex,
-  scrollYProgress,
-}) => {
-  const distanceFromCenter = index - centerIndex;
-
-  const y = useTransform(scrollYProgress, [0, 0.6], [Math.abs(distanceFromCenter) * 35, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.6], [0.88, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [0.25, 1]);
-
-  return (
-    <motion.div
-      className="liquid-glass-card skiper-hover-lift"
-      style={{
-        y,
-        scale,
-        opacity,
-      }}
-    >
-      <div className="liquid-glass-content">
-        <div className="liquid-glass-badge-row">
-          <div className="liquid-glass-icon-box">
-            {icon}
-          </div>
-        </div>
-        <h3 className="liquid-glass-title">{label}</h3>
-        <p className="liquid-glass-desc">{desc}</p>
-        <div className="liquid-glass-footer">
-          <span>⚡ נלמד ומתורגל לעומק בסילבוס הקורס</span>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
 
 const Bracket: React.FC<{ className?: string }> = ({ className }) => {
   return (
@@ -111,10 +65,76 @@ export const SkiperShowcase: React.FC = () => {
     target: targetRef1,
     offset: ["start end", "center center"]
   });
-  const { scrollYProgress: scrollYProgress2 } = useScroll({
-    target: targetRef2,
-    offset: ["start end", "center center"]
-  });
+
+
+  const [rotation, setRotation] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const startRotation = useRef(0);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const isMobile = windowWidth < 768;
+  const isTablet = windowWidth >= 768 && windowWidth < 1024;
+
+  // Orbit Carousel Settings
+  const zDepth = isMobile ? 260 : isTablet ? 380 : 540;
+  const cardWidth = isMobile ? 180 : isTablet ? 230 : 280;
+  const cardHeight = isMobile ? 240 : isTablet ? 280 : 320;
+  const backfaceVisible = false;
+  const pauseOnHover = true;
+
+  const numItems = 10; // techStack.length
+  const angleSlice = 360 / numItems;
+
+  useEffect(() => {
+    if (isHovering && pauseOnHover) return;
+
+    const interval = setInterval(() => {
+      setRotation((prev) => (prev + 0.15) % 360);
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, [isHovering, pauseOnHover]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = true;
+    startX.current = e.clientX;
+    startRotation.current = rotation;
+    setIsHovering(true);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    const deltaX = e.clientX - startX.current;
+    const newRotation = startRotation.current + deltaX * 0.4;
+    setRotation(newRotation);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    isDragging.current = true;
+    startX.current = e.touches[0].clientX;
+    startRotation.current = rotation;
+    setIsHovering(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging.current) return;
+    const deltaX = e.touches[0].clientX - startX.current;
+    const newRotation = startRotation.current + deltaX * 0.4;
+    setRotation(newRotation);
+  };
+
+  const handleCardClick = (index: number) => {
+    const targetRotation = -index * angleSlice;
+    setRotation(targetRotation);
+  };
 
   const text = "FLUTTER & AI ARCHITECTURE";
   const words = text.split(" ");
@@ -174,10 +194,10 @@ export const SkiperShowcase: React.FC = () => {
       desc: "תהליך הפריסה המלא, העלאת האפליקציות לחנויות של Apple ו-Google והכנה לפרודקשן מסחרי."
     },
   ];
-  const iconCenterIndex = Math.floor(techStack.length / 2);
+
 
   return (
-    <section id="skiperShowcase" className="skiper-showcase-section" style={{ position: 'relative', padding: '160px 0', overflow: 'hidden' }}>
+    <section id="skiperShowcase" className="skiper-showcase-section" style={{ position: 'relative', padding: '180px 0', overflow: 'hidden' }}>
 
       <div className="container relative z-10">
         {/* Honor Badge for SVG Stroke Animation */}
@@ -243,18 +263,113 @@ export const SkiperShowcase: React.FC = () => {
             </div>
           </div>
 
-          <div className="skiper31-icons-grid" style={{ perspective: "1000px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "28px" }}>
-            {techStack.map((item, index) => (
-              <LiquidGlassCard
-                key={index}
-                icon={item.icon}
-                label={item.label}
-                desc={item.desc}
-                index={index}
-                centerIndex={iconCenterIndex}
-                scrollYProgress={scrollYProgress2}
-              />
-            ))}
+          <div
+            className="relative w-full flex flex-col items-center justify-center cursor-grab active:cursor-grabbing"
+            style={{ 
+              perspective: '1400px', 
+              height: `${cardHeight + 120}px`,
+              marginTop: '40px',
+              touchAction: 'none',
+              userSelect: 'none',
+              overflow: 'visible'
+            }}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => {
+              setIsHovering(false);
+              isDragging.current = false;
+            }}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={() => {
+              setTimeout(() => {
+                isDragging.current = false;
+              }, 50);
+              setIsHovering(false);
+            }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={() => {
+              setTimeout(() => {
+                isDragging.current = false;
+              }, 50);
+              setIsHovering(false);
+            }}
+          >
+            {/* Rotating Group */}
+            <motion.div
+              className="relative"
+              style={{
+                width: cardWidth,
+                height: cardHeight,
+                transformStyle: 'preserve-3d',
+              }}
+              animate={{ rotateY: rotation }}
+              transition={{ type: 'tween', duration: 0.5, ease: 'easeOut' }}
+            >
+              {techStack.map((item, index) => {
+                const angle = (index * angleSlice * Math.PI) / 180;
+                const x = Math.sin(angle) * zDepth;
+                const z = Math.cos(angle) * zDepth;
+
+                return (
+                  <motion.div
+                    key={index}
+                    className="absolute"
+                    style={{
+                      width: cardWidth,
+                      height: cardHeight,
+                      left: '50%',
+                      top: '50%',
+                      marginLeft: -cardWidth / 2,
+                      marginTop: -cardHeight / 2,
+                      transformStyle: 'preserve-3d',
+                      backfaceVisibility: backfaceVisible ? 'visible' : 'hidden',
+                    }}
+                    animate={{
+                      x,
+                      z,
+                      rotateY: -rotation,
+                    }}
+                    transition={{ type: 'tween', duration: 0.5, ease: 'easeOut' }}
+                    onClick={() => handleCardClick(index)}
+                    whileHover={{ scale: 1.08 }}
+                  >
+                    <div 
+                      className="liquid-glass-card"
+                      style={{ 
+                        width: "100%", 
+                        height: "100%", 
+                        padding: isMobile ? "20px 16px" : "32px 24px",
+                        borderRadius: "38px",
+                        margin: 0,
+                        border: "1px solid rgba(255,255,255,0.08)",
+                        background: "linear-gradient(155deg, rgba(26, 21, 48, 0.75) 0%, rgba(13, 11, 24, 0.9) 100%)"
+                      }}
+                    >
+                      <div className="liquid-glass-content" style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                        <div>
+                          <div className="liquid-glass-badge-row" style={{ marginBottom: isMobile ? "12px" : "18px" }}>
+                            <div className="liquid-glass-icon-box" style={{ width: isMobile ? "38px" : "48px", height: isMobile ? "38px" : "48px", borderRadius: isMobile ? "12px" : "16px" }}>
+                              {item.icon}
+                            </div>
+                          </div>
+                          <h3 className="liquid-glass-title" style={{ fontSize: isMobile ? "16px" : "20px", marginBottom: isMobile ? "6px" : "10px", color: "#fff", fontWeight: 700 }}>{item.label}</h3>
+                          <p className="liquid-glass-desc" style={{ fontSize: isMobile ? "13px" : "14.5px", lineHeight: 1.55, color: "var(--ink-2)", display: "-webkit-box", WebkitLineClamp: isMobile ? 4 : 5, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{item.desc}</p>
+                        </div>
+                        <div className="liquid-glass-footer" style={{ borderTop: "1px solid var(--line)", paddingTop: isMobile ? "8px" : "12px", marginTop: "10px" }}>
+                          <span style={{ fontSize: isMobile ? "11px" : "12px", color: "var(--gold-500)", fontWeight: 600 }}>⚡ נלמד ומתורגל לעומק</span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+
+            {/* Manual Controls Tip */}
+            <div style={{ textAlign: "center", marginTop: "32px", fontSize: "14px", color: "var(--ink-2)", fontWeight: 500 }}>
+              <span>💡 לחצו על כלי כלשהו כדי להביא אותו לחזית · העבירו עכבר כדי להשהות את הסיבוב · גררו לסיבוב ידני</span>
+            </div>
           </div>
         </div>
       </div>
