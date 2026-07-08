@@ -28,13 +28,18 @@ export const Pricing: React.FC = () => {
     if (!phone) return;
 
     try {
-      const response = await fetch("/api/lead", {
+      const formData = new URLSearchParams();
+      formData.append("form-name", "lead");
+      formData.append("name", name);
+      formData.append("phone", phone);
+      formData.append("source", "pricing_registration");
+
+      const response = await fetch("/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name, phone, source: "pricing_registration" })
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData.toString()
       });
+
       if (response.ok) {
         setSubmitted(true);
         confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
