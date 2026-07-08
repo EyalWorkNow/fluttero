@@ -1755,15 +1755,18 @@
 
 /* Responsive badges grid/absolute system */
 .hero-badges-container {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 16px;
-  margin-bottom: 24px;
   z-index: 10;
-  position: relative;
   flex-wrap: wrap;
   padding: 0 16px;
+  pointer-events: none;
 }
 
 .hero-badge-item {
@@ -1774,16 +1777,24 @@
   border-radius: 99px;
   text-align: right;
   direction: rtl;
+  pointer-events: auto;
 }
 
 @media (min-width: 981px) {
   .hero-badges-container {
-    position: static;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
     display: block;
     padding: 0;
+    pointer-events: none;
   }
   .hero-badge-item {
     position: absolute;
+    pointer-events: auto;
   }
   .hero-badge-item.badge-left {
     top: 15%;
@@ -1793,6 +1804,11 @@
     top: 25%;
     right: 6%;
   }
+}
+
+/* Force header to remain fixed even with relative liquid glass style applied */
+header.liquid-glass-premium {
+  position: fixed !important;
 }
 
 
