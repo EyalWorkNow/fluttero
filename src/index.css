@@ -2056,6 +2056,7 @@ header.liquid-glass-premium.scrolled {
   overflow: visible; /* Allow scaled cards to peek out without clipping */
   width: 100%;
   padding: 40px 0; /* Add breathing room for vertical scaling */
+  direction: ltr !important; /* Force LTR coordinate space for standard marquee behavior */
 }
 
 .carousel-marquee-track {
@@ -2064,6 +2065,7 @@ header.liquid-glass-premium.scrolled {
   animation: carousel-scroll 55s linear infinite;
   will-change: transform;
   padding: 30px 0; /* Extra padding to prevent any crop */
+  direction: ltr !important; /* Force LTR coordinate space */
 }
 
 .carousel-marquee-track:hover {
