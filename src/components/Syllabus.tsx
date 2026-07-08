@@ -88,7 +88,7 @@ export const Syllabus: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="card skiper-hover-lift"
-              style={{ padding: "30px", borderRadius: "30px", position: "relative", display: "flex", flexDirection: "column", gap: "16px" }}
+              style={{ padding: "30px", borderRadius: "35px", position: "relative", display: "flex", flexDirection: "column", gap: "16px" }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div className={`iconsax-box ${stg.color}`} style={{ width: "52px", height: "52px" }}>
@@ -120,9 +120,9 @@ export const Syllabus: React.FC = () => {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.3, delay: (idx % 6) * 0.05 }}
               className="lesson card skiper-hover-lift"
-              style={{ padding: "24px", borderRadius: "24px", display: "flex", gap: "16px", alignItems: "flex-start", background: "rgba(255,255,255,0.02)" }}
+              style={{ padding: "24px", borderRadius: "28px", display: "flex", gap: "16px", alignItems: "flex-start", background: "rgba(255,255,255,0.02)" }}
             >
-              <span style={{ fontSize: "17px", fontWeight: 800, color: "var(--gold-500)", background: "rgba(245,197,24,0.08)", padding: "8px 12px", borderRadius: "18px", fontFamily: "Outfit", flexShrink: 0, border: "1px solid rgba(245,197,24,0.18)" }}>
+              <span style={{ fontSize: "17px", fontWeight: 800, color: "var(--gold-500)", background: "rgba(245,197,24,0.08)", padding: "8px 12px", borderRadius: "21px", fontFamily: "Outfit", flexShrink: 0, border: "1px solid rgba(245,197,24,0.18)" }}>
                 {les.id}
               </span>
               <div>

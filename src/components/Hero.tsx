@@ -4,6 +4,7 @@ import { ArrowLeft, TickCircle, Mobile, CpuCharge } from "iconsax-react";
 import confetti from "canvas-confetti";
 
 export const Hero: React.FC = () => {
+  const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -17,7 +18,7 @@ export const Hero: React.FC = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ phone, source: "hero_quick_form" })
+        body: JSON.stringify({ name, phone, source: "hero_quick_form" })
       });
       if (response.ok) {
         setSubmitted(true);
@@ -105,7 +106,7 @@ export const Hero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
               className="lead"
-              style={{ fontSize: "19px", color: "rgba(255,255,255,0.9)", maxWidth: "660px", margin: "0 auto 32px", lineHeight: 1.65, fontWeight: 400, textShadow: "0 2px 10px rgba(0,0,0,0.5)", textAlign: "center" }}
+              style={{ color: "rgba(255,255,255,0.9)", maxWidth: "660px", lineHeight: 1.65, fontWeight: 400, textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}
             >
               מסלול הנדסי קליני ומקיף לפיתוח אפליקציות מובייל ו-Web ל-iOS ו-Android בקוד אחד, הטמעת סוכני GenAI המאיצים את כתיבת הקוד פי 10, וליווי אישי צמוד עד להשקה רשמית בחנויות.
             </motion.p>
@@ -114,7 +115,7 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
-              style={{ display: "flex", gap: "20px", alignItems: "center", justifyContent: "center", flexWrap: "wrap", width: "100%", marginTop: "12px" }}
+              style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "center", justifyContent: "center", width: "100%", marginTop: "12px" }}
             >
               {/* From Uiverse.io by marcelodolza */}
               <div style={{ position: "relative", zIndex: 10, display: "flex", alignItems: "center", height: "80px" }}>
@@ -204,13 +205,22 @@ export const Hero: React.FC = () => {
               </div>
 
               {!submitted ? (
-                <form onSubmit={handleSubmit} className="quick-form liquid-glass-premium" style={{ display: "flex", gap: "12px", padding: "0 8px 0 12px", borderRadius: "99px", width: "460px", maxWidth: "100%", height: "80px", alignItems: "center" }}>
+                <form onSubmit={handleSubmit} className="quick-form liquid-glass-premium" style={{ display: "flex", gap: "12px", padding: "0 8px 0 12px", borderRadius: "99px", width: "640px", maxWidth: "100%", height: "80px", alignItems: "center" }}>
+                  <input
+                    type="text"
+                    placeholder="שם פרטי"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    style={{ flex: "1 1 140px", background: "transparent", border: "none", color: "#fff", padding: "0 16px", fontSize: "15px", outline: "none", position: "relative", zIndex: 2 }}
+                    required
+                  />
+                  <div className="form-separator" style={{ width: "1px", height: "30px", background: "rgba(255,255,255,0.15)", flexShrink: 0 }} />
                   <input
                     type="tel"
-                    placeholder="הזינו טלפון לקבלת סילבוס ותיאום ראיון קליטה"
+                    placeholder="מספר טלפון"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    style={{ flex: 1, background: "transparent", border: "none", color: "#fff", padding: "0 16px", fontSize: "15px", outline: "none", position: "relative", zIndex: 2 }}
+                    style={{ flex: "1.2 1 160px", background: "transparent", border: "none", color: "#fff", padding: "0 16px", fontSize: "15px", outline: "none", position: "relative", zIndex: 2 }}
                     required
                   />
                   <button type="submit" className="btn btn-gold" style={{ height: "64px", padding: "0 28px", borderRadius: "99px", fontWeight: 800, fontSize: "15px", display: "flex", alignItems: "center", gap: "6px", flexShrink: 0, position: "relative", zIndex: 2 }}>
@@ -219,7 +229,7 @@ export const Hero: React.FC = () => {
                   </button>
                 </form>
               ) : (
-                <div className="liquid-glass-premium" style={{ height: "80px", width: "460px", maxWidth: "100%", padding: "0 32px", borderRadius: "99px", color: "var(--gold-500)", fontWeight: 700, display: "flex", alignItems: "center", gap: "10px", fontSize: "15px", justifyContent: "center" }}>
+                <div className="liquid-glass-premium" style={{ height: "80px", width: "640px", maxWidth: "100%", padding: "0 32px", borderRadius: "99px", color: "var(--gold-500)", fontWeight: 700, display: "flex", alignItems: "center", gap: "10px", fontSize: "15px", justifyContent: "center" }}>
                   <TickCircle size={22} variant="Bulk" color="var(--gold-500)" style={{ position: "relative", zIndex: 2 }} />
                   <span style={{ position: "relative", zIndex: 2 }}>מעולה! הפרטים התקבלו.</span>
                 </div>

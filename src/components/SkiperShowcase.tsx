@@ -117,8 +117,10 @@ export const SkiperShowcase: React.FC = () => {
   });
 
   const text = "FLUTTER & AI ARCHITECTURE";
+  const words = text.split(" ");
   const characters = text.split("");
   const centerIndex = Math.floor(characters.length / 2);
+  let charGlobalIndex = 0;
 
   const techStack = [
     {
@@ -192,16 +194,26 @@ export const SkiperShowcase: React.FC = () => {
             </span>
           </motion.div>
 
-          <h2 className="skiper31-title" style={{ perspective: "800px", marginTop: "16px", fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900 }}>
-            {characters.map((char, index) => (
-              <CharacterV1
-                key={index}
-                char={char}
-                index={index}
-                centerIndex={centerIndex}
-                scrollYProgress={scrollYProgress1}
-              />
-            ))}
+          <h2 className="skiper31-title" style={{ perspective: "800px", marginTop: "16px", fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 900, direction: "ltr", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px 14px" }}>
+            {words.map((word, wIdx) => {
+              const wordChars = word.split("");
+              return (
+                <span key={wIdx} style={{ display: "inline-block", whiteSpace: "nowrap" }}>
+                  {wordChars.map((char, cIdx) => {
+                    const globalIdx = charGlobalIndex++;
+                    return (
+                      <CharacterV1
+                        key={cIdx}
+                        char={char}
+                        index={globalIdx}
+                        centerIndex={centerIndex}
+                        scrollYProgress={scrollYProgress1}
+                      />
+                    );
+                  })}
+                </span>
+              );
+            })}
           </h2>
           
           <p className="skiper31-hint" style={{ fontSize: "18px", color: "var(--ink-1)", fontWeight: 500, maxWidth: "680px", margin: "24px auto 0", lineHeight: 1.6 }}>

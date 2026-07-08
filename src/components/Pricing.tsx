@@ -19,6 +19,7 @@ const faqs = [
 
 export const Pricing: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -32,7 +33,7 @@ export const Pricing: React.FC = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ phone, source: "pricing_registration" })
+        body: JSON.stringify({ name, phone, source: "pricing_registration" })
       });
       if (response.ok) {
         setSubmitted(true);
@@ -70,9 +71,9 @@ export const Pricing: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className="card skiper-hover-lift"
-                style={{ padding: "34px", borderRadius: "26px" }}
+                style={{ padding: "34px", borderRadius: "30px" }}
               >
-                <div className="iconsax-box gold" style={{ width: "56px", height: "56px", borderRadius: "16px", marginBottom: "22px" }}>
+                <div className="iconsax-box gold" style={{ width: "56px", height: "56px", borderRadius: "18px", marginBottom: "22px" }}>
                   {feat.icon}
                 </div>
                 <h3 style={{ fontSize: "21px", color: "#fff", marginBottom: "12px", fontWeight: 700 }}>{feat.title}</h3>
@@ -100,7 +101,7 @@ export const Pricing: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="skiper-border-glow card"
             style={{
-              padding: "50px", borderRadius: "34px",
+              padding: "50px", borderRadius: "39px",
               boxShadow: "0 35px 90px rgba(0,0,0,0.85)", position: "relative", overflow: "hidden",
               background: "linear-gradient(155deg, rgba(26, 21, 48, 0.9) 0%, rgba(13, 11, 24, 0.95) 100%)"
             }}
@@ -114,14 +115,14 @@ export const Pricing: React.FC = () => {
               <div style={{ textAlign: "left" }}>
                 <span style={{ fontSize: "14px", color: "var(--ink-2)", textDecoration: "line-through", display: "block", marginBottom: "2px" }}>₪11,800</span>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
-                  <b style={{ fontSize: "52px", color: "#fff", fontFamily: "Outfit", fontWeight: 900, letterSpacing: "-0.03em" }}>₪8,400</b>
+                  <b style={{ fontSize: "52px", color: "#fff", fontFamily: "Outfit", fontWeight: 900, letterSpacing: "-0.03em" }}>₪7,000</b>
                   <span style={{ color: "var(--gold-500)", fontSize: "14px", fontWeight: 700, background: "rgba(245,197,24,0.12)", padding: "4px 10px", borderRadius: "8px" }}>הרשמה מוקדמת</span>
                 </div>
                 <span style={{ fontSize: "13px", color: "var(--ink-2)", display: "block", marginTop: "4px" }}>ניתן לחלק עד 12 תשלומים ללא ריבית</span>
               </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "22px", marginBottom: "44px" }}>
+            <div className="price-features-grid">
               <div style={{ display: "flex", alignItems: "center", gap: "14px", color: "#fff", fontSize: "16px", fontWeight: 600 }}>
                 <TickCircle size={24} variant="Bulk" color="var(--gold-500)" style={{ flexShrink: 0 }} />
                 <span>12 שבועות של הכשרה קלינית מעשית ואינטנסיבית</span>
@@ -143,23 +144,30 @@ export const Pricing: React.FC = () => {
               </div>
             </div>
 
-            {/* Registration Form */}
+             {/* Registration Form */}
             {!submitted ? (
-              <form onSubmit={handleRegister} style={{ display: "flex", gap: "14px", flexWrap: "wrap", background: "rgba(0,0,0,0.35)", padding: "14px", borderRadius: "22px", border: "1px solid var(--line)" }}>
+              <form onSubmit={handleRegister} className="price-form">
                 <input
-                  type="tel"
-                  placeholder="הזינו טלפון להבטחת מקום במחזור ולשיחת התאמה"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  style={{ flex: "1 1 240px", background: "transparent", border: "none", color: "#fff", padding: "12px 20px", fontSize: "16px", outline: "none" }}
+                  type="text"
+                  placeholder="שם פרטי"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required
                 />
-                <button type="submit" className="btn btn-gold" style={{ padding: "16px 38px", fontSize: "16px", fontWeight: 800, flex: "0 1 auto", borderRadius: "16px" }}>
+                <div className="form-separator" style={{ width: "1px", height: "30px", background: "rgba(255,255,255,0.15)", flexShrink: 0 }} />
+                <input
+                  type="tel"
+                  placeholder="מספר טלפון"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
+                <button type="submit" className="btn btn-gold">
                   <span>הבטחת מקום במחזור</span>
                 </button>
               </form>
             ) : (
-              <div style={{ padding: "22px", background: "rgba(245,197,24,0.12)", border: "1px solid var(--gold-500)", borderRadius: "22px", color: "var(--gold-500)", fontWeight: 700, textAlign: "center", fontSize: "18px", display: "flex", alignItems: "center", justifyContent: "center", gap: "12px" }}>
+              <div style={{ padding: "22px", background: "rgba(245,197,24,0.12)", border: "1px solid var(--gold-500)", borderRadius: "25px", color: "var(--gold-500)", fontWeight: 700, textAlign: "center", fontSize: "18px", display: "flex", alignItems: "center", justifyContent: "center", gap: "12px" }}>
                 <TickCircle size={28} variant="Bulk" color="var(--gold-500)" />
                 <span>מעולה! רשמנו את פרטיך. צוות הרישום ייצור איתך קשר בהקדם לשיחת התאמה וקליטה!</span>
               </div>
@@ -187,7 +195,7 @@ export const Pricing: React.FC = () => {
                   onClick={() => setOpenFaq(isOpen ? null : index)}
                   className="card"
                   style={{
-                    padding: "26px 32px", borderRadius: "22px",
+                    padding: "26px 32px", borderRadius: "25px",
                     cursor: "pointer", transition: "all 0.3s ease",
                     border: isOpen ? "1px solid rgba(245,197,24,0.4)" : "1px solid var(--line)"
                   }}

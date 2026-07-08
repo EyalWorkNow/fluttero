@@ -25,13 +25,13 @@ export const Mentors: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="card skiper-hover-lift"
             style={{
-              padding: "40px", borderRadius: "32px",
+              padding: "40px", borderRadius: "37px",
               border: "1px solid rgba(245,197,24,0.35)", position: "relative",
               boxShadow: "0 25px 60px rgba(0,0,0,0.6)", background: "linear-gradient(150deg, rgba(26, 21, 48, 0.8) 0%, rgba(15, 12, 28, 0.9) 100%)"
             }}
           >
             <div style={{ display: "flex", gap: "24px", alignItems: "center", marginBottom: "28px", borderBottom: "1px solid var(--line)", paddingBottom: "24px" }}>
-              <div style={{ width: "90px", height: "90px", borderRadius: "24px", background: "linear-gradient(135deg, var(--gold-500), var(--purple-500))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "38px", color: "#000", fontWeight: 900, boxShadow: "0 10px 25px rgba(245,197,24,0.3)" }}>
+              <div style={{ width: "90px", height: "90px", borderRadius: "28px", background: "linear-gradient(135deg, var(--gold-500), var(--purple-500))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "38px", color: "#000", fontWeight: 900, boxShadow: "0 10px 25px rgba(245,197,24,0.3)" }}>
                 א.ע
               </div>
               <div>
@@ -48,29 +48,29 @@ export const Mentors: React.FC = () => {
             </p>
 
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)", padding: "10px 18px", borderRadius: "14px", fontSize: "13.5px", fontWeight: 600, color: "#fff", border: "1px solid var(--line)" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)", padding: "10px 18px", borderRadius: "16px", fontSize: "13.5px", fontWeight: 600, color: "#fff", border: "1px solid var(--line)" }}>
                 <Verify size={18} variant="Bulk" color="var(--gold-500)" /> מוביל טכנולוגי בסטארטאפים
               </span>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)", padding: "10px 18px", borderRadius: "14px", fontSize: "13.5px", fontWeight: 600, color: "#fff", border: "1px solid var(--line)" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)", padding: "10px 18px", borderRadius: "16px", fontSize: "13.5px", fontWeight: 600, color: "#fff", border: "1px solid var(--line)" }}>
                 <Verify size={18} variant="Bulk" color="var(--purple-300)" /> ארכיטקטורת AI ומודלים
               </span>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)", padding: "10px 18px", borderRadius: "14px", fontSize: "13.5px", fontWeight: 600, color: "#fff", border: "1px solid var(--line)" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)", padding: "10px 18px", borderRadius: "16px", fontSize: "13.5px", fontWeight: 600, color: "#fff", border: "1px solid var(--line)" }}>
                 <Verify size={18} variant="Bulk" color="#00e5ff" /> 50+ פרויקטים בחנויות
               </span>
             </div>
           </motion.div>
 
           {/* Core Skills Grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+          <div className="mentor-skills-grid">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
               className="card skiper-hover-lift"
-              style={{ padding: "26px", borderRadius: "24px" }}
+              style={{ padding: "26px", borderRadius: "28px" }}
             >
-              <div className="iconsax-box gold" style={{ width: "48px", height: "48px", borderRadius: "14px", marginBottom: "16px" }}>
+              <div className="iconsax-box gold" style={{ width: "48px", height: "48px", borderRadius: "16px", marginBottom: "16px" }}>
                 <Code size={26} variant="Bulk" color="var(--gold-500)" />
               </div>
               <h4 style={{ fontSize: "18px", color: "#fff", margin: "0 0 8px", fontWeight: 700 }}>קוד נקי ו-Best Practices</h4>
@@ -85,9 +85,9 @@ export const Mentors: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.1 }}
               className="card skiper-hover-lift"
-              style={{ padding: "26px", borderRadius: "24px" }}
+              style={{ padding: "26px", borderRadius: "28px" }}
             >
-              <div className="iconsax-box purple" style={{ width: "48px", height: "48px", borderRadius: "14px", marginBottom: "16px" }}>
+              <div className="iconsax-box purple" style={{ width: "48px", height: "48px", borderRadius: "16px", marginBottom: "16px" }}>
                 <CpuCharge size={26} variant="Bulk" color="var(--purple-300)" />
               </div>
               <h4 style={{ fontSize: "18px", color: "#fff", margin: "0 0 8px", fontWeight: 700 }}>האצה עם כלי GenAI</h4>
@@ -102,9 +102,9 @@ export const Mentors: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.2 }}
               className="card skiper-hover-lift"
-              style={{ padding: "26px", borderRadius: "24px" }}
+              style={{ padding: "26px", borderRadius: "28px" }}
             >
-              <div className="iconsax-box cyan" style={{ width: "48px", height: "48px", borderRadius: "14px", marginBottom: "16px" }}>
+              <div className="iconsax-box cyan" style={{ width: "48px", height: "48px", borderRadius: "16px", marginBottom: "16px" }}>
                 <ShieldSecurity size={26} variant="Bulk" color="#00e5ff" />
               </div>
               <h4 style={{ fontSize: "18px", color: "#fff", margin: "0 0 8px", fontWeight: 700 }}>אבטחה וביצועים קליניים</h4>
@@ -119,9 +119,9 @@ export const Mentors: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.3 }}
               className="card skiper-hover-lift"
-              style={{ padding: "26px", borderRadius: "24px" }}
+              style={{ padding: "26px", borderRadius: "28px" }}
             >
-              <div className="iconsax-box gold" style={{ width: "48px", height: "48px", borderRadius: "14px", marginBottom: "16px" }}>
+              <div className="iconsax-box gold" style={{ width: "48px", height: "48px", borderRadius: "16px", marginBottom: "16px" }}>
                 <MedalStar size={26} variant="Bulk" color="var(--gold-500)" />
               </div>
               <h4 style={{ fontSize: "18px", color: "#fff", margin: "0 0 8px", fontWeight: 700 }}>ליווי הנדסי וקריירה</h4>

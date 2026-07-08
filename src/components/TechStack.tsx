@@ -15,7 +15,7 @@ const stackItems = [
 ];
 
 export const TechStack: React.FC = () => {
-  const duplicatedItems = [...stackItems, ...stackItems, ...stackItems];
+  const duplicatedItems = [...stackItems, ...stackItems];
 
   return (
     <div className="marquee-wrap" style={{ padding: "30px 0", borderBottom: "none", background: "rgba(12, 10, 21, 0.4)" }}>
