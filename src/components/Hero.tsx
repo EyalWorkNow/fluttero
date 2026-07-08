@@ -52,6 +52,8 @@ export const Hero: React.FC = () => {
           muted
           playsInline
           className="hero-video-bg"
+          title="סרטון רקע המציג פיתוח אפליקציות עם Flutter ו-AI"
+          aria-label="סרטון רקע המציג פיתוח אפליקציות עם Flutter ו-AI"
         />
 
         {/* Video Dark Overlay for readability */}

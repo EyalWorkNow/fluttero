@@ -1715,6 +1715,33 @@
       align-items: center !important;
       justify-content: center !important;
     }
+
+    /* Mobile hierarchy for pricing header */
+    .pricing-header-row {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+      gap: 24px !important;
+      padding-bottom: 28px !important;
+      margin-bottom: 28px !important;
+    }
+    .pricing-price-row {
+      flex-direction: column-reverse !important; /* Stack button below price, but keep horizontal ltr structure */
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      gap: 20px !important;
+    }
+    .pricing-price-block {
+      text-align: center !important;
+    }
+    .pricing-price-block > div {
+      justify-content: center !important;
+    }
+    .premium-btn-container {
+      justify-content: center !important;
+      margin: 0 auto !important;
+    }
   }
 
 /* =========================================================
