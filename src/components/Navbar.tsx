@@ -24,9 +24,7 @@ export const Navbar: React.FC = () => {
 
           {/* דסקטופ לינקים */}
           <nav className="desktop-nav-links" style={{ display: 'flex', gap: '28px', alignItems: 'center', whiteSpace: 'nowrap' }}>
-            <a href="#syllabus" className="skiper-hover-lift" style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink-1)', transition: 'all 0.2s', textDecoration: 'none', padding: '6px 12px' }}>
-              סילבוס הלימודים
-            </a>
+
             <a href="#skiperShowcase" className="skiper-hover-lift" style={{ fontSize: '15.5px', fontWeight: 800, color: 'var(--gold-500)', transition: 'all 0.2s', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(245,197,24,0.12)', padding: '8px 18px', borderRadius: '99px', border: '1px solid rgba(245,197,24,0.35)', boxShadow: '0 0 20px rgba(245,197,24,0.2)' }}>
               <MagicStar size={18} variant="Bold" color="var(--gold-500)" />
               <span>כלי הפיתוח וה-AI</span>
@@ -96,9 +94,7 @@ export const Navbar: React.FC = () => {
           pointerEvents: menuOpen ? "auto" : "none"
         }}
       >
-        <a href="#syllabus" onClick={() => setMenuOpen(false)} style={{ fontSize: '22px', fontWeight: 700, color: '#fff', textDecoration: 'none', transition: 'color 0.2s' }}>
-          סילבוס הלימודים
-        </a>
+
         <a href="#skiperShowcase" onClick={() => setMenuOpen(false)} style={{ fontSize: '20px', fontWeight: 800, color: 'var(--gold-500)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(245,197,24,0.1)', padding: '12px 24px', borderRadius: '99px', border: '1px solid rgba(245,197,24,0.3)' }}>
           <MagicStar size={20} variant="Bold" color="var(--gold-500)" />
           <span>כלי הפיתוח וה-AI</span>

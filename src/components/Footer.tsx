@@ -17,7 +17,6 @@ export const Footer: React.FC = () => {
         <div>
           <h4 style={{ fontSize: "18px", color: "#fff", marginBottom: "16px", fontWeight: 700 }}>ניווט מהיר</h4>
           <ul style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "14.5px", color: "var(--ink-1)" }}>
-            <li><a href="#syllabus" style={{ transition: "color 0.2s" }}>סילבוס התוכנית</a></li>
             <li><a href="#skiperShowcase" style={{ transition: "color 0.2s" }}>ארכיטקטורת 3D וטכנולוגיות</a></li>
             <li><a href="#mentors" style={{ transition: "color 0.2s" }}>סגל המרצים</a></li>
             <li><a href="#features" style={{ transition: "color 0.2s" }}>היתרון ההנדסי</a></li>

@@ -3,7 +3,7 @@ import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { TechStack } from "./components/TechStack";
 import { SkiperShowcase } from "./components/SkiperShowcase";
-import { Syllabus } from "./components/Syllabus";
+
 import { Mentors } from "./components/Mentors";
 import { Pricing } from "./components/Pricing";
 import { Footer } from "./components/Footer";
@@ -86,7 +86,7 @@ export function App() {
             
             <TechStack />
             <SkiperShowcase />
-            <Syllabus />
+
             <Mentors />
             <Pricing />
           </div>
