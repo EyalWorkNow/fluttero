@@ -204,7 +204,7 @@ export const Hero: React.FC = () => {
               </div>
 
               {!submitted ? (
-                <form onSubmit={handleSubmit} className="quick-form liquid-glass-premium" style={{ display: "flex", gap: "12px", padding: "0 8px 0 12px", borderRadius: "99px", width: "100%", maxWidth: "460px", height: "80px", alignItems: "center" }}>
+                <form onSubmit={handleSubmit} className="quick-form liquid-glass-premium" style={{ display: "flex", gap: "12px", padding: "0 8px 0 12px", borderRadius: "99px", width: "460px", maxWidth: "100%", height: "80px", alignItems: "center" }}>
                   <input
                     type="tel"
                     placeholder="הזינו טלפון לקבלת סילבוס ותיאום ראיון קליטה"
@@ -219,7 +219,7 @@ export const Hero: React.FC = () => {
                   </button>
                 </form>
               ) : (
-                <div className="liquid-glass-premium" style={{ height: "80px", width: "100%", maxWidth: "460px", padding: "0 32px", borderRadius: "99px", color: "var(--gold-500)", fontWeight: 700, display: "flex", alignItems: "center", gap: "10px", fontSize: "15px", justifyContent: "center" }}>
+                <div className="liquid-glass-premium" style={{ height: "80px", width: "460px", maxWidth: "100%", padding: "0 32px", borderRadius: "99px", color: "var(--gold-500)", fontWeight: 700, display: "flex", alignItems: "center", gap: "10px", fontSize: "15px", justifyContent: "center" }}>
                   <TickCircle size={22} variant="Bulk" color="var(--gold-500)" style={{ position: "relative", zIndex: 2 }} />
                   <span style={{ position: "relative", zIndex: 2 }}>מעולה! הפרטים התקבלו.</span>
                 </div>
