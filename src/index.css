@@ -865,13 +865,13 @@
   .spotlight b{ color:var(--gold-500);}
 
   /* ---------- Stack marquee ---------- */
-  .marquee-wrap{ overflow:hidden; position:relative; padding:34px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .marquee-wrap{ overflow:hidden; position:relative; padding:34px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); direction: ltr !important;}
   .marquee-wrap::before, .marquee-wrap::after{
     content:""; position:absolute; top:0; bottom:0; width:120px; z-index:2;
   }
   .marquee-wrap::before{ right:0; background:linear-gradient(to left, var(--bg-void), transparent);}
   .marquee-wrap::after{ left:0; background:linear-gradient(to right, var(--bg-void), transparent);}
-  .marquee-track{ display:flex; gap:16px; width:max-content; animation:scroll-x 32s linear infinite;}
+  .marquee-track{ display:flex; gap:16px; width:max-content; animation:scroll-x 32s linear infinite; direction: ltr !important;}
   .marquee-wrap:hover .marquee-track{ animation-play-state:paused; }
   @keyframes scroll-x{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
   .stack-badge{
