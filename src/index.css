@@ -2049,23 +2049,21 @@ header.liquid-glass-premium.scrolled {
 /* ── Carousel Marquee (Continuous Auto-scroll) ─────────────── */
 @keyframes carousel-scroll {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(-33.333%); }
 }
 
 .carousel-marquee-outer {
-  overflow: hidden;
+  overflow: visible; /* Allow scaled cards to peek out without clipping */
   width: 100%;
+  padding: 40px 0; /* Add breathing room for vertical scaling */
 }
 
 .carousel-marquee-track {
   display: flex;
-  /* NO gap here — each card handles its own right margin so that
-     the total width of ONE set = N * (cardWidth + margin).
-     translateX(-50%) then lands exactly at the start of the second copy. */
   width: max-content;
-  animation: carousel-scroll 45s linear infinite;
+  animation: carousel-scroll 55s linear infinite;
   will-change: transform;
-  padding: 16px 0;
+  padding: 30px 0; /* Extra padding to prevent any crop */
 }
 
 .carousel-marquee-track:hover {
@@ -2074,7 +2072,7 @@ header.liquid-glass-premium.scrolled {
 
 /* Each card in the marquee gets its own right margin (replaces gap) */
 .carousel-marquee-track > div {
-  margin-right: 24px;
+  margin-right: 28px;
 }
 
 /* High contrast inputs */
@@ -2087,4 +2085,130 @@ header.liquid-glass-premium.scrolled {
   color: #fffbbf !important; /* Premium light gold/yellow for extra pop */
   opacity: 0.95 !important;
   font-weight: 700 !important;
+}
+
+/* ── Premium Easter Egg Discount Button ── */
+.premium-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.premium-button-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.premium-ring-layer {
+  position: relative;
+  z-index: 10;
+  width: 250px;
+  height: 64px;
+  border-radius: 9999px;
+  box-shadow:
+    inset 0px 3px 1px transparent,
+    0px 8px 15px rgba(0, 0, 0, 0.4),
+    0px 0px 0px transparent;
+  cursor: pointer;
+  transition: all 150ms ease-out;
+}
+
+.premium-ring-layer:hover {
+  box-shadow:
+    inset 0px 3px 1px rgba(255, 255, 255, 0.1),
+    0px 10px 20px rgba(245, 197, 24, 0.25);
+}
+
+.premium-outer-button {
+  position: relative;
+  z-index: 10;
+  width: 250px;
+  height: 64px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--gold-500), #ff9100);
+  box-shadow:
+    0px 5px 0px #b58d0b,
+    inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+  transition: all 150ms ease-out;
+}
+
+.premium-ring-layer:hover .premium-outer-button {
+  transform: translateY(3px);
+  box-shadow:
+    0px 2px 0px #b58d0b,
+    inset 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+
+.premium-ring-layer:active .premium-outer-button {
+  height: 58px;
+  transform: translateY(8px);
+  box-shadow:
+    0px 0px 0px transparent,
+    inset 0px 1px 0px rgba(255, 255, 255, 0.1);
+}
+
+.premium-inner-button {
+  position: relative;
+  width: 238px;
+  height: 52px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #18132b, #0d0a1a);
+  box-shadow:
+    inset 0px 2px 0px rgba(255, 255, 255, 0.05),
+    inset 0px -1px 1px rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--gold-500);
+  overflow: hidden;
+  transition: all 150ms ease-out;
+  user-select: none;
+}
+
+.premium-ring-layer:hover .premium-inner-button {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(245, 197, 24, 0.6);
+}
+
+.premium-inner-button span {
+  position: relative;
+  z-index: 10;
+}
+
+.premium-triangle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.premium-triangle.top-left {
+  top: 1px;
+  left: -4px;
+  transform: rotate(2deg);
+}
+
+.premium-triangle.top-right {
+  top: 1px;
+  right: -8px;
+  transform: rotate(2deg);
+}
+
+.premium-triangle.bottom-left {
+  bottom: -8px;
+  left: -4px;
+  transform: rotate(-2deg);
+}
+
+.premium-triangle.bottom-right {
+  bottom: -8px;
+  right: -8px;
+  transform: rotate(-2deg);
 }

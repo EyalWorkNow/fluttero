@@ -48,7 +48,7 @@ export const Pricing: React.FC = () => {
     }
   };
 
-  const handlePriceDiscountMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePriceDiscountMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (price <= 6200) {
       const btn = e.currentTarget;
       const rect = btn.getBoundingClientRect();
@@ -187,31 +187,142 @@ export const Pricing: React.FC = () => {
                 </div>
                 <span style={{ fontSize: "13px", color: "var(--ink-2)", display: "block", marginTop: "4px" }}>ניתן לחלק עד 12 תשלומים ללא ריבית</span>
                 
-                {/* Dynamic Fun Discount Button */}
-                <div style={{ marginTop: "12px", display: "flex", justifyContent: "flex-end" }}>
-                  <button
-                    className="discount-mag-btn"
-                    onClick={handlePriceDiscountClick}
-                    onMouseMove={handlePriceDiscountMouseMove}
-                    style={{
-                      transform: `translate(${btnPos.x}px, ${btnPos.y}px) scale(${1 + (7000 - price) * 0.005})`,
-                      transition: price > 6200 ? "transform 0.1s ease" : "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-                      padding: "8px 16px",
-                      borderRadius: "20px",
-                      background: "linear-gradient(135deg, var(--gold-500), #ff9100)",
-                      border: "none",
-                      color: "#000",
-                      fontWeight: 800,
-                      cursor: price > 6200 ? "pointer" : "default",
-                      boxShadow: "0 8px 20px rgba(245,197,24,0.4)",
-                      fontSize: "13px",
-                      position: "relative",
-                      zIndex: 99,
-                      whiteSpace: "nowrap"
-                    }}
-                  >
-                    {price > 6200 ? "🎁 לחצו לקבלת הנחה נוספת!" : "🛑 המבצע נגמר! לא לגעת!"}
-                  </button>
+                {/* Premium Animated Easter Egg Discount Button */}
+                <div 
+                  className="premium-btn-container"
+                  style={{
+                    transform: `translate(${btnPos.x}px, ${btnPos.y}px) scale(${1 + (7000 - price) * 0.005})`,
+                    transition: price > 6200 ? "transform 0.1s ease" : "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                    position: "relative",
+                    zIndex: 99,
+                    width: "250px"
+                  }}
+                  onMouseMove={handlePriceDiscountMouseMove}
+                >
+                  <div className="premium-button-wrapper" onClick={handlePriceDiscountClick}>
+                    {/* Top Left Triangle */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 23 23"
+                      height="23"
+                      width="23"
+                      className="premium-triangle top-left"
+                    >
+                      <g filter="url(#filter_tl)">
+                        <path
+                          fill="rgba(245, 197, 24, 0.25)"
+                          d="M3 5C3 3.89543 3.89543 3 5 3H14.8964C16.2776 3 16.8985 4.73063 15.8323 5.60869V5.60869C12.2852 8.52981 9.01946 11.7766 6.07776 15.3067L5.77906 15.6651C4.83801 16.7944 3 16.1289 3 14.659V5Z"
+                        ></path>
+                      </g>
+                      <defs>
+                        <filter colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="23" width="23" y="0" x="0" id="filter_tl">
+                          <feFlood result="BackgroundImageFix" floodOpacity="0"></feFlood>
+                          <feColorMatrix result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" type="matrix" in="SourceAlpha"></feColorMatrix>
+                          <feOffset dy="-1" dx="-1"></feOffset>
+                          <feGaussianBlur stdDeviation="1"></feGaussianBlur>
+                          <feComposite operator="out" in2="hardAlpha"></feComposite>
+                          <feColorMatrix values="0 0 0 0 0.96 0 0 0 0 0.77 0 0 0 0 0.09 0 0 0 1 0" type="matrix"></feColorMatrix>
+                          <feBlend result="effect1" in2="BackgroundImageFix" mode="normal"></feBlend>
+                        </filter>
+                      </defs>
+                    </svg>
+
+                    {/* Top Right Triangle */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 23 23"
+                      height="23"
+                      width="23"
+                      className="premium-triangle top-right"
+                    >
+                      <g filter="url(#filter_tr)">
+                        <path
+                          shapeRendering="crispEdges"
+                          fill="rgba(245, 197, 24, 0.25)"
+                          d="M4.16769 5.60869C3.10148 4.73063 3.72236 3 5.1036 3H15C16.1046 3 17 3.89543 17 5V14.659C17 16.1289 15.162 16.7944 14.2209 15.6651L13.9222 15.3067C10.9805 11.7767 7.71477 8.52981 4.16769 5.60869V5.60869Z"
+                        ></path>
+                      </g>
+                      <defs>
+                        <filter colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="23" width="23" y="0" x="0.6" id="filter_tr">
+                          <feFlood result="BackgroundImageFix" floodOpacity="0"></feFlood>
+                          <feColorMatrix result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" type="matrix" in="SourceAlpha"></feColorMatrix>
+                          <feOffset dy="-1" dx="-1"></feOffset>
+                          <feGaussianBlur stdDeviation="1"></feGaussianBlur>
+                          <feComposite operator="out" in2="hardAlpha"></feComposite>
+                          <feColorMatrix values="0 0 0 0 0.96 0 0 0 0 0.77 0 0 0 0 0.09 0 0 0 1 0" type="matrix"></feColorMatrix>
+                          <feBlend result="effect1" in2="BackgroundImageFix" mode="normal"></feBlend>
+                        </filter>
+                      </defs>
+                    </svg>
+
+                    {/* Bottom Left Triangle */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 23 23"
+                      height="23"
+                      width="23"
+                      className="premium-triangle bottom-left"
+                    >
+                      <g filter="url(#filter_bl)">
+                        <path
+                          fill="rgba(245, 197, 24, 0.25)"
+                          d="M3 5.1036C3 3.72236 4.73063 3.10148 5.60869 4.16769V4.16769C8.52981 7.71477 11.7766 10.9805 15.3067 13.9222L15.6651 14.2209C16.7944 15.162 16.1289 17 14.659 17H5C3.89543 17 3 16.1046 3 15V5.1036Z"
+                        ></path>
+                      </g>
+                      <defs>
+                        <filter colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="23" width="23" y="0.6" x="0" id="filter_bl">
+                          <feFlood result="BackgroundImageFix" floodOpacity="0"></feFlood>
+                          <feColorMatrix result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" type="matrix" in="SourceAlpha"></feColorMatrix>
+                          <feOffset dy="-1" dx="-1"></feOffset>
+                          <feGaussianBlur stdDeviation="1"></feGaussianBlur>
+                          <feComposite operator="out" in2="hardAlpha"></feComposite>
+                          <feColorMatrix values="0 0 0 0 0.96 0 0 0 0 0.77 0 0 0 0 0.09 0 0 0 1 0" type="matrix"></feColorMatrix>
+                          <feBlend result="effect1" in2="BackgroundImageFix" mode="normal"></feBlend>
+                        </filter>
+                      </defs>
+                    </svg>
+
+                    {/* Bottom Right Triangle */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 23 23"
+                      height="23"
+                      width="23"
+                      className="premium-triangle bottom-right"
+                    >
+                      <g filter="url(#filter_br)">
+                        <path
+                          fill="rgba(245, 197, 24, 0.25)"
+                          d="M4.09531 14.7192C8.33931 11.5921 12.0714 7.82422 15.1579 3.55058V3.55058C15.7358 2.75044 17 3.15923 17 4.14622V15C17 16.1046 16.1046 17 15 17H4.30554C3.25692 17 2.81695 15.6612 3.66115 15.0392L4.09531 14.7192Z"
+                        ></path>
+                      </g>
+                      <defs>
+                        <filter colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="23" width="23" y="0.1" x="0.2" id="filter_br">
+                          <feFlood result="BackgroundImageFix" floodOpacity="0"></feFlood>
+                          <feColorMatrix result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" type="matrix" in="SourceAlpha"></feColorMatrix>
+                          <feOffset dy="-1" dx="-1"></feOffset>
+                          <feGaussianBlur stdDeviation="1"></feGaussianBlur>
+                          <feComposite operator="out" in2="hardAlpha"></feComposite>
+                          <feColorMatrix values="0 0 0 0 0.96 0 0 0 0 0.77 0 0 0 0 0.09 0 0 0 1 0" type="matrix"></feColorMatrix>
+                          <feBlend result="effect1" in2="BackgroundImageFix" mode="normal"></feBlend>
+                        </filter>
+                      </defs>
+                    </svg>
+
+                    <div className="premium-ring-layer">
+                      <div className="premium-outer-button">
+                        <div className="premium-inner-button">
+                          <span>
+                            {price > 6200 ? "🎁 לחצו להנחה נוספת!" : "🛑 המבצע נגמר!"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

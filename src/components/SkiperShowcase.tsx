@@ -175,8 +175,8 @@ export const SkiperShowcase: React.FC = () => {
     },
   ];
 
-  // Duplicate cards for seamless infinite loop
-  const loopingStack = [...techStack, ...techStack];
+  // Duplicate cards 3 times for a mathematically perfect seamless infinite loop
+  const loopingStack = [...techStack, ...techStack, ...techStack];
 
 
   return (
