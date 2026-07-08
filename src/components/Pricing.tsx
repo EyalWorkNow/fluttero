@@ -195,7 +195,7 @@ export const Pricing: React.FC = () => {
                     transition: price > 6200 ? "transform 0.1s ease" : "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                     position: "relative",
                     zIndex: 99,
-                    width: "250px"
+                    width: "272px"
                   }}
                   onMouseMove={handlePriceDiscountMouseMove}
                 >
