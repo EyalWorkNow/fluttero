@@ -168,26 +168,14 @@ export const Pricing: React.FC = () => {
               background: "linear-gradient(155deg, rgba(26, 21, 48, 0.9) 0%, rgba(13, 11, 24, 0.95) 100%)"
             }}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "28px", borderBottom: "1px solid var(--line)", paddingBottom: "38px", marginBottom: "38px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "28px", borderBottom: "1px solid var(--line)", paddingBottom: "38px", marginBottom: "38px" }}>
               <div>
                 <h3 style={{ fontSize: "36px", color: "#fff", margin: "0 0 8px", letterSpacing: "-0.02em" }}>מסלול Senior Flutter & AI</h3>
                 <p style={{ fontSize: "16px", color: "var(--ink-1)", margin: 0 }}>הכשרה קלינית מקיפה + פרויקט לפרודקשן בחנויות הרשמיות</p>
               </div>
 
-              <div style={{ textAlign: "left", position: "relative" }}>
-                <span style={{ fontSize: "14px", color: "var(--ink-2)", textDecoration: "line-through", display: "block", marginBottom: "2px" }}>₪11,800</span>
-                <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
-                  <b style={{ fontSize: "52px", color: "#fff", fontFamily: "Outfit", fontWeight: 900, letterSpacing: "-0.03em" }}>
-                    ₪{(() => {
-                      // Retrieve dynamic price from local state or global window if needed, let's declare states above
-                      return typeof window !== "undefined" && (window as any).__flutteroPrice !== undefined ? (window as any).__flutteroPrice.toLocaleString() : "7,000";
-                    })()}
-                  </b>
-                  <span style={{ color: "var(--gold-500)", fontSize: "14px", fontWeight: 700, background: "rgba(245,197,24,0.12)", padding: "4px 10px", borderRadius: "8px" }}>הרשמה מוקדמת</span>
-                </div>
-                <span style={{ fontSize: "13px", color: "var(--ink-2)", display: "block", marginTop: "4px" }}>ניתן לחלק עד 12 תשלומים ללא ריבית</span>
-                
-                {/* Premium Animated Easter Egg Discount Button */}
+              <div style={{ display: "flex", alignItems: "center", gap: "32px", flexWrap: "wrap-reverse", direction: "ltr" }}>
+                {/* Premium Animated Easter Egg Discount Button (Visually Left) */}
                 <div 
                   className="premium-btn-container"
                   style={{
@@ -195,7 +183,8 @@ export const Pricing: React.FC = () => {
                     transition: price > 6200 ? "transform 0.1s ease" : "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                     position: "relative",
                     zIndex: 99,
-                    width: "272px"
+                    width: "272px",
+                    marginTop: 0
                   }}
                   onMouseMove={handlePriceDiscountMouseMove}
                 >
@@ -323,6 +312,18 @@ export const Pricing: React.FC = () => {
                       </div>
                     </div>
                   </div>
+                </div>
+
+                {/* Price Block (Visually Right) */}
+                <div style={{ textAlign: "right", direction: "rtl" }}>
+                  <span style={{ fontSize: "14px", color: "var(--ink-2)", textDecoration: "line-through", display: "block", marginBottom: "2px" }}>₪11,800</span>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                    <b style={{ fontSize: "52px", color: "#fff", fontFamily: "Outfit", fontWeight: 900, letterSpacing: "-0.03em" }}>
+                      ₪{price.toLocaleString()}
+                    </b>
+                    <span style={{ color: "var(--gold-500)", fontSize: "14px", fontWeight: 700, background: "rgba(245,197,24,0.12)", padding: "4px 10px", borderRadius: "8px" }}>הרשמה מוקדמת</span>
+                  </div>
+                  <span style={{ fontSize: "13px", color: "var(--ink-2)", display: "block", marginTop: "4px" }}>ניתן לחלק עד 12 תשלומים ללא ריבית</span>
                 </div>
               </div>
             </div>
