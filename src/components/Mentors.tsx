@@ -32,30 +32,30 @@ export const Mentors: React.FC = () => {
           >
             <div style={{ display: "flex", gap: "24px", alignItems: "center", marginBottom: "28px", borderBottom: "1px solid var(--line)", paddingBottom: "24px" }}>
               <div style={{ width: "90px", height: "90px", borderRadius: "36px", background: "linear-gradient(135deg, var(--gold-500), var(--purple-500))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "38px", color: "#000", fontWeight: 900, boxShadow: "0 10px 25px rgba(245,197,24,0.3)" }}>
-                א.ע
+                8200
               </div>
               <div>
                 <span style={{ fontSize: "12.5px", fontWeight: 700, color: "var(--gold-500)", background: "rgba(245,197,24,0.12)", padding: "5px 14px", borderRadius: "99px", display: "inline-block", marginBottom: "8px", border: "1px solid rgba(245,197,24,0.25)" }}>
-                  מרצה ראשי · Front-End, עיצוב ואפיון
+                  סגל המרצים והמובילים הטכנולוגיים
                 </span>
-                <h3 style={{ fontSize: "28px", color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>אייל עטייה</h3>
-                <p style={{ fontSize: "15px", color: "var(--ink-2)", margin: 0, fontWeight: 500 }}>Senior Mobile Lead · Flutter & AI Architecture</p>
+                <h3 style={{ fontSize: "28px", color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>בוגרי יחידות הטכנולוגיה 8200 ואמ״ן</h3>
+                <p style={{ fontSize: "15px", color: "var(--ink-2)", margin: 0, fontWeight: 500 }}>Startup Founders & Senior Tech Leads</p>
               </div>
             </div>
 
             <p style={{ fontSize: "16.5px", color: "var(--ink-1)", lineHeight: 1.75, marginBottom: "28px" }}>
-              אייל הוציא לחנויות <strong style={{ color: "#fff" }}>2 אפליקציות משלו</strong> ואפיין ועיצב <strong style={{ color: "#fff" }}>עשרות אפליקציות נוספות</strong> לסטארטאפים ולחברות מוצר. מתמחה ב-Flutter, ב-UI/UX ובשילוב כלי GenAI בתהליך הפיתוח — ומביא לקורס ניסיון חי מהשטח, לא תיאוריה.
+              ההכשרה מובלת על ידי <strong style={{ color: "#fff" }}>יוצאי יחידות העלית הטכנולוגיות (8200 ואמ״ן)</strong>, המגיעים עם ניסיון מעשי עשיר בהקמת מוצרים דיגיטליים מאפס. המרצים שחררו בהצלחה <strong style={{ color: "#fff" }}>עשרות אפליקציות לחנויות</strong> עבור סטארטאפים וחברות מוצר מובילות, ומביאים איתם שילוב ייחודי של הנדסת תוכנה קלינית, UI/UX ברמת פיקסל-פרפקט ושליטה מוחלטת בכלי פיתוח מבוססי AI.
             </p>
 
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)", padding: "10px 18px", borderRadius: "16px", fontSize: "13.5px", fontWeight: 600, color: "#fff", border: "1px solid var(--line)" }}>
-                <Verify size={18} variant="Bulk" color="var(--gold-500)" /> 2 אפליקציות בחנויות — שלו
+                <Verify size={18} variant="Bulk" color="var(--gold-500)" /> יוצאי 8200 ואמ״ן
               </span>
               <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)", padding: "10px 18px", borderRadius: "16px", fontSize: "13.5px", fontWeight: 600, color: "#fff", border: "1px solid var(--line)" }}>
-                <Verify size={18} variant="Bulk" color="var(--purple-300)" /> עיצוב ואפיון עשרות מוצרים
+                <Verify size={18} variant="Bulk" color="var(--purple-300)" /> עיצוב ופיתוח עשרות אפליקציות
               </span>
               <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.03)", padding: "10px 18px", borderRadius: "16px", fontSize: "13.5px", fontWeight: 600, color: "#fff", border: "1px solid var(--line)" }}>
-                <Verify size={18} variant="Bulk" color="#00e5ff" /> Flutter · GenAI · UI/UX
+                <Verify size={18} variant="Bulk" color="#00e5ff" /> רקע יזמי וטכנולוגי עשיר
               </span>
             </div>
           </motion.div>
