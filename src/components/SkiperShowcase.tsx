@@ -69,11 +69,40 @@ export const SkiperShowcase: React.FC = () => {
 
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const [containerCenter, setContainerCenter] = useState(0);
+  const [cardPositions, setCardPositions] = useState<{ [key: number]: number }>({});
+
+  const updatePositions = () => {
+    if (scrollContainerRef.current) {
+      const containerRect = scrollContainerRef.current.getBoundingClientRect();
+      const center = containerRect.left + containerRect.width / 2;
+      setContainerCenter(center);
+
+      const positions: { [key: number]: number } = {};
+      const children = scrollContainerRef.current.children;
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i] as HTMLElement;
+        const rect = child.getBoundingClientRect();
+        const childCenter = rect.left + rect.width / 2;
+        positions[i] = childCenter;
+      }
+      setCardPositions(positions);
+    }
+  };
 
   useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      updatePositions();
+    };
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    // Delay initial position check slightly to ensure layout is fully rendered
+    const timer = setTimeout(updatePositions, 100);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timer);
+    };
   }, []);
 
   const isMobile = windowWidth < 768;
@@ -87,7 +116,15 @@ export const SkiperShowcase: React.FC = () => {
         left: offset,
         behavior: "smooth"
       });
+      // Trigger updates during scroll animation
+      setTimeout(updatePositions, 50);
+      setTimeout(updatePositions, 150);
+      setTimeout(updatePositions, 300);
     }
+  };
+
+  const handleScrollEvent = () => {
+    updatePositions();
   };
 
   const text = "FLUTTER & AI ARCHITECTURE";
@@ -231,72 +268,124 @@ export const SkiperShowcase: React.FC = () => {
             </div>
           </div>
 
-          <div className="relative w-full" style={{ marginTop: "50px" }}>
+          <div className="relative" style={{ 
+            marginTop: "50px",
+            width: "100vw",
+            marginLeft: "calc(-50vw + 50%)",
+            marginRight: "calc(-50vw + 50%)",
+            overflow: "hidden"
+          }}>
+            {/* Left Fade Gradient Overlay */}
+            <div style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              left: 0,
+              width: "18%",
+              background: "linear-gradient(to right, #07060b 0%, rgba(7, 6, 11, 0) 100%)",
+              zIndex: 10,
+              pointerEvents: "none"
+            }} />
+
+            {/* Right Fade Gradient Overlay */}
+            <div style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              right: 0,
+              width: "18%",
+              background: "linear-gradient(to left, #07060b 0%, rgba(7, 6, 11, 0) 100%)",
+              zIndex: 10,
+              pointerEvents: "none"
+            }} />
+
             {/* Scrollable Container */}
             <div
               ref={scrollContainerRef}
               className="hide-scrollbar"
+              onScroll={handleScrollEvent}
               style={{
                 display: "flex",
                 overflowX: "auto",
                 scrollBehavior: "smooth",
                 gap: "24px",
-                padding: "20px 4px",
+                padding: "40px 0",
+                paddingLeft: isMobile ? "calc(50vw - 140px)" : "calc(50vw - 160px)",
+                paddingRight: isMobile ? "calc(50vw - 140px)" : "calc(50vw - 160px)",
                 direction: "rtl",
                 width: "100%",
                 WebkitOverflowScrolling: "touch"
               }}
             >
-              {techStack.map((item, index) => (
-                <div
-                  key={index}
-                  style={{
-                    width: isMobile ? "280px" : "320px",
-                    flexShrink: 0,
-                    transformStyle: "preserve-3d"
-                  }}
-                >
-                  <div 
-                    className="liquid-glass-card skiper-hover-lift"
-                    style={{ 
-                      width: "100%", 
-                      height: "100%", 
-                      padding: "32px 24px",
-                      borderRadius: "38px",
-                      margin: 0,
-                      border: "1px solid rgba(255,255,255,0.08)",
-                      background: "linear-gradient(155deg, rgba(26, 21, 48, 0.75) 0%, rgba(13, 11, 24, 0.9) 100%)",
-                      minHeight: "360px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between"
+              {techStack.map((item, index) => {
+                const cardCenter = cardPositions[index] || 0;
+                const distance = Math.abs(cardCenter - containerCenter);
+                const maxDistance = isMobile ? 320 : 600;
+                
+                // Scale ranges from 1 at the center down to 0.78 at the boundaries
+                const scale = containerCenter 
+                  ? Math.max(0.78, 1 - (distance / maxDistance) * 0.22) 
+                  : (index === 0 ? 1 : 0.85);
+
+                // Opacity ranges from 1 at the center down to 0.4 at the boundaries
+                const opacity = containerCenter 
+                  ? Math.max(0.4, 1 - (distance / maxDistance) * 0.6) 
+                  : (index === 0 ? 1 : 0.5);
+
+                return (
+                  <div
+                    key={index}
+                    style={{
+                      width: isMobile ? "280px" : "320px",
+                      flexShrink: 0,
+                      transform: `scale(${scale})`,
+                      opacity: opacity,
+                      transition: "transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)",
+                      transformStyle: "preserve-3d"
                     }}
                   >
-                    <div className="liquid-glass-content" style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                      <div>
-                        <div className="liquid-glass-badge-row" style={{ marginBottom: "18px" }}>
-                          <div className="liquid-glass-icon-box" style={{ width: "48px", height: "48px", borderRadius: "16px" }}>
-                            {item.icon}
+                    <div 
+                      className="liquid-glass-card skiper-hover-lift"
+                      style={{ 
+                        width: "100%", 
+                        height: "100%", 
+                        padding: "32px 24px",
+                        borderRadius: "38px",
+                        margin: 0,
+                        border: "1px solid rgba(255,255,255,0.08)",
+                        background: "linear-gradient(155deg, rgba(26, 21, 48, 0.75) 0%, rgba(13, 11, 24, 0.9) 100%)",
+                        minHeight: "360px",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between"
+                      }}
+                    >
+                      <div className="liquid-glass-content" style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                        <div>
+                          <div className="liquid-glass-badge-row" style={{ marginBottom: "18px" }}>
+                            <div className="liquid-glass-icon-box" style={{ width: "48px", height: "48px", borderRadius: "16px" }}>
+                              {item.icon}
+                            </div>
                           </div>
+                          <h3 className="liquid-glass-title" style={{ fontSize: "20px", marginBottom: "10px", color: "#fff", fontWeight: 700 }}>
+                            {item.label}
+                          </h3>
+                          <p className="liquid-glass-desc" style={{ fontSize: "14.5px", lineHeight: 1.6, color: "var(--ink-2)" }}>
+                            {item.desc}
+                          </p>
                         </div>
-                        <h3 className="liquid-glass-title" style={{ fontSize: "20px", marginBottom: "10px", color: "#fff", fontWeight: 700 }}>
-                          {item.label}
-                        </h3>
-                        <p className="liquid-glass-desc" style={{ fontSize: "14.5px", lineHeight: 1.6, color: "var(--ink-2)" }}>
-                          {item.desc}
-                        </p>
-                      </div>
-                      <div className="liquid-glass-footer" style={{ borderTop: "1px solid var(--line)", paddingTop: "12px", marginTop: "16px" }}>
-                        <span style={{ fontSize: "12px", color: "var(--gold-500)", fontWeight: 600 }}>⚡ נלמד ומתורגל לעומק</span>
+                        <div className="liquid-glass-footer" style={{ borderTop: "1px solid var(--line)", paddingTop: "12px", marginTop: "16px" }}>
+                          <span style={{ fontSize: "12px", color: "var(--gold-500)", fontWeight: 600 }}>⚡ נלמד ומתורגל לעומק</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Carousel Navigation Arrows */}
-            <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginTop: "32px" }}>
+            <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginTop: "16px", marginBottom: "20px" }}>
               <button
                 onClick={() => handleScroll("right")}
                 style={{
@@ -311,7 +400,9 @@ export const SkiperShowcase: React.FC = () => {
                   color: "#fff",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
-                  boxShadow: "0 4px 15px rgba(0,0,0,0.3)"
+                  boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
+                  position: "relative",
+                  zIndex: 20
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(0, 229, 255, 0.1)";
@@ -340,7 +431,9 @@ export const SkiperShowcase: React.FC = () => {
                   color: "#fff",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
-                  boxShadow: "0 4px 15px rgba(0,0,0,0.3)"
+                  boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
+                  position: "relative",
+                  zIndex: 20
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(0, 229, 255, 0.1)";
