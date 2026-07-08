@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Code, Direct, Mobile, Chart, Flash, MagicStar, CpuCharge, TaskSquare, Award, Verify, Star1 } from "iconsax-react";
+import { Code, Direct, Mobile, Chart, Flash, MagicStar, CpuCharge, TaskSquare, Award, Verify, Star1, ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import { cn } from "../lib/utils";
 
 type CharacterProps = {
@@ -67,12 +67,8 @@ export const SkiperShowcase: React.FC = () => {
   });
 
 
-  const [rotation, setRotation] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
-  const isDragging = useRef(false);
-  const startX = useRef(0);
-  const startRotation = useRef(0);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -81,59 +77,17 @@ export const SkiperShowcase: React.FC = () => {
   }, []);
 
   const isMobile = windowWidth < 768;
-  const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
-  // Orbit Carousel Settings
-  const zDepth = isMobile ? 140 : isTablet ? 280 : 380;
-  const cardWidth = isMobile ? 80 : isTablet ? 170 : 220;
-  const cardHeight = isMobile ? 110 : isTablet ? 220 : 270;
-  const backfaceVisible = false;
-  const pauseOnHover = true;
-
-  const numItems = 10; // techStack.length
-  const angleSlice = 360 / numItems;
-
-  useEffect(() => {
-    if (isHovering && pauseOnHover) return;
-
-    const interval = setInterval(() => {
-      setRotation((prev) => (prev + 0.15) % 360);
-    }, 30);
-
-    return () => clearInterval(interval);
-  }, [isHovering, pauseOnHover]);
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    isDragging.current = true;
-    startX.current = e.clientX;
-    startRotation.current = rotation;
-    setIsHovering(true);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current) return;
-    const deltaX = e.clientX - startX.current;
-    const newRotation = startRotation.current + deltaX * 0.4;
-    setRotation(newRotation);
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    isDragging.current = true;
-    startX.current = e.touches[0].clientX;
-    startRotation.current = rotation;
-    setIsHovering(true);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging.current) return;
-    const deltaX = e.touches[0].clientX - startX.current;
-    const newRotation = startRotation.current + deltaX * 0.4;
-    setRotation(newRotation);
-  };
-
-  const handleCardClick = (index: number) => {
-    const targetRotation = -index * angleSlice;
-    setRotation(targetRotation);
+  const handleScroll = (direction: "left" | "right") => {
+    if (scrollContainerRef.current) {
+      const cardWidth = isMobile ? 280 : 320;
+      const gap = 24;
+      const offset = (cardWidth + gap) * (direction === "left" ? 1 : -1);
+      scrollContainerRef.current.scrollBy({
+        left: offset,
+        behavior: "smooth"
+      });
+    }
   };
 
   const text = "FLUTTER & AI ARCHITECTURE";
@@ -277,111 +231,130 @@ export const SkiperShowcase: React.FC = () => {
             </div>
           </div>
 
-          <div
-            className="relative w-full flex flex-col items-center justify-center cursor-grab active:cursor-grabbing"
-            style={{ 
-              perspective: '1400px', 
-              height: `${cardHeight + 120}px`,
-              marginTop: '40px',
-              touchAction: 'none',
-              userSelect: 'none',
-              overflow: 'visible'
-            }}
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => {
-              setIsHovering(false);
-              isDragging.current = false;
-            }}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={() => {
-              setTimeout(() => {
-                isDragging.current = false;
-              }, 50);
-              setIsHovering(false);
-            }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={() => {
-              setTimeout(() => {
-                isDragging.current = false;
-              }, 50);
-              setIsHovering(false);
-            }}
-          >
-            {/* Rotating Group */}
+          <div className="relative w-full" style={{ marginTop: "50px" }}>
+            {/* Scrollable Container */}
             <div
+              ref={scrollContainerRef}
+              className="hide-scrollbar"
               style={{
-                position: "relative",
-                width: cardWidth,
-                height: cardHeight,
-                transformStyle: "preserve-3d",
+                display: "flex",
+                overflowX: "auto",
+                scrollBehavior: "smooth",
+                gap: "24px",
+                padding: "20px 4px",
+                direction: "rtl",
+                width: "100%",
+                WebkitOverflowScrolling: "touch"
               }}
             >
-              {techStack.map((item, index) => {
-                return (
-                  <motion.div
-                    key={index}
-                    className="absolute"
-                    style={{
-                      width: cardWidth,
-                      height: cardHeight,
-                      left: '50%',
-                      top: '50%',
-                      marginLeft: -cardWidth / 2,
-                      marginTop: -cardHeight / 2,
-                      transformStyle: 'preserve-3d',
-                      backfaceVisibility: backfaceVisible ? 'visible' : 'hidden',
+              {techStack.map((item, index) => (
+                <div
+                  key={index}
+                  style={{
+                    width: isMobile ? "280px" : "320px",
+                    flexShrink: 0,
+                    transformStyle: "preserve-3d"
+                  }}
+                >
+                  <div 
+                    className="liquid-glass-card skiper-hover-lift"
+                    style={{ 
+                      width: "100%", 
+                      height: "100%", 
+                      padding: "32px 24px",
+                      borderRadius: "38px",
+                      margin: 0,
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      background: "linear-gradient(155deg, rgba(26, 21, 48, 0.75) 0%, rgba(13, 11, 24, 0.9) 100%)",
+                      minHeight: "360px",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between"
                     }}
-                    animate={{
-                      transform: `rotateY(${index * angleSlice + rotation}deg) translateZ(${zDepth}px) rotateY(${-rotation - index * angleSlice}deg)`
-                    }}
-                    transition={{ type: 'tween', duration: 0.3, ease: 'easeOut' }}
-                    onClick={() => handleCardClick(index)}
-                    whileHover={{ scale: 1.08 }}
                   >
-                    <div 
-                      className="liquid-glass-card"
-                      style={{ 
-                        width: "100%", 
-                        height: "100%", 
-                        padding: isMobile ? "10px 8px" : isTablet ? "20px 16px" : "28px 20px",
-                        borderRadius: isMobile ? "20px" : "38px",
-                        margin: 0,
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        background: "linear-gradient(155deg, rgba(26, 21, 48, 0.75) 0%, rgba(13, 11, 24, 0.9) 100%)"
-                      }}
-                    >
-                      <div className="liquid-glass-content" style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                        <div>
-                          <div className="liquid-glass-badge-row" style={{ marginBottom: isMobile ? "4px" : isTablet ? "10px" : "16px" }}>
-                            <div className="liquid-glass-icon-box" style={{ width: isMobile ? "28px" : "44px", height: isMobile ? "28px" : "44px", borderRadius: isMobile ? "8px" : "14px" }}>
-                              {isMobile 
-                                ? React.cloneElement(item.icon as React.ReactElement<any>, { size: 18 }) 
-                                : item.icon
-                              }
-                            </div>
+                    <div className="liquid-glass-content" style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                      <div>
+                        <div className="liquid-glass-badge-row" style={{ marginBottom: "18px" }}>
+                          <div className="liquid-glass-icon-box" style={{ width: "48px", height: "48px", borderRadius: "16px" }}>
+                            {item.icon}
                           </div>
-                          <h3 className="liquid-glass-title" style={{ fontSize: isMobile ? "11px" : isTablet ? "16px" : "18px", marginBottom: isMobile ? "0px" : "8px", color: "#fff", fontWeight: 700 }}>{item.label}</h3>
-                          {!isMobile && (
-                            <p className="liquid-glass-desc" style={{ fontSize: isTablet ? "12.5px" : "14.5px", lineHeight: 1.5, color: "var(--ink-2)", display: "-webkit-box", WebkitLineClamp: isTablet ? 4 : 5, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{item.desc}</p>
-                          )}
                         </div>
-                        {!isMobile && (
-                          <div className="liquid-glass-footer" style={{ borderTop: "1px solid var(--line)", paddingTop: isTablet ? "8px" : "12px", marginTop: "10px" }}>
-                            <span style={{ fontSize: isTablet ? "11px" : "12px", color: "var(--gold-500)", fontWeight: 600 }}>⚡ נלמד ומתורגל לעומק</span>
-                          </div>
-                        )}
+                        <h3 className="liquid-glass-title" style={{ fontSize: "20px", marginBottom: "10px", color: "#fff", fontWeight: 700 }}>
+                          {item.label}
+                        </h3>
+                        <p className="liquid-glass-desc" style={{ fontSize: "14.5px", lineHeight: 1.6, color: "var(--ink-2)" }}>
+                          {item.desc}
+                        </p>
+                      </div>
+                      <div className="liquid-glass-footer" style={{ borderTop: "1px solid var(--line)", paddingTop: "12px", marginTop: "16px" }}>
+                        <span style={{ fontSize: "12px", color: "var(--gold-500)", fontWeight: 600 }}>⚡ נלמד ומתורגל לעומק</span>
                       </div>
                     </div>
-                  </motion.div>
-                );
-              })}
+                  </div>
+                </div>
+              ))}
             </div>
 
-            {/* Manual Controls Tip */}
-            <div style={{ textAlign: "center", marginTop: "32px", fontSize: "14px", color: "var(--ink-2)", fontWeight: 500 }}>
-              <span>💡 לחצו על כלי כלשהו כדי להביא אותו לחזית · העבירו עכבר כדי להשהות את הסיבוב · גררו לסיבוב ידני</span>
+            {/* Carousel Navigation Arrows */}
+            <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginTop: "32px" }}>
+              <button
+                onClick={() => handleScroll("right")}
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 4px 15px rgba(0,0,0,0.3)"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(0, 229, 255, 0.1)";
+                  e.currentTarget.style.borderColor = "#00e5ff";
+                  e.currentTarget.style.boxShadow = "0 0 15px rgba(0, 229, 255, 0.3)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(0,0,0,0.3)";
+                }}
+              >
+                <ArrowRight2 size={24} variant="Outline" color="#fff" />
+              </button>
+              <button
+                onClick={() => handleScroll("left")}
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 4px 15px rgba(0,0,0,0.3)"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(0, 229, 255, 0.1)";
+                  e.currentTarget.style.borderColor = "#00e5ff";
+                  e.currentTarget.style.boxShadow = "0 0 15px rgba(0, 229, 255, 0.3)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(0,0,0,0.3)";
+                }}
+              >
+                <ArrowLeft2 size={24} variant="Outline" color="#fff" />
+              </button>
             </div>
           </div>
         </div>
