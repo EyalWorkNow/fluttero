@@ -7,6 +7,7 @@ import { SkiperShowcase } from "./components/SkiperShowcase";
 import { Mentors } from "./components/Mentors";
 import { Pricing } from "./components/Pricing";
 import { Footer } from "./components/Footer";
+import { AccessibilityWidget } from "./components/AccessibilityWidget";
 import React, { useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 
@@ -92,6 +93,7 @@ export function App() {
           </div>
         </main>
         <Footer />
+        <AccessibilityWidget />
       </div>
     </ReactLenis>
   );

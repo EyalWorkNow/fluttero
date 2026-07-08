@@ -2282,3 +2282,26 @@ header.liquid-glass-premium.scrolled {
   right: -12px;
   transform: rotate(-2deg);
 }
+
+/* Accessibility CSS Helper Rules */
+html.acc-grayscale {
+  filter: grayscale(100%) !important;
+}
+html.acc-high-contrast {
+  filter: contrast(150%) !important;
+}
+html.acc-grayscale.acc-high-contrast {
+  filter: grayscale(100%) contrast(150%) !important;
+}
+html.acc-readable-font, html.acc-readable-font * {
+  font-family: 'Arial', 'Segoe UI', sans-serif !important;
+  font-weight: 500 !important;
+}
+html.acc-underline-links a {
+  text-decoration: underline !important;
+  text-decoration-style: solid !important;
+}
+html.acc-stop-animations, html.acc-stop-animations * {
+  animation: none !important;
+  transition: none !important;
+}
