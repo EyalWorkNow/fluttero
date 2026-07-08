@@ -41,14 +41,14 @@ const CharacterV1: React.FC<CharacterProps> = ({
 
 
 
-const Bracket: React.FC<{ className?: string }> = ({ className }) => {
+const Bracket: React.FC<{ className?: string; style?: React.CSSProperties }> = ({ className, style }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 27 78"
       className={className}
-      style={{ width: "28px", height: "54px", flexShrink: 0 }}
+      style={{ width: "28px", height: "54px", flexShrink: 0, ...style }}
     >
       <path
         fill="var(--gold-500)"
@@ -84,9 +84,9 @@ export const SkiperShowcase: React.FC = () => {
   const isTablet = windowWidth >= 768 && windowWidth < 1024;
 
   // Orbit Carousel Settings
-  const zDepth = isMobile ? 260 : isTablet ? 380 : 540;
-  const cardWidth = isMobile ? 180 : isTablet ? 230 : 280;
-  const cardHeight = isMobile ? 240 : isTablet ? 280 : 320;
+  const zDepth = isMobile ? 140 : isTablet ? 280 : 380;
+  const cardWidth = isMobile ? 80 : isTablet ? 170 : 220;
+  const cardHeight = isMobile ? 110 : isTablet ? 220 : 270;
   const backfaceVisible = false;
   const pauseOnHover = true;
 
@@ -249,17 +249,31 @@ export const SkiperShowcase: React.FC = () => {
               <span style={{ fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 900, color: "#fff", letterSpacing: "0.02em", textShadow: "0 0 30px rgba(124,77,255,0.4)" }}>
                 ארגז הכלים והטכנולוגיות שנלמד ונשלוט בהם
               </span>
-              <Bracket className="scale-x-[-1]" />
+              <Bracket style={{ transform: "scaleX(-1)" }} />
             </div>
 
             {/* Liquid Glass Max Specs Banner */}
-            <div style={{ display: "inline-flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: "10px", background: "rgba(0, 229, 255, 0.08)", padding: "8px 20px", borderRadius: "99px", border: "1px solid rgba(0, 229, 255, 0.3)", boxShadow: "0 0 25px rgba(0, 229, 255, 0.15)", marginTop: "10px" }}>
-              <span style={{ fontSize: "13px", fontWeight: 800, color: "#00e5ff" }}>💎 LIQUID GLASS ENGINE MAX:</span>
-              <span style={{ fontSize: "13px", fontWeight: 700, color: "#fff", background: "rgba(255,255,255,0.12)", padding: "3px 12px", borderRadius: "12px" }}>Refraction</span>
-              <span style={{ fontSize: "13px", fontWeight: 700, color: "#fff", background: "rgba(255,255,255,0.12)", padding: "3px 12px", borderRadius: "12px" }}>Depth</span>
-              <span style={{ fontSize: "13px", fontWeight: 700, color: "#fff", background: "rgba(255,255,255,0.12)", padding: "3px 12px", borderRadius: "12px" }}>Dispersion</span>
-              <span style={{ fontSize: "13px", fontWeight: 700, color: "#fff", background: "rgba(255,255,255,0.12)", padding: "3px 12px", borderRadius: "12px" }}>Frost 32px</span>
-              <span style={{ fontSize: "13px", fontWeight: 700, color: "#fff", background: "rgba(255,255,255,0.12)", padding: "3px 12px", borderRadius: "12px" }}>Splay</span>
+            <div style={{ 
+              display: "inline-flex", 
+              flexWrap: "wrap", 
+              alignItems: "center", 
+              justifyContent: "center", 
+              gap: "10px", 
+              background: "rgba(255, 255, 255, 0.03)", 
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+              padding: "10px 24px", 
+              borderRadius: "99px", 
+              border: "1px solid rgba(255, 255, 255, 0.08)", 
+              boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255,255,255,0.1)", 
+              marginTop: "10px" 
+            }}>
+              <span style={{ fontSize: "13px", fontWeight: 800, color: "#00e5ff", letterSpacing: "0.03em" }}>💎 LIQUID GLASS ENGINE MAX:</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(0, 229, 255, 0.4)", background: "rgba(0, 229, 255, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(0, 229, 255, 0.5)" }}>Refraction</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(124, 77, 255, 0.4)", background: "rgba(124, 77, 255, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(124, 77, 255, 0.5)" }}>Depth</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(255, 64, 129, 0.4)", background: "rgba(255, 64, 129, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(255, 64, 129, 0.5)" }}>Dispersion</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(245, 197, 24, 0.4)", background: "rgba(245, 197, 24, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(245, 197, 24, 0.5)" }}>Frost 32px</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(0, 230, 118, 0.4)", background: "rgba(0, 230, 118, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(0, 230, 118, 0.5)" }}>Splay</span>
             </div>
           </div>
 
@@ -296,21 +310,15 @@ export const SkiperShowcase: React.FC = () => {
             }}
           >
             {/* Rotating Group */}
-            <motion.div
-              className="relative"
+            <div
               style={{
+                position: "relative",
                 width: cardWidth,
                 height: cardHeight,
-                transformStyle: 'preserve-3d',
+                transformStyle: "preserve-3d",
               }}
-              animate={{ rotateY: rotation }}
-              transition={{ type: 'tween', duration: 0.5, ease: 'easeOut' }}
             >
               {techStack.map((item, index) => {
-                const angle = (index * angleSlice * Math.PI) / 180;
-                const x = Math.sin(angle) * zDepth;
-                const z = Math.cos(angle) * zDepth;
-
                 return (
                   <motion.div
                     key={index}
@@ -326,11 +334,9 @@ export const SkiperShowcase: React.FC = () => {
                       backfaceVisibility: backfaceVisible ? 'visible' : 'hidden',
                     }}
                     animate={{
-                      x,
-                      z,
-                      rotateY: -rotation,
+                      transform: `rotateY(${index * angleSlice + rotation}deg) translateZ(${zDepth}px) rotateY(${-rotation - index * angleSlice}deg)`
                     }}
-                    transition={{ type: 'tween', duration: 0.5, ease: 'easeOut' }}
+                    transition={{ type: 'tween', duration: 0.3, ease: 'easeOut' }}
                     onClick={() => handleCardClick(index)}
                     whileHover={{ scale: 1.08 }}
                   >
@@ -339,8 +345,8 @@ export const SkiperShowcase: React.FC = () => {
                       style={{ 
                         width: "100%", 
                         height: "100%", 
-                        padding: isMobile ? "20px 16px" : "32px 24px",
-                        borderRadius: "38px",
+                        padding: isMobile ? "10px 8px" : isTablet ? "20px 16px" : "28px 20px",
+                        borderRadius: isMobile ? "20px" : "38px",
                         margin: 0,
                         border: "1px solid rgba(255,255,255,0.08)",
                         background: "linear-gradient(155deg, rgba(26, 21, 48, 0.75) 0%, rgba(13, 11, 24, 0.9) 100%)"
@@ -348,23 +354,30 @@ export const SkiperShowcase: React.FC = () => {
                     >
                       <div className="liquid-glass-content" style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                         <div>
-                          <div className="liquid-glass-badge-row" style={{ marginBottom: isMobile ? "12px" : "18px" }}>
-                            <div className="liquid-glass-icon-box" style={{ width: isMobile ? "38px" : "48px", height: isMobile ? "38px" : "48px", borderRadius: isMobile ? "12px" : "16px" }}>
-                              {item.icon}
+                          <div className="liquid-glass-badge-row" style={{ marginBottom: isMobile ? "4px" : isTablet ? "10px" : "16px" }}>
+                            <div className="liquid-glass-icon-box" style={{ width: isMobile ? "28px" : "44px", height: isMobile ? "28px" : "44px", borderRadius: isMobile ? "8px" : "14px" }}>
+                              {isMobile 
+                                ? React.cloneElement(item.icon as React.ReactElement<any>, { size: 18 }) 
+                                : item.icon
+                              }
                             </div>
                           </div>
-                          <h3 className="liquid-glass-title" style={{ fontSize: isMobile ? "16px" : "20px", marginBottom: isMobile ? "6px" : "10px", color: "#fff", fontWeight: 700 }}>{item.label}</h3>
-                          <p className="liquid-glass-desc" style={{ fontSize: isMobile ? "13px" : "14.5px", lineHeight: 1.55, color: "var(--ink-2)", display: "-webkit-box", WebkitLineClamp: isMobile ? 4 : 5, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{item.desc}</p>
+                          <h3 className="liquid-glass-title" style={{ fontSize: isMobile ? "11px" : isTablet ? "16px" : "18px", marginBottom: isMobile ? "0px" : "8px", color: "#fff", fontWeight: 700 }}>{item.label}</h3>
+                          {!isMobile && (
+                            <p className="liquid-glass-desc" style={{ fontSize: isTablet ? "12.5px" : "14.5px", lineHeight: 1.5, color: "var(--ink-2)", display: "-webkit-box", WebkitLineClamp: isTablet ? 4 : 5, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{item.desc}</p>
+                          )}
                         </div>
-                        <div className="liquid-glass-footer" style={{ borderTop: "1px solid var(--line)", paddingTop: isMobile ? "8px" : "12px", marginTop: "10px" }}>
-                          <span style={{ fontSize: isMobile ? "11px" : "12px", color: "var(--gold-500)", fontWeight: 600 }}>⚡ נלמד ומתורגל לעומק</span>
-                        </div>
+                        {!isMobile && (
+                          <div className="liquid-glass-footer" style={{ borderTop: "1px solid var(--line)", paddingTop: isTablet ? "8px" : "12px", marginTop: "10px" }}>
+                            <span style={{ fontSize: isTablet ? "11px" : "12px", color: "var(--gold-500)", fontWeight: 600 }}>⚡ נלמד ומתורגל לעומק</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </motion.div>
                 );
               })}
-            </motion.div>
+            </div>
 
             {/* Manual Controls Tip */}
             <div style={{ textAlign: "center", marginTop: "32px", fontSize: "14px", color: "var(--ink-2)", fontWeight: 500 }}>
