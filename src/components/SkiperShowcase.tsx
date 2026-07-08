@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Code, Direct, Mobile, Chart, Flash, MagicStar, CpuCharge, TaskSquare, Award, Verify, Star1, ArrowLeft2, ArrowRight2 } from "iconsax-react";
+import { Code, Direct, Mobile, Chart, Flash, MagicStar, CpuCharge, TaskSquare, Award, Verify, Star1 } from "iconsax-react";
 import { cn } from "../lib/utils";
 
 type CharacterProps = {
@@ -68,107 +68,14 @@ export const SkiperShowcase: React.FC = () => {
 
 
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-  const [containerCenter, setContainerCenter] = useState(0);
-  const [cardPositions, setCardPositions] = useState<{ [key: number]: number }>({});
-  const [isPaused, setIsPaused] = useState(false);
-  const rafRef = useRef<number | null>(null);
-  const isPausedRef = useRef(false);
-
-  const updatePositions = () => {
-    if (scrollContainerRef.current) {
-      const containerRect = scrollContainerRef.current.getBoundingClientRect();
-      const center = containerRect.left + containerRect.width / 2;
-      setContainerCenter(center);
-
-      const positions: { [key: number]: number } = {};
-      const children = scrollContainerRef.current.children;
-      for (let i = 0; i < children.length; i++) {
-        const child = children[i] as HTMLElement;
-        const rect = child.getBoundingClientRect();
-        const childCenter = rect.left + rect.width / 2;
-        positions[i] = childCenter;
-      }
-      setCardPositions(positions);
-    }
-  };
-
-  // Continuous auto-scroll loop
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-
-    // scroll speed in px/frame (at 60fps ~0.5px/frame = ~30px/sec)
-    const speed = 0.6;
-
-    const autoScroll = () => {
-      if (!isPausedRef.current && el) {
-        // Scroll in RTL direction — scrollLeft is negative in RTL, we go more negative
-        el.scrollLeft -= speed;
-        // When we hit the leftmost position, jump back to the middle (seamless loop)
-        // We doubled the content via duplication so we can loop
-        if (el.scrollLeft <= 0) {
-          // Jump silently to the middle (half the scroll width)
-          el.scrollLeft = el.scrollWidth / 2;
-        }
-        updatePositions();
-      }
-      rafRef.current = requestAnimationFrame(autoScroll);
-    };
-
-    // Start in middle so we can scroll both ways
-    el.scrollLeft = -(el.scrollWidth / 2);
-    rafRef.current = requestAnimationFrame(autoScroll);
-
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-      updatePositions();
-    };
+    const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
-    const timer = setTimeout(updatePositions, 100);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      clearTimeout(timer);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const isMobile = windowWidth < 768;
-
-  const handleScroll = (direction: "left" | "right") => {
-    if (scrollContainerRef.current) {
-      const cardWidth = isMobile ? 280 : 320;
-      const gap = 24;
-      const offset = (cardWidth + gap) * (direction === "left" ? 1 : -1);
-      scrollContainerRef.current.scrollBy({
-        left: offset,
-        behavior: "smooth"
-      });
-      setTimeout(updatePositions, 50);
-      setTimeout(updatePositions, 150);
-      setTimeout(updatePositions, 300);
-    }
-  };
-
-  const handleScrollEvent = () => {
-    updatePositions();
-  };
-
-  const pauseScroll = () => {
-    isPausedRef.current = true;
-    setIsPaused(true);
-  };
-
-  const resumeScroll = () => {
-    isPausedRef.current = false;
-    setIsPaused(false);
-  };
 
   const text = "FLUTTER & AI ARCHITECTURE";
   const words = text.split(" ");
@@ -320,78 +227,33 @@ export const SkiperShowcase: React.FC = () => {
             width: "100vw",
             marginLeft: "calc(-50vw + 50%)",
             marginRight: "calc(-50vw + 50%)",
+            overflow: "hidden",
+            padding: "40px 0"
           }}>
-            {/* Left Fade Gradient — fixed to viewport left edge */}
+            {/* Left Fade Gradient */}
             <div style={{
               position: "absolute",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              width: "clamp(80px, 15vw, 220px)",
-              background: "linear-gradient(to right, #07060b 0%, rgba(7, 6, 11, 0.7) 50%, transparent 100%)",
+              top: 0, bottom: 0, left: 0,
+              width: "clamp(80px, 15vw, 240px)",
+              background: "linear-gradient(to right, #07060b 0%, rgba(7,6,11,0.85) 40%, transparent 100%)",
+              zIndex: 20,
+              pointerEvents: "none"
+            }} />
+            {/* Right Fade Gradient */}
+            <div style={{
+              position: "absolute",
+              top: 0, bottom: 0, right: 0,
+              width: "clamp(80px, 15vw, 240px)",
+              background: "linear-gradient(to left, #07060b 0%, rgba(7,6,11,0.85) 40%, transparent 100%)",
               zIndex: 20,
               pointerEvents: "none"
             }} />
 
-            {/* Right Fade Gradient — fixed to viewport right edge */}
-            <div style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              right: 0,
-              width: "clamp(80px, 15vw, 220px)",
-              background: "linear-gradient(to left, #07060b 0%, rgba(7, 6, 11, 0.7) 50%, transparent 100%)",
-              zIndex: 20,
-              pointerEvents: "none"
-            }} />
-
-            {/* Scrollable Container */}
-            <div
-              ref={scrollContainerRef}
-              className="hide-scrollbar"
-              onScroll={handleScrollEvent}
-              onMouseEnter={pauseScroll}
-              onMouseLeave={resumeScroll}
-              onTouchStart={pauseScroll}
-              onTouchEnd={resumeScroll}
-              style={{
-                display: "flex",
-                overflowX: "auto",
-                gap: "24px",
-                padding: "40px 0",
-                direction: "rtl",
-                width: "100%",
-                WebkitOverflowScrolling: "touch",
-                cursor: isPaused ? "grab" : "default"
-              }}
-            >
-              {loopingStack.map((item, index) => {
-                const cardCenter = cardPositions[index] || 0;
-                const distance = Math.abs(cardCenter - containerCenter);
-                const maxDistance = isMobile ? 320 : 600;
-                
-                // Scale ranges from 1 at the center down to 0.78 at the boundaries
-                const scale = containerCenter 
-                  ? Math.max(0.78, 1 - (distance / maxDistance) * 0.22) 
-                  : (index === 0 ? 1 : 0.85);
-
-                // Opacity ranges from 1 at the center down to 0.4 at the boundaries
-                const opacity = containerCenter 
-                  ? Math.max(0.4, 1 - (distance / maxDistance) * 0.6) 
-                  : (index === 0 ? 1 : 0.5);
-
-                return (
-                  <div
-                    key={index}
-                    style={{
-                      width: isMobile ? "280px" : "320px",
-                      flexShrink: 0,
-                      transform: `scale(${scale})`,
-                      opacity: opacity,
-                      transition: "transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)",
-                      transformStyle: "preserve-3d"
-                    }}
-                  >
+            {/* Marquee Track */}
+            <div className="carousel-marquee-outer">
+              <div className="carousel-marquee-track">
+                {loopingStack.map((item, index) => (
+                  <div key={index} style={{ width: isMobile ? "280px" : "320px", flexShrink: 0 }}>
                     <div 
                       className="liquid-glass-card skiper-hover-lift"
                       style={{ 
@@ -428,74 +290,8 @@ export const SkiperShowcase: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-
-            {/* Carousel Navigation Arrows */}
-            <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginTop: "16px", marginBottom: "20px" }}>
-              <button
-                onClick={() => handleScroll("right")}
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  background: "rgba(255, 255, 255, 0.05)",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#fff",
-                  cursor: "pointer",
-                  transition: "all 0.3s ease",
-                  boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
-                  position: "relative",
-                  zIndex: 20
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(0, 229, 255, 0.1)";
-                  e.currentTarget.style.borderColor = "#00e5ff";
-                  e.currentTarget.style.boxShadow = "0 0 15px rgba(0, 229, 255, 0.3)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
-                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(0,0,0,0.3)";
-                }}
-              >
-                <ArrowRight2 size={24} variant="Outline" color="#fff" />
-              </button>
-              <button
-                onClick={() => handleScroll("left")}
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  background: "rgba(255, 255, 255, 0.05)",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#fff",
-                  cursor: "pointer",
-                  transition: "all 0.3s ease",
-                  boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
-                  position: "relative",
-                  zIndex: 20
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(0, 229, 255, 0.1)";
-                  e.currentTarget.style.borderColor = "#00e5ff";
-                  e.currentTarget.style.boxShadow = "0 0 15px rgba(0, 229, 255, 0.3)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
-                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(0,0,0,0.3)";
-                }}
-              >
-                <ArrowLeft2 size={24} variant="Outline" color="#fff" />
-              </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -2045,3 +2045,27 @@ header.liquid-glass-premium.scrolled {
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
 }
+
+/* ── Carousel Marquee (Continuous Auto-scroll) ─────────────── */
+@keyframes carousel-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.carousel-marquee-outer {
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-marquee-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: carousel-scroll 40s linear infinite;
+  will-change: transform;
+  padding: 16px 0;
+}
+
+.carousel-marquee-track:hover {
+  animation-play-state: paused;
+}
