@@ -33,7 +33,7 @@ export const Pricing: React.FC = () => {
   }
 
   const handlePriceDiscountClick = () => {
-    if (price > 6200) {
+    if (price > 6300) {
       const newPrice = price - 1;
       setPrice(newPrice);
       if (typeof window !== "undefined") {
@@ -49,7 +49,7 @@ export const Pricing: React.FC = () => {
   };
 
   const handlePriceDiscountMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (price <= 6200) {
+    if (price <= 6300) {
       const btn = e.currentTarget;
       const rect = btn.getBoundingClientRect();
       const btnCenterX = rect.left + rect.width / 2;
@@ -179,8 +179,8 @@ export const Pricing: React.FC = () => {
                 <div 
                   className="premium-btn-container"
                   style={{
-                    transform: `translate(${btnPos.x}px, ${btnPos.y}px) scale(${1 + (7000 - price) * 0.005})`,
-                    transition: price > 6200 ? "transform 0.1s ease" : "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                    transform: `translate(${btnPos.x}px, ${btnPos.y}px) scale(${Math.max(0.5, 1 - (7000 - price) * 0.0005)})`,
+                    transition: price > 6300 ? "transform 0.1s ease" : "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                     position: "relative",
                     zIndex: 99,
                     width: "272px",
@@ -306,7 +306,7 @@ export const Pricing: React.FC = () => {
                       <div className="premium-outer-button">
                         <div className="premium-inner-button">
                           <span>
-                            {price > 6200 ? "🎁 לחצו להנחה נוספת!" : "🛑 המבצע נגמר!"}
+                            {price > 6300 ? "🎁 לחצו להנחה נוספת!" : "🛑 המבצע נגמר!"}
                           </span>
                         </div>
                       </div>
