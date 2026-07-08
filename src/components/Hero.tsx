@@ -105,7 +105,7 @@ export const Hero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
               className="lead"
-              style={{ fontSize: "19px", color: "rgba(255,255,255,0.9)", maxWidth: "660px", margin: "0 0 32px", lineHeight: 1.65, fontWeight: 400, textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}
+              style={{ fontSize: "19px", color: "rgba(255,255,255,0.9)", maxWidth: "660px", margin: "0 auto 32px", lineHeight: 1.65, fontWeight: 400, textShadow: "0 2px 10px rgba(0,0,0,0.5)", textAlign: "center" }}
             >
               מסלול הנדסי קליני ומקיף לפיתוח אפליקציות מובייל ו-Web ל-iOS ו-Android בקוד אחד, הטמעת סוכני GenAI המאיצים את כתיבת הקוד פי 10, וליווי אישי צמוד עד להשקה רשמית בחנויות.
             </motion.p>
@@ -114,7 +114,7 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
-              style={{ display: "flex", gap: "20px", alignItems: "center", flexWrap: "wrap", width: "100%", marginTop: "12px" }}
+              style={{ display: "flex", gap: "20px", alignItems: "center", justifyContent: "center", flexWrap: "wrap", width: "100%", marginTop: "12px" }}
             >
               {/* From Uiverse.io by marcelodolza */}
               <div style={{ position: "relative", zIndex: 10, display: "flex", alignItems: "center", height: "80px" }}>
