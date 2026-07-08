@@ -22,6 +22,63 @@ export const Pricing: React.FC = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  
+  // Interactive discount state variables
+  const [price, setPrice] = useState(7000);
+  const [btnPos, setBtnPos] = useState({ x: 0, y: 0 });
+
+  // Update window variable so the text element can sync
+  if (typeof window !== "undefined") {
+    (window as any).__flutteroPrice = price;
+  }
+
+  const handlePriceDiscountClick = () => {
+    if (price > 6200) {
+      const newPrice = price - 1;
+      setPrice(newPrice);
+      if (typeof window !== "undefined") {
+        (window as any).__flutteroPrice = newPrice;
+      }
+      confetti({
+        particleCount: 20,
+        spread: 30,
+        colors: ["#ffd700", "#ff9100"],
+        origin: { y: 0.8 }
+      });
+    }
+  };
+
+  const handlePriceDiscountMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (price <= 6200) {
+      const btn = e.currentTarget;
+      const rect = btn.getBoundingClientRect();
+      const btnCenterX = rect.left + rect.width / 2;
+      const btnCenterY = rect.top + rect.height / 2;
+
+      // Distance between mouse and button center
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const distX = btnCenterX - mouseX;
+      const distY = btnCenterY - mouseY;
+      const distance = Math.sqrt(distX * distX + distY * distY);
+
+      // Repulsion radius: 100px
+      if (distance < 110) {
+        const angle = Math.atan2(distY, distX);
+        // Force increases the closer the mouse gets
+        const force = (110 - distance) * 2.2;
+        const moveX = Math.cos(angle) * force;
+        const moveY = Math.sin(angle) * force;
+
+        setBtnPos((prev) => {
+          // Bound within bounds so it stays visible on screen (within 200px of original)
+          const newX = Math.min(Math.max(prev.x + moveX, -220), 220);
+          const newY = Math.min(Math.max(prev.y + moveY, -140), 140);
+          return { x: newX, y: newY };
+        });
+      }
+    }
+  };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,13 +174,45 @@ export const Pricing: React.FC = () => {
                 <p style={{ fontSize: "16px", color: "var(--ink-1)", margin: 0 }}>הכשרה קלינית מקיפה + פרויקט לפרודקשן בחנויות הרשמיות</p>
               </div>
 
-              <div style={{ textAlign: "left" }}>
+              <div style={{ textAlign: "left", position: "relative" }}>
                 <span style={{ fontSize: "14px", color: "var(--ink-2)", textDecoration: "line-through", display: "block", marginBottom: "2px" }}>₪11,800</span>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
-                  <b style={{ fontSize: "52px", color: "#fff", fontFamily: "Outfit", fontWeight: 900, letterSpacing: "-0.03em" }}>₪7,000</b>
+                  <b style={{ fontSize: "52px", color: "#fff", fontFamily: "Outfit", fontWeight: 900, letterSpacing: "-0.03em" }}>
+                    ₪{(() => {
+                      // Retrieve dynamic price from local state or global window if needed, let's declare states above
+                      return typeof window !== "undefined" && (window as any).__flutteroPrice !== undefined ? (window as any).__flutteroPrice.toLocaleString() : "7,000";
+                    })()}
+                  </b>
                   <span style={{ color: "var(--gold-500)", fontSize: "14px", fontWeight: 700, background: "rgba(245,197,24,0.12)", padding: "4px 10px", borderRadius: "8px" }}>הרשמה מוקדמת</span>
                 </div>
                 <span style={{ fontSize: "13px", color: "var(--ink-2)", display: "block", marginTop: "4px" }}>ניתן לחלק עד 12 תשלומים ללא ריבית</span>
+                
+                {/* Dynamic Fun Discount Button */}
+                <div style={{ marginTop: "12px", display: "flex", justifyContent: "flex-end" }}>
+                  <button
+                    className="discount-mag-btn"
+                    onClick={handlePriceDiscountClick}
+                    onMouseMove={handlePriceDiscountMouseMove}
+                    style={{
+                      transform: `translate(${btnPos.x}px, ${btnPos.y}px) scale(${1 + (7000 - price) * 0.005})`,
+                      transition: price > 6200 ? "transform 0.1s ease" : "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                      padding: "8px 16px",
+                      borderRadius: "20px",
+                      background: "linear-gradient(135deg, var(--gold-500), #ff9100)",
+                      border: "none",
+                      color: "#000",
+                      fontWeight: 800,
+                      cursor: price > 6200 ? "pointer" : "default",
+                      boxShadow: "0 8px 20px rgba(245,197,24,0.4)",
+                      fontSize: "13px",
+                      position: "relative",
+                      zIndex: 99,
+                      whiteSpace: "nowrap"
+                    }}
+                  >
+                    {price > 6200 ? "🎁 לחצו לקבלת הנחה נוספת!" : "🛑 המבצע נגמר! לא לגעת!"}
+                  </button>
+                </div>
               </div>
             </div>
 
