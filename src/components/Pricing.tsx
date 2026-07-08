@@ -241,19 +241,21 @@ export const Pricing: React.FC = () => {
              {/* Registration Form */}
             {!submitted ? (
               <form onSubmit={handleRegister} className="price-form">
-                <input
+                 <input
                   type="text"
-                  placeholder="שם פרטי"
+                  placeholder="שם מלא"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  className="hero-input-pop"
                   required
                 />
-                <div className="form-separator" style={{ width: "1px", height: "30px", background: "rgba(255,255,255,0.15)", flexShrink: 0 }} />
+                <div className="form-separator" style={{ width: "1px", height: "30px", background: "rgba(255,255,255,0.25)", flexShrink: 0 }} />
                 <input
                   type="tel"
-                  placeholder="מספר טלפון"
+                  placeholder="מספר פלאפון"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  className="hero-input-pop"
                   required
                 />
                 <button type="submit" className="btn btn-gold">

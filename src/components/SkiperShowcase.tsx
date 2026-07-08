@@ -68,11 +68,50 @@ export const SkiperShowcase: React.FC = () => {
 
 
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
+  const trackRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Dynamic RAF scaling loop to make the center card larger
+  useEffect(() => {
+    let rafId: number;
+
+    const updateCardScaling = () => {
+      const track = trackRef.current;
+      if (!track) {
+        rafId = requestAnimationFrame(updateCardScaling);
+        return;
+      }
+
+      const viewportCenter = window.innerWidth / 2;
+      const cards = track.children;
+
+      for (let i = 0; i < cards.length; i++) {
+        const card = cards[i] as HTMLElement;
+        const cardRect = card.getBoundingClientRect();
+        const cardCenter = cardRect.left + cardRect.width / 2;
+        const distance = Math.abs(cardCenter - viewportCenter);
+        
+        // Dynamic scale & opacity calculation based on distance from screen center
+        // Center card scales to 1.15, outer cards scale down to 0.8
+        const maxDist = window.innerWidth < 768 ? 260 : 450;
+        const scale = Math.max(0.8, 1.15 - (distance / maxDist) * 0.35);
+        const opacity = Math.max(0.4, 1.0 - (distance / maxDist) * 0.6);
+
+        card.style.transform = `scale(${scale})`;
+        card.style.opacity = `${opacity}`;
+        card.style.transition = "transform 0.1s ease-out, opacity 0.1s ease-out";
+      }
+
+      rafId = requestAnimationFrame(updateCardScaling);
+    };
+
+    rafId = requestAnimationFrame(updateCardScaling);
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
   const isMobile = windowWidth < 768;
@@ -251,7 +290,7 @@ export const SkiperShowcase: React.FC = () => {
 
             {/* Marquee Track */}
             <div className="carousel-marquee-outer">
-              <div className="carousel-marquee-track">
+              <div ref={trackRef} className="carousel-marquee-track">
                 {loopingStack.map((item, index) => (
                   <div key={index} style={{ width: isMobile ? "280px" : "320px", flexShrink: 0 }}>
                     <div 

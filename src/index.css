@@ -2076,3 +2076,15 @@ header.liquid-glass-premium.scrolled {
 .carousel-marquee-track > div {
   margin-right: 24px;
 }
+
+/* High contrast inputs */
+.hero-input-pop {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.hero-input-pop::placeholder {
+  color: #fffbbf !important; /* Premium light gold/yellow for extra pop */
+  opacity: 0.95 !important;
+  font-weight: 700 !important;
+}

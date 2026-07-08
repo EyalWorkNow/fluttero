@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, TickCircle, Mobile, CpuCharge } from "iconsax-react";
+import { ArrowLeft, TickCircle } from "iconsax-react";
 import confetti from "canvas-confetti";
 
 export const Hero: React.FC = () => {
@@ -61,36 +61,6 @@ export const Hero: React.FC = () => {
         <div style={{ position: 'absolute', top: '15%', left: '10%', width: '450px', height: '450px', background: 'radial-gradient(circle, rgba(124,77,255,0.18) 0%, transparent 70%)', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
         <div style={{ position: 'absolute', bottom: '10%', right: '5%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(245,197,24,0.12) 0%, transparent 70%)', filter: 'blur(70px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
-        {/* Floating Responsive Badges Container */}
-        <div className="hero-badges-container">
-          <motion.div
-            animate={{ y: [0, -12, 0] }}
-            transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-            className="hero-badge-item badge-left liquid-glass-premium"
-          >
-            <div className="iconsax-box gold" style={{ width: "32px", height: "32px", borderRadius: "8px", position: "relative", zIndex: 2 }}>
-              <Mobile size={18} variant="Bulk" color="var(--gold-500)" />
-            </div>
-            <div style={{ position: "relative", zIndex: 2 }}>
-              <span style={{ fontWeight: 800, fontSize: "13px", color: "#fff", display: "block", lineHeight: 1.2 }}>Flutter 3.24 & Dart</span>
-              <span style={{ fontSize: "11px", color: "var(--gold-500)", fontWeight: 600 }}>קוד מובייל ו-Web אחיד</span>
-            </div>
-          </motion.div>
-
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="hero-badge-item badge-right liquid-glass-premium"
-          >
-            <div className="iconsax-box purple" style={{ width: "32px", height: "32px", borderRadius: "8px", position: "relative", zIndex: 2 }}>
-              <CpuCharge size={18} variant="Bulk" color="var(--purple-300)" />
-            </div>
-            <div style={{ position: "relative", zIndex: 2 }}>
-              <span style={{ fontWeight: 800, fontSize: "13px", color: "#fff", display: "block", lineHeight: 1.2 }}>GenAI Engineering</span>
-              <span style={{ fontSize: "11px", color: "var(--purple-300)", fontWeight: 600 }}>Cursor · Lovable · Claude</span>
-            </div>
-          </motion.div>
-        </div>
 
         <div className="container hero-grid" style={{ position: 'relative', zIndex: 2 }}>
           <div className="hero-content">
@@ -213,19 +183,21 @@ export const Hero: React.FC = () => {
                 <form onSubmit={handleSubmit} className="quick-form liquid-glass-premium" style={{ display: "flex", gap: "12px", padding: "0 8px 0 12px", borderRadius: "99px", width: "640px", maxWidth: "100%", height: "80px", alignItems: "center" }}>
                   <input
                     type="text"
-                    placeholder="שם פרטי"
+                    placeholder="שם מלא"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    style={{ flex: "1 1 140px", background: "transparent", border: "none", color: "#fff", padding: "0 16px", fontSize: "15px", outline: "none", position: "relative", zIndex: 2 }}
+                    style={{ flex: "1 1 140px", background: "transparent", border: "none", color: "#ffffff", fontWeight: 700, padding: "0 16px", fontSize: "16px", outline: "none", position: "relative", zIndex: 2 }}
+                    className="hero-input-pop"
                     required
                   />
-                  <div className="form-separator" style={{ width: "1px", height: "30px", background: "rgba(255,255,255,0.15)", flexShrink: 0 }} />
+                  <div className="form-separator" style={{ width: "1px", height: "30px", background: "rgba(255,255,255,0.25)", flexShrink: 0 }} />
                   <input
                     type="tel"
-                    placeholder="מספר טלפון"
+                    placeholder="מספר פלאפון"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    style={{ flex: "1.2 1 160px", background: "transparent", border: "none", color: "#fff", padding: "0 16px", fontSize: "15px", outline: "none", position: "relative", zIndex: 2 }}
+                    style={{ flex: "1.2 1 160px", background: "transparent", border: "none", color: "#ffffff", fontWeight: 700, padding: "0 16px", fontSize: "16px", outline: "none", position: "relative", zIndex: 2 }}
+                    className="hero-input-pop"
                     required
                   />
                   <button type="submit" className="btn btn-gold" style={{ height: "64px", padding: "0 28px", borderRadius: "99px", fontWeight: 800, fontSize: "15px", display: "flex", alignItems: "center", gap: "6px", flexShrink: 0, position: "relative", zIndex: 2 }}>
