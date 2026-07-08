@@ -211,7 +211,7 @@ export const Pricing: React.FC = () => {
                     >
                       <g filter="url(#filter_tl)">
                         <path
-                          fill="rgba(245, 197, 24, 0.25)"
+                          fill="rgba(179, 136, 255, 0.25)"
                           d="M3 5C3 3.89543 3.89543 3 5 3H14.8964C16.2776 3 16.8985 4.73063 15.8323 5.60869V5.60869C12.2852 8.52981 9.01946 11.7766 6.07776 15.3067L5.77906 15.6651C4.83801 16.7944 3 16.1289 3 14.659V5Z"
                         ></path>
                       </g>
@@ -222,7 +222,7 @@ export const Pricing: React.FC = () => {
                           <feOffset dy="-1" dx="-1"></feOffset>
                           <feGaussianBlur stdDeviation="1"></feGaussianBlur>
                           <feComposite operator="out" in2="hardAlpha"></feComposite>
-                          <feColorMatrix values="0 0 0 0 0.96 0 0 0 0 0.77 0 0 0 0 0.09 0 0 0 1 0" type="matrix"></feColorMatrix>
+                          <feColorMatrix values="0 0 0 0 0.70 0 0 0 0 0.53 0 0 0 0 1.00 0 0 0 1 0" type="matrix"></feColorMatrix>
                           <feBlend result="effect1" in2="BackgroundImageFix" mode="normal"></feBlend>
                         </filter>
                       </defs>
@@ -240,7 +240,7 @@ export const Pricing: React.FC = () => {
                       <g filter="url(#filter_tr)">
                         <path
                           shapeRendering="crispEdges"
-                          fill="rgba(245, 197, 24, 0.25)"
+                          fill="rgba(179, 136, 255, 0.25)"
                           d="M4.16769 5.60869C3.10148 4.73063 3.72236 3 5.1036 3H15C16.1046 3 17 3.89543 17 5V14.659C17 16.1289 15.162 16.7944 14.2209 15.6651L13.9222 15.3067C10.9805 11.7767 7.71477 8.52981 4.16769 5.60869V5.60869Z"
                         ></path>
                       </g>
@@ -251,7 +251,7 @@ export const Pricing: React.FC = () => {
                           <feOffset dy="-1" dx="-1"></feOffset>
                           <feGaussianBlur stdDeviation="1"></feGaussianBlur>
                           <feComposite operator="out" in2="hardAlpha"></feComposite>
-                          <feColorMatrix values="0 0 0 0 0.96 0 0 0 0 0.77 0 0 0 0 0.09 0 0 0 1 0" type="matrix"></feColorMatrix>
+                          <feColorMatrix values="0 0 0 0 0.70 0 0 0 0 0.53 0 0 0 0 1.00 0 0 0 1 0" type="matrix"></feColorMatrix>
                           <feBlend result="effect1" in2="BackgroundImageFix" mode="normal"></feBlend>
                         </filter>
                       </defs>
@@ -268,7 +268,7 @@ export const Pricing: React.FC = () => {
                     >
                       <g filter="url(#filter_bl)">
                         <path
-                          fill="rgba(245, 197, 24, 0.25)"
+                          fill="rgba(179, 136, 255, 0.25)"
                           d="M3 5.1036C3 3.72236 4.73063 3.10148 5.60869 4.16769V4.16769C8.52981 7.71477 11.7766 10.9805 15.3067 13.9222L15.6651 14.2209C16.7944 15.162 16.1289 17 14.659 17H5C3.89543 17 3 16.1046 3 15V5.1036Z"
                         ></path>
                       </g>
@@ -279,7 +279,7 @@ export const Pricing: React.FC = () => {
                           <feOffset dy="-1" dx="-1"></feOffset>
                           <feGaussianBlur stdDeviation="1"></feGaussianBlur>
                           <feComposite operator="out" in2="hardAlpha"></feComposite>
-                          <feColorMatrix values="0 0 0 0 0.96 0 0 0 0 0.77 0 0 0 0 0.09 0 0 0 1 0" type="matrix"></feColorMatrix>
+                          <feColorMatrix values="0 0 0 0 0.70 0 0 0 0 0.53 0 0 0 0 1.00 0 0 0 1 0" type="matrix"></feColorMatrix>
                           <feBlend result="effect1" in2="BackgroundImageFix" mode="normal"></feBlend>
                         </filter>
                       </defs>
@@ -296,7 +296,7 @@ export const Pricing: React.FC = () => {
                     >
                       <g filter="url(#filter_br)">
                         <path
-                          fill="rgba(245, 197, 24, 0.25)"
+                          fill="rgba(179, 136, 255, 0.25)"
                           d="M4.09531 14.7192C8.33931 11.5921 12.0714 7.82422 15.1579 3.55058V3.55058C15.7358 2.75044 17 3.15923 17 4.14622V15C17 16.1046 16.1046 17 15 17H4.30554C3.25692 17 2.81695 15.6612 3.66115 15.0392L4.09531 14.7192Z"
                         ></path>
                       </g>
@@ -307,7 +307,7 @@ export const Pricing: React.FC = () => {
                           <feOffset dy="-1" dx="-1"></feOffset>
                           <feGaussianBlur stdDeviation="1"></feGaussianBlur>
                           <feComposite operator="out" in2="hardAlpha"></feComposite>
-                          <feColorMatrix values="0 0 0 0 0.96 0 0 0 0 0.77 0 0 0 0 0.09 0 0 0 1 0" type="matrix"></feColorMatrix>
+                          <feColorMatrix values="0 0 0 0 0.70 0 0 0 0 0.53 0 0 0 0 1.00 0 0 0 1 0" type="matrix"></feColorMatrix>
                           <feBlend result="effect1" in2="BackgroundImageFix" mode="normal"></feBlend>
                         </filter>
                       </defs>
