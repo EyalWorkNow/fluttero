@@ -302,7 +302,7 @@ export const SkiperShowcase: React.FC = () => {
                         borderRadius: "38px",
                         margin: 0,
                         border: "1px solid rgba(255,255,255,0.08)",
-                        background: "linear-gradient(155deg, rgba(26, 21, 48, 0.75) 0%, rgba(13, 11, 24, 0.9) 100%)",
+                        background: "linear-gradient(155deg, rgba(26, 21, 48, 0.18) 0%, rgba(13, 11, 24, 0.28) 100%)",
                         minHeight: "360px",
                         display: "flex",
                         flexDirection: "column",

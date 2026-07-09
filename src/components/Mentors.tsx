@@ -26,7 +26,7 @@ export const Mentors: React.FC = () => {
             style={{
               padding: "50px", borderRadius: "48px",
               border: "1px solid rgba(245,197,24,0.35)", position: "relative",
-              boxShadow: "0 25px 60px rgba(0,0,0,0.6)", background: "linear-gradient(150deg, rgba(26, 21, 48, 0.8) 0%, rgba(15, 12, 28, 0.9) 100%)",
+              boxShadow: "0 25px 60px rgba(0,0,0,0.6)", background: "linear-gradient(150deg, rgba(26, 21, 48, 0.2) 0%, rgba(15, 12, 28, 0.3) 100%)",
               marginBottom: "50px"
             }}
           >
