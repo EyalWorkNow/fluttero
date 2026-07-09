@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, TickCircle } from "iconsax-react";
 import confetti from "canvas-confetti";
@@ -7,6 +7,26 @@ export const Hero: React.FC = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      const playVideo = () => {
+        video.play().catch(error => {
+          console.log("Autoplay prevented, trying on user interaction:", error);
+          const playOnInteraction = () => {
+            video.play().catch(() => {});
+            window.removeEventListener("touchstart", playOnInteraction);
+            window.removeEventListener("click", playOnInteraction);
+          };
+          window.addEventListener("touchstart", playOnInteraction, { passive: true });
+          window.addEventListener("click", playOnInteraction, { passive: true });
+        });
+      };
+      playVideo();
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,6 +71,7 @@ export const Hero: React.FC = () => {
       <section className="hero">
         {/* Background Video */}
         <video
+          ref={videoRef}
           src="/hero-video.mp4"
           autoPlay
           loop
