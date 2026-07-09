@@ -302,13 +302,15 @@ export const SkiperShowcase: React.FC = () => {
                 {loopingStack.map((item, index) => (
                   <div key={index} style={{ width: isMobile ? "280px" : "320px", flexShrink: 0 }}>
                     <div 
-                      className="liquid-glass-premium skiper-hover-lift"
+                      className="card skiper-hover-lift"
                       style={{ 
                         width: "100%", 
                         height: "100%", 
                         padding: "32px 24px",
                         borderRadius: "38px",
                         margin: 0,
+                        border: "1px solid rgba(255,255,255,0.12)",
+                        background: "linear-gradient(150deg, rgba(26, 21, 48, 0.2) 0%, rgba(15, 12, 28, 0.3) 100%)",
                         minHeight: "360px",
                         display: "flex",
                         flexDirection: "column",
