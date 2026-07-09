@@ -102,9 +102,9 @@ export const SkiperShowcase: React.FC = () => {
         const scale = Math.max(0.8, 1.15 - (distance / maxDist) * 0.35);
         const opacity = Math.max(0.4, 1.0 - (distance / maxDist) * 0.6);
 
-        card.style.transform = `scale(${scale})`;
+        card.style.zoom = `${scale}`;
         card.style.opacity = `${opacity}`;
-        card.style.transition = "transform 0.1s ease-out, opacity 0.1s ease-out";
+        card.style.transition = "zoom 0.15s ease-out, opacity 0.15s ease-out";
       }
 
       rafId = requestAnimationFrame(updateCardScaling);
