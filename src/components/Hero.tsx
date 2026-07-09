@@ -100,8 +100,7 @@ export const Hero: React.FC = () => {
               className="display"
               style={{ fontSize: "clamp(38px, 5.5vw, 68px)", lineHeight: 1.1, margin: "10px 0 20px", letterSpacing: "-0.02em", fontWeight: 900, textShadow: "0 4px 24px rgba(0,0,0,0.7)" }}
             >
-              הופכים רעיון לאפליקציית פרודקשן ב-3 חודשים עם{" "}
-              <span style={{ background: "linear-gradient(135deg, var(--gold-500) 0%, #fff6b3 50%, #ffc107 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", textShadow: "0 0 50px rgba(245,197,24,0.3)" }}>Flutter</span> ו-AI.
+              לומדים פיתוח אפליקציות <span style={{ background: "linear-gradient(135deg, var(--gold-500) 0%, #fff6b3 50%, #ffc107 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", textShadow: "0 0 50px rgba(245,197,24,0.3)" }}>Flutter</span> מקצה לקצה – משלב הרעיון ועד לחנויות.
             </motion.h1>
 
             <motion.p 
@@ -109,9 +108,9 @@ export const Hero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
               className="lead"
-              style={{ color: "rgba(255,255,255,0.9)", maxWidth: "660px", lineHeight: 1.65, fontWeight: 400, textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}
+              style={{ color: "rgba(255,255,255,0.9)", maxWidth: "720px", lineHeight: 1.65, fontWeight: 400, textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}
             >
-              מסלול הנדסי קליני ומקיף לפיתוח אפליקציות מובייל ו-Web ל-iOS ו-Android בקוד אחד, הטמעת סוכני GenAI המאיצים את כתיבת הקוד פי 10, וליווי אישי צמוד עד להשקה רשמית בחנויות.
+              ההכשרה המעשית והמקיפה ביותר בישראל. אנחנו מלווים אותך בכל שלבי המוצר: החל מאפיון צרכים (UI/UX) ועיצוב ממשקים יוקרתיים, דרך פיתוח קוד איכותי ב-Flutter ל-iOS ו-Android, חיבור לשרתים ולסיסי נתונים, ועד להעלאה ופרסום רשמי בחנויות האפליקציות של Apple ו-Google.
             </motion.p>
 
             <motion.div 
