@@ -117,16 +117,13 @@ export const AccessibilityWidget: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 250 }}
+            className="liquid-glass-premium"
             style={{
               position: "fixed",
               bottom: "96px",
               left: "24px",
               width: "320px",
               borderRadius: "24px",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              background: "rgba(18, 14, 34, 0.92)",
-              backdropFilter: "blur(20px)",
-              boxShadow: "0 20px 80px rgba(0, 0, 0, 0.6)",
               padding: "24px",
               color: "#fff",
               zIndex: 9998,

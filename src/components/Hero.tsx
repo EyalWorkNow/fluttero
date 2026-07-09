@@ -13,19 +13,24 @@ export const Hero: React.FC = () => {
     if (!phone) return;
 
     try {
-      const formData = new URLSearchParams();
-      formData.append("form-name", "lead");
-      formData.append("name", name);
-      formData.append("phone", phone);
-      formData.append("source", "hero_quick_form");
-
-      const response = await fetch("/", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: formData.toString()
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          access_key: "30eac80a-bff1-46c8-bdbe-c51c1dc1bf8a",
+          name: name,
+          phone: phone,
+          source: "hero_quick_form",
+          subject: `🚀 ליד חדש מ-Fluttero! (${name || "ללא שם"})`
+        })
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         setSubmitted(true);
         confetti({
           particleCount: 120,
