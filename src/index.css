@@ -2309,3 +2309,23 @@ html.acc-stop-animations, html.acc-stop-animations * {
   animation: none !important;
   transition: none !important;
 }
+
+/* Fix for minifier stripping backdrop-filter on cards and header */
+.card {
+  -webkit-backdrop-filter: blur(32px) saturate(220%) !important;
+}
+.card {
+  backdrop-filter: blur(32px) saturate(220%) !important;
+}
+.liquid-glass-card {
+  -webkit-backdrop-filter: blur(32px) saturate(220%) !important;
+}
+.liquid-glass-card {
+  backdrop-filter: blur(32px) saturate(220%) !important;
+}
+header.liquid-glass-premium {
+  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+}
+header.liquid-glass-premium {
+  backdrop-filter: blur(28px) saturate(200%) !important;
+}
