@@ -229,7 +229,15 @@ export const SkiperShowcase: React.FC = () => {
           <div className="skiper31-bracket-header" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "20px", marginBottom: "50px", textAlign: "center" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "20px", width: "100%" }}>
               <Bracket />
-              <span style={{ fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 900, color: "#fff", letterSpacing: "0.02em", textShadow: "0 0 30px rgba(124,77,255,0.4)" }}>
+              <span style={{ 
+                fontSize: "clamp(22px, 3.5vw, 36px)", 
+                fontWeight: 900, 
+                background: "linear-gradient(135deg, #ffffff 15%, #f5c518 55%, #ffffff 95%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                letterSpacing: "0.02em", 
+                filter: "drop-shadow(0 2px 20px rgba(245, 197, 24, 0.25))",
+              }}>
                 ארגז הכלים והטכנולוגיות שנלמד ונשלוט בהם
               </span>
               <Bracket style={{ transform: "scaleX(-1)" }} />
@@ -294,15 +302,13 @@ export const SkiperShowcase: React.FC = () => {
                 {loopingStack.map((item, index) => (
                   <div key={index} style={{ width: isMobile ? "280px" : "320px", flexShrink: 0 }}>
                     <div 
-                      className="liquid-glass-card skiper-hover-lift"
+                      className="liquid-glass-premium skiper-hover-lift"
                       style={{ 
                         width: "100%", 
                         height: "100%", 
                         padding: "32px 24px",
                         borderRadius: "38px",
                         margin: 0,
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        background: "linear-gradient(155deg, rgba(26, 21, 48, 0.18) 0%, rgba(13, 11, 24, 0.28) 100%)",
                         minHeight: "360px",
                         display: "flex",
                         flexDirection: "column",
