@@ -210,7 +210,7 @@ export const SkiperShowcase: React.FC = () => {
               <Bracket style={{ transform: "scaleX(-1)" }} />
             </div>
 
-            {/* Liquid Glass Max Specs Banner */}
+            {/* Syllabus & Course Topics Banner */}
             <div style={{ 
               display: "inline-flex", 
               flexWrap: "wrap", 
@@ -226,12 +226,12 @@ export const SkiperShowcase: React.FC = () => {
               boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255,255,255,0.1)", 
               marginTop: "10px" 
             }}>
-              <span style={{ fontSize: "13px", fontWeight: 800, color: "#00e5ff", letterSpacing: "0.03em" }}>💎 LIQUID GLASS ENGINE MAX:</span>
-              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(0, 229, 255, 0.4)", background: "rgba(0, 229, 255, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(0, 229, 255, 0.5)" }}>Refraction</span>
-              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(124, 77, 255, 0.4)", background: "rgba(124, 77, 255, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(124, 77, 255, 0.5)" }}>Depth</span>
-              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(255, 64, 129, 0.4)", background: "rgba(255, 64, 129, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(255, 64, 129, 0.5)" }}>Dispersion</span>
-              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(245, 197, 24, 0.4)", background: "rgba(245, 197, 24, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(245, 197, 24, 0.5)" }}>Frost 32px</span>
-              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(0, 230, 118, 0.4)", background: "rgba(0, 230, 118, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(0, 230, 118, 0.5)" }}>Splay</span>
+              <span style={{ fontSize: "13px", fontWeight: 800, color: "#00e5ff", letterSpacing: "0.03em" }}>🚀 סילבוס ההכשרה והטכנולוגיות:</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(0, 229, 255, 0.4)", background: "rgba(0, 229, 255, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(0, 229, 255, 0.5)" }}>פיתוח Cross-Platform</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(124, 77, 255, 0.4)", background: "rgba(124, 77, 255, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(124, 77, 255, 0.5)" }}>סוכני AI & כלי קידוד</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(255, 64, 129, 0.4)", background: "rgba(255, 64, 129, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(255, 64, 129, 0.5)" }}>Clean Architecture</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(245, 197, 24, 0.4)", background: "rgba(245, 197, 24, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(245, 197, 24, 0.5)" }}>State Management</span>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#fff", border: "1px solid rgba(0, 230, 118, 0.4)", background: "rgba(0, 230, 118, 0.06)", padding: "4px 12px", borderRadius: "12px", textShadow: "0 0 8px rgba(0, 230, 118, 0.5)" }}>פרסום לחנויות</span>
             </div>
           </div>
 
